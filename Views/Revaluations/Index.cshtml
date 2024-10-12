@@ -1,0 +1,30 @@
+﻿@* @model IEnumerable<PhotocopyRevaluationAppMVC.Models.EventSchemeSubjectWiseCountDTO>
+@{
+}
+
+<div class="reValuations-container">
+    <h4 class="table-heading">Event and Scheme and Subject wise ReValuation Applied Count</h4>
+    <table class="table1" border="1" align="center">
+        <tr>
+            <th><b>SNO</b></th>
+            <th><b>EVENT_NAME</b></th>
+            <th><b>Scheme</b></th>
+            <th><b>Subject</b></th>
+            @* <th><b>ReverificationCount</b></th> *@
+        @* </tr>
+        @{
+            int i = 1;  
+            foreach (var item in Model)
+            {
+                <tr>
+                    <th>@i</th>
+                    <th>@item.EventName</th>
+                    <th>@item.Scheme</th>
+                    <th>@item.Subject</th>
+                </tr>
+                i++;
+            }
+        }
+
+    </table>
+</div> *@

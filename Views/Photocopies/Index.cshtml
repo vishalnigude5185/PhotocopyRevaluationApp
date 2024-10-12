@@ -1,0 +1,33 @@
+﻿@*   @model IEnumerable<PhotocopyRevaluationAppMVC.Models.EventSchemeSubjectWiseCountDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="photocopy-container">
+    <!-- First Table: Event and Scheme and Subject wise PhotoCopy Applied Count -->
+    <h4>Event and Scheme and Subject wise PhotoCopy Applied Count</h4>
+    <table class="table1" frame="border" align="center" width="600px">
+        <tr align="left" valign="middle" bgcolor="#333333" font-color="white">
+            <th><b>SNO</b></th>
+            <th><b>EVENT_NAME</b></th>
+            <th><b>Scheme</b></th>
+            <th><b>Subject</b></th>
+            <th><b>PhotoCopyCount</b></th>
+        </tr>
+        @{
+            int i = 1;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@item.EventName</td>
+                    <td>@item.Scheme</td>
+                    <td>@item.Subject</td>
+                    <td align="right" style="padding-right: 20px;">@item.PhotoCopyCount</td>
+                </tr>
+                i++;
+            }
+        }
+    </table>
+     *@

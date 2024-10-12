@@ -1,0 +1,27 @@
+﻿@model IEnumerable<PhotocopyRevaluationAppMVC.Models.SubjectWiseRevaluationCountDTO>
+
+@{
+}
+
+@await Html.PartialAsync("_TableData")
+
+<h4>Subject Wise Revaluation Count</h4>
+<table border="1" align="center" id="myDataTable" class="display">
+    <tr>
+        <th><b>Sno</b></th>
+        <th><b>Subject</b></th>
+        <th><b>Count</b></th>
+    </tr>
+    @{
+        int i = 1;
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@item.Subject</td>
+                <td><a href="@Url.Action("_List", new { ColumnName = "Subject", Value = @item.Subject})">@item.Count</a></td>
+            </tr>
+            i++;
+        }
+    }
+</table>

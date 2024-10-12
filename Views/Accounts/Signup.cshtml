@@ -1,0 +1,61 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<form id="signupForm">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+    </div>
+    <button type="submit">Signup</button>
+</form>
+
+<h2>Signup Notifications</h2>
+<div id="notifications"></div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+    <script>
+        // Establish SignalR connection
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/notificationHub")  // URL to your SignalR hub
+            .build();
+
+        // Listen for notifications from the SignalR server
+        connection.on("ReceiveNotification", function (message) {
+            const notificationElement = document.getElementById("notifications");
+            notificationElement.innerHTML = `<div>${message}</div>`;
+        });
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        // Submit the signup form via fetch API
+        document.getElementById("signupForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+
+            // Make a POST request to the server
+            const response = await fetch('/Account/Signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, email })
+            });
+
+            if (response.ok) {
+                console.log("Signup successful");
+            } else {
+                console.log("Signup failed");
+            }
+        });
+    </script>
+}

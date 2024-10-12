@@ -1,0 +1,57 @@
+﻿@{
+    var successMessage = TempData["SuccessMessage"];
+}
+
+@if (successMessage != null)
+{
+    <div id="successMessage" class="alert alert-success">
+        @successMessage
+        <button type="button" class="btn-close close-btn" aria-label="Close"></button>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Output the successMessage from Razor to JavaScript
+        var successMessage = '@successMessage';
+        if (successMessage) {
+            alert(successMessage);  // Show the alert
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Close button functionality for successMessage
+            $('#successMessage .close-btn').on('click', function () {
+                $('#successMessage').hide();  // Hide the message on button click
+            });
+        });
+    </script>
+}
+
+
+@* @{
+    var successMessage = TempData["SuccessMessage"];
+}
+
+@if (successMessage != null)
+{
+    <div id="successMessage" class="alert alert-success">
+        @successMessage
+        <button class="btn btn-close close-btn"></button>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        window.alert(successMessage);
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.successMessage').on('click', function () {
+                $('successMessage').hide();
+            })
+        })
+    </script>
+} *@
+

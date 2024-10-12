@@ -1,0 +1,102 @@
+﻿@model PhotocopyRevaluationAppMVC.Models.ApplicationUser
+
+@{
+    Layout = "_LoginLayout";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form class="otp-form form" asp-controller="Accounts" asp-action="OTPVerifications" method="post">
+    <h5 class="form-group otp-form-group" style="margin-right: 20px; border: 0.2px solid green; border-radius: 2px; color: green; padding: 5px; background-color: #444;">
+        Second Factor Authentication
+    </h5>
+    <p class="form-group otp-form-group" style="margin-right: 20px; border: 0.2px solid green; padding: 5px; border-radius: 2px; color: green; background-color: #444;">
+        The One Time Password has been sent to your registered Mobile Number. Please use the OTP to authenticate the transaction.
+    </p>
+    @* : for Cross - Site Request Forgery(CSRF) protection.This helps to secure your form against CSRF attacks*@
+    @Html.AntiForgeryToken()
+
+    <div class="form-group otp-form-group">
+        <label asp-for="OTP" class="control-label">Enter OTP here</label>
+
+        <!-- OTP Input Field -->
+        <input asp-for="OTP" id="otpField" class="form-control otp-control" style="background-color: #444;" placeholder=" enter OTP here..." />
+
+        <!-- Validation for OTP -->
+        <span asp-validation-for="OTP" class="text-danger"></span>
+    </div>
+    <!-- OTP Timer Display -->
+    <div class="form-group otp-form-group">
+        <p id="timeMesage">Your OTP will expire in <span id="timer" style="color: red;"></span> seconds.</p>
+        <a asp-controller="Accounts" asp-action="ResendOtpAsync" id="resendButton" style="float: left; color: blue; border: 2px; background-color: #444; cursor: pointer;">Resend OTP</a>
+    </div>
+    @* onclick="resendOtp()"*@ @* type="button" *@ @* href="/Accounts/ResendOtpAsync" *@
+    <div class="form-group button">
+        <button id="otpVerify-button" type="submit" class="btn btn-primary" onclick="startOtpTimer()">Verify OTP</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        //To implement the timer for OTP Verification
+        // Set the OTP timer duration (in seconds)
+        var timerDuration = 30; // 1 minutes = 60 seconds
+        var timerElement = document.getElementById("timer");
+        var resendButton = document.getElementById("resendButton");
+        var timeMesage = document.getElementById("timeMesage");
+        var otpVerify_button = document.getElementById("otpVerify-button");
+        // Initialize the timer display
+        timerElement.textContent = timerDuration;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            resendButton.style.display = "none"; // Hide the resend button on page load
+        });
+
+
+        // Function to start the countdown
+        function startOtpTimer() {
+            var countdown = timerDuration;
+
+            var interval = setInterval(function () {
+                countdown--;
+
+                // Update the timer element with the remaining time
+                timerElement.textContent = countdown;
+
+                // When countdown reaches 0, show the "Resend OTP" button
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    timerElement.textContent = "Expired";
+                    resendButton.style.display = "inline";// Show the resend button
+                    timeMesage.style.display = "none";
+                }
+            }, 1000);  // Runs every second
+        }
+
+        // Call this function to start the timer when the OTP is sent
+        startOtpTimer();
+
+        function resendOtp() {
+            // Get the CSRF token value
+            const csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            fetch('/Accounts/ResendOtpAsync', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken //'@Html.AntiForgeryToken();' //Or csrfToken  CSRF token passed here
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert('OTP has been resent!');
+                    resendButton.style.display = "none";  // Hide the resend button again
+                    timeMesage.style.display = "inline";
+                    timerDuration = 30;  // Reset the timer
+                    startOtpTimer();  // Restart the timer
+                }
+            }).catch(error => {
+                console.error('Error resending OTP:', error);
+            });
+        }
+
+    </script>
+}

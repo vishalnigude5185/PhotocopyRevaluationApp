@@ -1,0 +1,425 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PhotocopyRevaluationAppMVC</title>
+
+    <!--website fav icon-->
+    <link rel="icon" href="~/ycmou_favicon.jfif" sizes="64x64" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons CDN (Latest version) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Site-Specific CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PhotocopyRevaluationAppMVC.styles.css" asp-append-version="true" />
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+</head>
+<body>
+    @* <header>
+    <div class="section-head-container">
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    </div>
+    <div class="img">
+    <img src="~/images/ycmou_logo.png" height="70px" />
+    </div>
+    </div>
+    </header> *@
+    <section>
+        <nav id="flex-item1" class="sidebar">
+            <div class="ycmou-container">
+                <a href="/Home/Index"><h2>YCMOU</h2></a>
+            </div>
+            <a href="/Home/Index">Home<i class="bi bi-house"></i></a>
+            <hr style="margin-top: 0;" />
+            <button class="collapsible">Photocopies<span class="arrow">&#9662;</span></button>
+            <div class="content">
+                <a href="@Url.Action("_List", "Photocopies", new { ColumnName = "nodata", Value = "nodata" })">Get All</a>
+                <a href="/Photocopies/DateWisePhotocopyCount">Date Wise Count</a>
+                <a href="/Photocopies/EventWisePhotocopyCount">Event Wise Count</a>
+                <a href="/Photocopies/SchemeWisePhotocopyCount">Scheme Wise Count</a>
+                <a href="/Photocopies/SubjectWisePhotocopyCount">Subject Wise Count</a>
+            </div>
+            <button class="collapsible">Revaluation<span class="arrow">&#9662;</span></button>
+            <div class="content">
+                <a href="@Url.Action("_List", "Revaluations", new { ColumnName = "nodata", Value = "nodata" })">Get All</a>
+                <a href="/ReValuations/DateWiseRevaluationCount">Date Wise Count</a>
+                <a href="/ReValuations/EventWiseRevaluationCount">Event Wise Count</a>
+                <a href="/ReValuations/SchemeWiseRevaluationCount">Scheme Wise Count</a>
+                <a href="/ReValuations/SubjectWiseRevaluationCount">Subject Wise Count</a>
+            </div>
+            <hr />
+            <a href=" #">Check Payment Status<i class="bi bi-credit-card"></i> <i class="bi bi-check"></i></a>
+            <a href="/Accounts/Logout">[ Log Out ]<span class="logout-arrow">&#10142;</span></a>
+        </nav>
+        <div id="flex-item2">
+            <div class="section-head-container">
+                <!-- Hamburger Menu Button -->
+                <div class="hamburger">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="img">
+                    <img src="~/images/ycmou_logo.png" height="70px" />
+                </div>
+            </div>
+            <main id="item4" role="main" class="pb-3">
+
+                @RenderBody() @* IgnoreBody() *@
+
+            </main>
+            <!-- Signup/Signout Notifications Area -->
+                @* <h2>Force Sign-Out Notification</h2> *@
+            <div id="notification">
+            </div>
+        </div>
+
+        <!--<nav id="flex-item1" class="sidebar">
+            <div class="ycmou-container">
+                <a href="/Home/Index"><h2>YCMOU</h2></a>
+            </div>
+            <a href="/Home/Index">Home<i class="bi bi-house"></i></a>
+            <hr style="margin-top: 0;" />
+            <button class="collapsible">Photocopies<span class="arrow">&#9662;</span></button>
+            <div class="content">
+                <a href="@Url.Action("_List", "Photocopies", new { ColumnName = "nodata", Value = "nodata" })">Get All</a>
+                <a href="/DateWisePhotocopyCount/Photocopies">Date Wise Count</a>
+                <a href="/EventWisePhotocopyCount/Photocopies">Event Wise Count</a>
+                <a href="/SchemeWisePhotocopyCount/Photocopies">Scheme Wise Count</a>
+                <a href="/Index/Photocopies">Subject Wise Count</a>
+            </div>
+            <button class="collapsible">Revaluation<span class="arrow">&#9662;</span></button>
+            <div class="content">
+                <a href="@Url.Action("_List", "Revaluations", new { ColumnName = "nodata", Value = "nodata" })">Get All Revaluation</a>
+                <a href="/ReValuations/DateWiseRevaluationCount">Date Wise Count</a>
+                <a href="/ReValuations/EventWiseRevaluationCount">Event Wise Count</a>
+                <a href="/ReValuations/SchemeWiseRevaluationCount">Scheme Wise Count</a>
+                <a href="/ReValuations/Index">Subject Wise Count</a>
+            </div>
+            <hr />
+            <a href=" #">Check Payment Status<i class="bi bi-credit-card"></i> <i class="bi bi-check"></i></a>
+            <a href="#">[ Log Out ]<span class="logout-arrow">&#10142;</span></a>
+        </nav>
+        <main id="item4" role="main" class="pb-3">
+
+        @RenderBody() @* IgnoreBody() *@
+
+        </main>-->
+    </section>
+
+    @* <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - PhotocopyRevaluationAppMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer> *@
+
+    <!-- jQuery and Bootstrap JS -->
+    <!-- jQuery Library -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- Site-Specific JS -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <!--CDN for chart.js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Optional Scripts Section -->
+    @* @RenderSection("script") *@
+    @* IgnoreSection("Scripts") *@
+
+    <!-- Add client-side validation script -->
+    <script>
+        $('.hamburger').on('click', function () {
+
+            $('.sidebar').toggleClass('sidebar-visible');
+
+            // Get the viewport width
+            if ($('.sidebar').hasClass('sidebar-visible')) {
+                var viewportWidth = $(window).width();
+                $('#flex-item2').css('width', viewportWidth + 'px'); // Full width if sidebar is hidden
+            } else {
+                $('#flex-item2').css('width', '100%'); // Adjust width if sidebar is visible
+            }
+        });
+
+        // $('.hamburger').on('click', function() {
+        //     if ($('.sidebar').css('width') === '200px') {
+
+        //         $('.sidebar').css('width', '0px');
+        //         $('.sidebar').css('transition', '0.5s');
+        //     }
+        //     else {
+        //         $('.sidebar').css('width', '200px');
+        //     }
+        // })
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var coll = document.getElementsByClassName("collapsible");
+
+            for (var i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+
+                    // Toggle between hiding and showing the content
+                    var content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            $('.sidebar-sub-container').hide();
+        });
+
+        $('.btn-danger').on('click', function () {
+            $(this).next('.sidebar-sub-container').toggle();
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.11/signalr.min.js"></script>
+
+    <script>
+        // Function to check if the user is authenticated by calling an action in .NET Core MVC
+        // async function checkAuthentication() {
+        //     try {
+        //         const response = await fetch('/Accounts/GetAuthStatus', {
+        //             method: 'GET',
+        //             credentials: 'include' // Include cookies with the request
+        //         });
+        //         const data = await response.json();
+        //         return data.isAuthenticated; // Return the authentication status
+        //     } catch (error) {
+        //         console.error('Error checking authentication:', error);
+        //         return false; // Assume not authenticated on error
+        //     }
+        // }
+
+        // //Function to start the SignalR connection
+        //async function startSignalRConnection() {
+        //const isAuthenticated = await checkAuthentication();
+        //if (!isAuthenticated) {
+        // User is authenticated, proceed to connect to SignalR
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/signouthub"/* , { accessTokenFactory: () => localStorage.getItem("authToken") } */) // Provide JWT token if applicable
+            .build();
+
+        let retryCount = 0;
+        const maxRetries = 5; // Maximum number of retries
+        const retryDelay = 2000; // Time in milliseconds to wait before retrying
+
+        function startConnection() {
+        connection.start()
+            .then(function () {
+                console.log("SignalR connected. Listening for notifications...");
+                retryCount = 0; // Reset retry count on successful connection
+            })
+            .catch(function (err) {
+                console.error("Error connecting to SignalR: ", err.toString());
+                retryCount++;
+                if (retryCount <= maxRetries) {
+                    console.log(`Retrying connection in ${retryDelay / 1000} seconds... (${retryCount}/${maxRetries})`);
+                    setTimeout(startConnection, retryDelay); // Retry connection after delay
+                } else {
+                    console.error("Max retry attempts reached. Could not connect to SignalR.");
+                }
+            });
+        }
+
+        // Start the connection initially
+        //startConnection();
+
+        // Listen for sign-out notifications
+        connection.on("SendSignOutNotificationByUserIdThreeMinutesBeforeAsync", function (message) {
+            // Display a sign-out notification
+            document.getElementById("notification").innerHTML = message;
+        });
+
+        connection.on("SendSignOutNotificationByUserIdThreeSecondsBeforeAsync", function (message) {
+            // Display a sign-out notification
+            document.getElementById('notification').innerHTML = `<div class="alert alert-warning session-timeout-notify" role="alert">
+                    <!--You have been signed out. Redirecting to login page...-->
+                    Your session have been timed out.
+                </div>`;
+            // Delay for 3 seconds to let the user see the notification, then redirect
+            setTimeout(function () {
+                window.location.href = '/Notifications/SesstionTimedOut'; // Adjust the URL to your sign-out route
+            }, 3000); // Redirect after 3 seconds
+        });
+        // } else {
+        //     console.log("User is not authenticated. Cannot establish SignalR connection.");
+        //     // Optionally redirect to login or show a message
+        //     //window.location.href = '/Accounts/Login'; // Redirect to login
+        // }
+        //}
+
+        
+        // Handle connection closure and attempt to reconnect
+        connection.onclose(async () => {
+            console.log('Connection closed. Attempting to reconnect...');
+            await startConnection(); // Attempt to reconnect
+        });
+
+        // Call the function to start the process
+        //startSignalRConnection();
+    </script>
+    
+    @* <script>
+    //A) Authenticate the User Before Establishing SignalR Connection
+    //1) Example of token-based check
+    // This is just a placeholder function, replace it with your actual authentication check
+    function isUserAuthenticated() {
+    // Check if the user is authenticated (e.g., through cookies or token)
+    //!!: The double exclamation marks convert the result into a boolean value
+    return !!localStorage.getItem("authToken"); // Example of token-based check
+
+    // // Assuming the token is received from a server after user login
+    // const token = response.data.token;
+
+    // // Store the token in localStorage
+    // localStorage.setItem("authToken", token);
+    }
+
+    // Function to start SignalR connection
+    function startSignalRConnection() {
+    //Example: JWT Authentication in SignalR
+    // Make sure your SignalR connection passes the JWT token from the client side using accessTokenFactory.
+    //     Client-Side(Pass Token to SignalR)
+
+    const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/yourHubEndpoint", { accessTokenFactory: () => localStorage.getItem("authToken") }) // Provide JWT token
+    .build();
+
+    connection.start()
+    .then(() => console.log("SignalR connection established"))
+    .catch(err => {
+    Handle Unauthorized Access
+    // If a client attempts to connect without being authenticated, they will be denied access to the Hub.
+    // OnMessageReceived or handle it client - side by catching the connection failure
+    if (err.statusCode === 401) {
+    console.error("Unauthorized access - user not authenticated.");
+    } else {
+    console.error(err.toString());
+    }
+    });
+    }
+    // Only start the connection if the user is authenticated
+    if (isUserAuthenticated()) {
+    startSignalRConnection();
+    } else {
+    console.log("User is not authenticated. SignalR connection not started.");
+    }
+    </script>
+    <script>
+    //to check if a user is authenticated an action call in .net core mvc:
+    async function checkAuthentication() {
+    try {
+    const response = await fetch('/Accounts/GetAuthStatus', {
+    method: 'GET',
+    credentials: 'include' // Include cookies with the request
+    });
+    const data = await response.json();
+    return data.isAuthenticated; // Return the authentication status
+    } catch (error) {
+    console.error('Error checking authentication:', error);
+    return false; // Assume not authenticated on error
+    }
+    }
+
+    async function startSignalRConnection() {
+    const isAuthenticated = await checkAuthentication();
+    if (isAuthenticated) {
+    // User is authenticated, proceed to connect to SignalR
+    // Create a connection to the SignalR hub
+    const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/signOutHub") // Make sure the Hub endpoint matches your backend setup
+    .build();
+
+    // Start the SignalR connection
+    let retryCount = 0;
+    const maxRetries = 5; // Maximum number of retries
+    const retryDelay = 2000; // Time in milliseconds to wait before retrying
+
+    function startConnection() {
+    connection.start()
+    .then(function () {
+    console.log("SignalR connected. Listening for SignOutNotificationToUserByConnectionIdAsync event...");
+    retryCount = 0; // Reset retry count on successful connection
+    })
+    .catch(function (err) {
+    console.error("Error connecting to SignalR: ", err.toString());
+    retryCount++;
+    if (retryCount <= maxRetries) {
+    console.log(`Retrying connection in ${retryDelay / 1000} seconds... (${retryCount}/${maxRetries})`);
+    setTimeout(startConnection, retryDelay); // Retry connection after delay
+    } else {
+    console.error("Max retry attempts reached. Could not connect to SignalR.");
+    }
+    });
+
+    // Optionally, add error handling for connection lifecycle events
+    connection.onclose(async () => {
+    console.log('Connection closed. Attempting to reconnect...');
+    await startSignalRConnection(); // Attempt to reconnect
+    });
+
+    try {
+    await connection.start();
+    console.log("SignalR connected.");
+    } catch (err) {
+    console.error("SignalR connection error:", err);
+    }
+    } else {
+    console.log("User is not authenticated. Cannot establish SignalR connection.");
+    // Optionally redirect to login or show a message
+    window.location.href = '/Account/Login'; // Example redirect to login
+    }
+    }
+
+    // Listen for the SignOutNotificationToUserByConnectionIdAsync event from the server
+    connection.on("SendSignOutNotificationToUserByUserIdThreeMinuitsBeforeAsync", message, function () {
+    // Display a sign-out notification
+    document.getElementById("notification").innerHTML = message;
+    });
+
+    // Listen for the SignOutNotificationToUserByConnectionIdAsync event from the server
+    connection.on("SendSignOutNotificationToUserByUserIdThreeSecondsBeforeAsync", message, function () {
+    // Display a sign-out notification
+    document.getElementById("notification").innerHTML = `
+    <div class="alert alert-warning" role="alert">
+    You have been signed out. Redirecting to login page...
+    </div>`;
+
+    // Delay for 3 seconds to let the user see the notification, then redirect
+    setTimeout(function () {
+    window.location.href = '/Accounts/Logout'; // Adjust the URL to your sign-out route
+    }, 3000); // Redirect after 3 seconds
+    });
+    }
+    // Call the function to start the process
+    startSignalRConnection();
+    </script>
+ *@
+    <partial name="_ValidationScriptsPartial" />
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

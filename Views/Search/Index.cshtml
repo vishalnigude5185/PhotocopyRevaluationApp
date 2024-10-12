@@ -1,0 +1,188 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div>
+    <input type="text" id="searchInput" placeholder="Search..." />
+    <ul id="suggestionsList" style="display: none;"></ul>
+</div>
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const suggestionsList = document.getElementById('suggestionsList');
+
+    const debounce = (func, delay) => {
+        let timeout;
+        return function (...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+    };
+
+    const fetchSuggestions = async (query) => {
+        if (!query) {
+            suggestionsList.innerHTML = '';
+            suggestionsList.style.display = 'none';
+            return;
+        }
+        const response = await fetch(/Search/Search?query=${encodeURIComponent(query)});
+        const suggestions = await response.json();
+        renderSuggestions(suggestions);
+    };
+
+    const renderSuggestions = (suggestions) => {
+        suggestionsList.innerHTML = suggestions
+            .map(s => <li>${s}</li>)
+            .join('');
+        suggestionsList.style.display = suggestions.length ? 'block' : 'none';
+    };
+
+    searchInput.addEventListener('input', debounce((e) => {
+        fetchSuggestions(e.target.value);
+    }, 300)); // 300ms delay
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/dexie@4.0.4/dist/dexie.min.js"></script>
+
+<script>
+        //storing data for offline use
+    const db = new Dexie('SearchDB');
+    db.version(1).stores({
+        items: '++id,name' // Primary key and indexed properties
+    });
+
+    // Function to populate IndexedDB
+    const populateDB = async (items) => {
+        await db.items.bulkPut(items); // Assuming 'items' is an array of objects
+    };
+
+    // Function to search IndexedDB for offline capabilities
+    const offlineSearch = async (query) => {
+        return await db.items.where('name').startsWithIgnoreCase(query).toArray();
+    };
+    const fetchSuggestions = async (query) => {
+        if (!query) {
+            suggestionsList.innerHTML = '';
+            suggestionsList.style.display = 'none';
+            return;
+        }
+
+        let suggestions = await offlineSearch(query);
+        if (suggestions.length === 0) {
+            const response = await fetch(/Search/Search?query=${encodeURIComponent(query)});
+            suggestions = await response.json();
+            // Store new suggestions in IndexedDB for future use
+            populateDB(suggestions.map(name => ({ name })));
+        }
+        renderSuggestions(suggestions.map(s => s.name));
+
+        // Example function to add data to IndexedDB
+        async function addData(name) {
+            await db.items.add({ name });
+        }
+        // Example function to search data in IndexedDB
+        async function searchData(query) {
+            return await db.items.where('name').startsWithIgnoreCase(query).toArray();
+        }
+    };
+
+    //To search or query with multiple tables which are related to each other
+    //Defining Multiple Tables:
+    const db = new Dexie('MyDatabase');
+    db.version(1).stores({
+        items: '++id,name,categoryId',    // '++id' is the primary key, 'categoryId' is a foreign key
+        categories: '++id,name'           // '++id' is the primary key
+    });
+    //Inserting Data: inserting data into both tables like so:
+    async function setupData() {
+        await db.categories.bulkPut([
+            { name: 'Electronics' },
+            { name: 'Books' }
+        ]);
+
+        await db.items.bulkPut([
+            { name: 'Laptop', categoryId: 1 },
+            { name: 'Smartphone', categoryId: 1 },
+            { name: 'Novel', categoryId: 2 }
+        ]);
+    }
+    //Querying Data Across Tables:
+    async function fetchItemsWithCategories() {
+        const items = await db.items.toArray();
+        const categories = await db.categories.toArray();
+
+        return items.map(item => {
+            const category = categories.find(cat => cat.id === item.categoryId);
+            return {
+                ...item,
+                categoryName: category ? category.name : 'Unknown'
+            };
+        });
+    }
+    //Using Promise.all for Concurrent Queries: If you need to fetch data from multiple tables concurrently, you can use Promise.all:
+    async function fetchAllData() {
+        const [items, categories] = await Promise.all([
+            db.items.toArray(),
+            db.categories.toArray()
+        ]);
+
+        // Process the data as needed
+    }
+    //Advanced Queries
+    async function fetchFilteredAndSortedItems() {
+        // Step 1: Fetch all categories to find the category ID for "Electronics"
+        const categories = await db.categories.toArray();
+        const electronicsCategory = categories.find(cat => cat.name === 'Electronics');
+
+        // Step 2: Fetch all items that belong to "Electronics" and are priced under $500
+        const items = await db.items
+            .where('categoryId').equals(electronicsCategory.id)
+            .and(item => item.price < 500)
+            .toArray();
+
+        // Step 3: Sort items by price (ascending)
+        items.sort((a, b) => a.price - b.price);
+
+        return items;
+    }
+    //Transforming Data
+    async function fetchItemsWithCategories() {
+        const items = await fetchFilteredAndSortedItems();
+        const categories = await db.categories.toArray();
+
+        // Transform the data to include category names
+        return items.map(item => {
+            const category = categories.find(cat => cat.id === item.categoryId);
+            return {
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                categoryName: category ? category.name : 'Unknown'
+            };
+        });
+    }
+    //Putting It All Together
+    //Here’s how you might call these functions in your application:
+    async function displayItems() {
+        await setupData(); // Ensure data is set up
+        const processedItems = await fetchItemsWithCategories();
+
+        // Example output to console
+        processedItems.forEach(item => {
+            console.log(Item: ${item.name}, Price: $${item.price}, Category: ${item.categoryName});
+        });
+    }
+    // Execute the display function
+    displayItems();
+    //Advanced Data Processing Techniques
+    const totalPrice = processedItems.reduce((sum, item) => sum + item.price, 0);
+    console.log(Total Price of Electronics: $${totalPrice});
+    //Complex Filtering:
+    const filteredItems = items.filter(item => item.price < 500 && item.name.includes('Head'));
+    //Chaining Queries: You can chain multiple queries using Dexie's built-in methods to create more complex logic.
+    const expensiveItems = await db.items
+        .filter(item => item.price > 100)
+        .sortBy('price')
+</script>

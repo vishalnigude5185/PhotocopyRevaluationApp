@@ -1,0 +1,224 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+main {
+    --bs-form-width: 400px;
+    --bs-form-group-width: 300px;
+    --bs-form-group-margin-left: calc((var(--bs-form-width) - var(--bs-form-group-width))/2);
+    --bs-login-button-width: 50px;
+    --bs-login-button-margin-left: calc((var(--bs-form-width) - var(--bs-login-button-width))/2);
+    --bs-submit-button-group-width: 130px;
+    --bs-submit-button-group-margin-left: calc((var(--bs-form-width) - var(--bs-submit-button-group-width))/2);
+}
+
+/*Login css*/
+.login-form-container {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.form {
+    width: var(--bs-form-width);
+    height: 350px;
+    border: 1px, solid, green;
+    border-radius: 5px;
+    box-shadow: 10px, black;
+    box-sizing: border-box;
+    margin: auto;
+    color: white;
+    background-color: #333;
+}
+.form-group {
+    padding-bottom: 20px;
+    margin-left: var(--bs-form-group-margin-left);
+}
+.username-group {
+    padding-top: 30px;
+}
+.form-control {
+    width: var(--bs-form-group-width);
+    border: 1px, solid, green;
+}
+.button {
+    width: var(--bs-login-button-width);
+    margin-left: var(--bs-login-button-margin-left);
+}
+
+/*Table CSS*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+.thead {
+    color: red;
+}
+
+/*
+table, th, td {
+    border: 1px solid black;
+}*/
+/* Even rows */
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray */
+}
+
+/* Odd rows */
+tbody tr:nth-child(odd) {
+    background-color: #ffffff; /* White */
+}
+
+/*Photocopies/Index--CSS*/
+.photocopy-container {
+    text-align: center;
+}
+
+/*For _List*/
+.export-container {
+    text-align: left;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+
+/* Style for positioning the search box */
+.dataTables_filter {
+    margin-bottom: 10px; /* Space below the search box */
+}
+
+/* Move search box above the table */
+#myDataTable_wrapper .dataTables_filter {
+    float: left; /* Align to the left */
+    margin-bottom: 20px; /* Space between search box and table */
+}
+
+/* To center the search box (optional) */
+#myDataTable_wrapper .dataTables_filter {
+    text-align: center; /* Center align search box */
+}
+
+/*To take entries dropdown at right*/
+#myDataTable_wrapper .dataTables_length {
+    text-align: right; /* Align to the right */
+    margin-bottom: 20px; /* Add some space below the dropdown */
+}
+
+/* Ensure the dropdown is inline and aligned properly */
+#myDataTable_wrapper .dataTables_length select {
+    display: inline-block;
+}
+
+/*Statastic CSS*/
+.graph-container {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.tables-container{
+    overflow: auto;
+}
+
+/*============================================ Login View ==============================================*/
+#forgotPasswordButton{
+    border-radius: 5px;
+}
+/*============================================ OTPVerification ==============================================*/
+.otp-form {
+    width: 400px;
+    height: 100%;
+}
+.otp-form-group{
+    margin-top: 20px;
+}
+#otpVerify-button {
+    width: 100px;
+}
+.otp-control{
+    width: 300px;
+}
+
+/*======================================= ForgotPassword.cshtml ========================================*/
+.submit-button {
+    margin-left: var(--bs-submit-button-group-margin-left);
+    padding-bottom: 20px;
+}
+
+/*======================================= ChangePassword.cshtml ========================================*/
+#changePassword-button {
+    width: 160px;
+}
+
+/*========================================== Common for small forms ==========================================*/
+
+
+/*============================================ Home/Index ==============================================*/
+.alert{
+    width: 400px;
+}
+/*.close-btn{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}*/
+/*.btn {
+    padding: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+}*/
+
+/*===================================== [Chat] ==================================*/
+/* Chatbot styles */
+.chatbox {
+    width: 300px;
+    height: 400px;
+    border: 1px solid #ccc;
+    overflow-y: scroll;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #fff;
+}
+
+.chatbox-header {
+    background: #007BFF;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.messages {
+    padding: 10px;
+}
+
+.input-area {
+    display: flex;
+    padding: 10px;
+}
+
+    .input-area input {
+        flex: 1;
+        padding: 5px;
+    }
+
+    .input-area button {
+        padding: 5px;
+    }

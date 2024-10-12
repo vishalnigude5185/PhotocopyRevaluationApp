@@ -1,0 +1,463 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<ItemGroup>
+  <None Update="runtimes\win-x64\native\libwkhtmltox.dll">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+  <None Update="runtimes\win-x86\native\libwkhtmltox.dll">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+	<ItemGroup>
+		<None Update="runtimes\win-x64\native\libwkhtmltox.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="runtimes\win-x86\native\libwkhtmltox.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<EnablePreviewFeatures>true</EnablePreviewFeatures>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+		<!-- or 7.0, 7.1, 8.0, etc. -->
+	</PropertyGroup>
+
+	<PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <Content Remove="Data - Copy\**" />
+    <Content Remove="Migrations\**" />
+    <Content Remove="NewFolder1\**" />
+    <Content Remove="NewFolder2\**" />
+    <Content Remove="Views\PhotocopiesRevaluations\**" />
+    <EmbeddedResource Remove="Data - Copy\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="NewFolder1\**" />
+    <EmbeddedResource Remove="NewFolder2\**" />
+    <EmbeddedResource Remove="Views\PhotocopiesRevaluations\**" />
+    <None Remove="Data - Copy\**" />
+    <None Remove="Migrations\**" />
+    <None Remove="NewFolder1\**" />
+    <None Remove="NewFolder2\**" />
+    <None Remove="Views\PhotocopiesRevaluations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Photocopies\Create.cshtml" />
+    <Content Remove="Views\Photocopies\Delete.cshtml" />
+    <Content Remove="Views\Photocopies\Details.cshtml" />
+    <Content Remove="Views\Photocopies\Edit.cshtml" />
+    <Content Remove="Views\Revaluations\Create.cshtml" />
+    <Content Remove="Views\Revaluations\Delete.cshtml" />
+    <Content Remove="Views\Revaluations\Details.cshtml" />
+    <Content Remove="Views\Revaluations\Edit.cshtml" />
+    <Content Remove="wwwroot\css\ReValuations.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Autherization\MinimumAgeRequirement.cs" />
+    <Compile Include="Autherization\UserNameRequirement.cs" />
+    <Compile Include="Autherization\RoleBasedPermissionRequirement.cs" />
+    <Compile Include="Autherization\SameUserRequirement.cs" />
+    <Compile Include="Services\BackgroundTasks\EmailBackgroundService.cs" />
+    <Compile Include="Configurations\AppExtensions.cs" />
+    <Compile Include="Configurations\ServiceExtensions.cs" />
+    <Compile Include="DependencyInjection\DynamicServiceResolver.cs" />
+    <Compile Include="Global\Exceptions\GlobalExceptionHandler.cs" />
+    <Compile Include="Global\Exceptions\IGlobalExceptionHandler.cs" />
+    <Compile Include="Global\GlobalVariables.cs" />
+    <Compile Include="ML\ChatBotModelTrainer.cs" />
+    <Compile Include="ChatBoat\ChatBotService.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Services\FeatureManagement\EnvironmentFilter.cs" />
+    <Compile Include="Services\FeatureManagement\FeatureManager.cs" />
+    <Compile Include="Services\FeatureManagement\RoleFilter.cs" />
+    <Compile Include="Services\FeatureManagement\TimeWindowFilter.cs" />
+    <Compile Include="Services\FeatureManagement\UserAgentFilter.cs" />
+    <Compile Include="Services\HostedTasks\EmailHostedService.cs" />
+    <Compile Include="Logging\CustomEmailSink.cs" />
+    <Compile Include="Logging\LoggingHelper.cs" />
+    <Compile Include="Logging\SerilogLoggingConfiguration.cs" />
+    <Compile Include="Configurations\MySettings.cs" />
+    <Compile Include="Configurations\PayPalSettings.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
+    <Compile Include="Controllers\PhotocopiesController.cs" />
+    <Compile Include="Controllers\RevaluationsController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Data\LoggingContext.cs" />
+    <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Hubs\NotificationHub.cs" />
+    <Compile Include="Hubs\SignOutHub.cs" />
+    <Compile Include="Logging\DatabaseLoggerProvider.cs" />
+    <Compile Include="Logging\TelemetryBot.cs" />
+    <Compile Include="Middlewares\FixedWindowRateLimitingMiddleware.cs" />
+    <Compile Include="Middlewares\LoggingMiddleware.cs" />
+    <Compile Include="Middlewares\SlidingWindowRateLimitingMiddleware.cs" />
+    <Compile Include="Middlewares\TokenBucketRateLimitingMiddleware.cs" />
+    <Compile Include="Middlewares\TrackingMiddleware.cs" />
+    <Compile Include="Migrations\20240926075518_260924_0126.cs" />
+    <Compile Include="Migrations\20240926075518_260924_0126.Designer.cs" />
+    <Compile Include="Migrations\PhotocopyRevaluationAppContextModelSnapshot.cs" />
+    <Compile Include="ML\ChatData.cs" />
+    <Compile Include="ML\ChatbotInput.cs" />
+    <Compile Include="ML\ChatbotPrediction.cs" />
+    <Compile Include="Models\ApplicationRole.cs" />
+    <Compile Include="Models\DatewisePhotocopyCountViewDTO.cs" />
+    <Compile Include="Models\DatewiseRevaluationCountDTO.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\EventPhotocopyCountDTO.cs" />
+    <Compile Include="Models\EventRevaluationCountDTO.cs" />
+    <Compile Include="Models\Feedback.cs" />
+    <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\RegisteredUserDTO.cs" />
+    <Compile Include="Models\SubjectWisePhotocopyCountDTO.cs" />
+    <Compile Include="Models\SubjectWiseRevaluationCountDTO.cs" />
+    <Compile Include="Models\UserRegisterationDTO.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Photocopy.cs" />
+    <Compile Include="Data\PhotocopyRevaluationAppContext.cs" />
+    <Compile Include="Models\Revaluation.cs" />
+    <Compile Include="Models\SchemePhotocopyCountDTO.cs" />
+    <Compile Include="Models\SchemeRevaluationCountDTO.cs" />
+    <Compile Include="Models\SessionData.cs" />
+    <Compile Include="Middlewares\ExceptionHandlingMiddleware.cs" />
+    <Compile Include="Middlewares\CombineRateLimitingMiddleware.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Models\Routconfig.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Program.template.cs" />
+    <Compile Include="Services\AccountService.cs" />
+    <Compile Include="ChatBoat\ChatService.cs" />
+    <Compile Include="Logging\DatabaseLogger.cs" />
+    <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\ExportDataService.cs" />
+    <Compile Include="Services\FeatureManagement\PercentageFilter.cs" />
+    <Compile Include="Services\FeedbackDialog.cs" />
+    <Compile Include="Services\GenerateUidService.cs" />
+    <Compile Include="Services\IAccountService.cs" />
+    <Compile Include="ChatBoat\IChatService.cs" />
+    <Compile Include="Services\IEmailService.cs" />
+    <Compile Include="Services\IExportDataService.cs" />
+    <Compile Include="Services\INotificationService.cs" />
+    <Compile Include="Services\IOtpService.cs" />
+    <Compile Include="Services\IPayPalService.cs" />
+    <Compile Include="Services\ITempDataService.cs" />
+    <Compile Include="Services\ITimerService.cs" />
+    <Compile Include="Services\IUserConnectionManager.cs" />
+    <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\IUserSessionService.cs" />
+    <Compile Include="Services\KeyVaultManager.cs" />
+    <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\OtherApiService.cs" />
+    <Compile Include="Services\OtpService.cs" />
+    <Compile Include="Services\PayPalService.cs" />
+    <Compile Include="Services\SMSService.cs" />
+    <Compile Include="Services\TempDataService.cs" />
+    <Compile Include="Services\TimerService .cs" />
+    <Compile Include="Services\UserConnectionManager.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\UserSessionService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".git\ms-persist.xml" />
+    <Content Include=".vs\PhotocopyRevaluationAppMVC\v17\DocumentLayout.backup.json" />
+    <Content Include=".vs\PhotocopyRevaluationAppMVC\v17\DocumentLayout.json" />
+    <Content Include="Views\Photocopies\.vs\Photocopies\v17\DocumentLayout.json" />
+    <Content Include="Views\Photocopies\.vs\VSWorkspaceState.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".git\COMMIT_EDITMSG" />
+    <None Include=".git\config" />
+    <None Include=".git\description" />
+    <None Include=".git\FETCH_HEAD" />
+    <None Include=".git\HEAD" />
+    <None Include=".git\hooks\applypatch-msg.sample" />
+    <None Include=".git\hooks\commit-msg.sample" />
+    <None Include=".git\hooks\fsmonitor-watchman.sample" />
+    <None Include=".git\hooks\post-update.sample" />
+    <None Include=".git\hooks\pre-applypatch.sample" />
+    <None Include=".git\hooks\pre-commit.sample" />
+    <None Include=".git\hooks\pre-merge-commit.sample" />
+    <None Include=".git\hooks\pre-push.sample" />
+    <None Include=".git\hooks\pre-rebase.sample" />
+    <None Include=".git\hooks\pre-receive.sample" />
+    <None Include=".git\hooks\prepare-commit-msg.sample" />
+    <None Include=".git\hooks\push-to-checkout.sample" />
+    <None Include=".git\hooks\sendemail-validate.sample" />
+    <None Include=".git\hooks\update.sample" />
+    <None Include=".git\index" />
+    <None Include=".git\info\exclude" />
+    <None Include=".git\logs\HEAD" />
+    <None Include=".git\logs\refs\heads\master" />
+    <None Include=".git\logs\refs\heads\MIPL" />
+    <None Include=".git\logs\refs\heads\My-Projects" />
+    <None Include=".git\logs\refs\remotes\origin\MIPL" />
+    <None Include=".git\objects\00\9306070a81c2db13112c4e7d5e5daa01b46f61" />
+    <None Include=".git\objects\00\b55e3fe9bc66620e70ecdc987a6016c6ff09a0" />
+    <None Include=".git\objects\01\b0f73f2c6450832c500c71230f37ac46834318" />
+    <None Include=".git\objects\02\ae65b5fe5d12c881eb054006f68b52a2818615" />
+    <None Include=".git\objects\05\e7fd91fe1cc49457f2b6ec829d0fd6ba20b9cb" />
+    <None Include=".git\objects\06\79f093dc49a1d17e083ec384ae377ab5dfc88d" />
+    <None Include=".git\objects\08\fae6b1de56b7859c688c53fa50eda5031c3eb8" />
+    <None Include=".git\objects\09\376573536e4d6e7f86413c56c62b83131f45bc" />
+    <None Include=".git\objects\0a\ba046073cc8d74b110691ad68f9a54c074f92c" />
+    <None Include=".git\objects\0b\a52cd34cbd0087b9d603db9a8201e8ae59551e" />
+    <None Include=".git\objects\0c\208ae9181e5e5717e47ec1bd59368aebc6066e" />
+    <None Include=".git\objects\14\fad2356bb9bdc36401bb4fae30ea65ed2de8d3" />
+    <None Include=".git\objects\18\2d32c5a754d6b3b373854bb80e538d0de019e3" />
+    <None Include=".git\objects\18\7048eb120f6725e46bb4a414a37e3951f0ebf6" />
+    <None Include=".git\objects\19\fc5f9223b0c0e9c7fceb847c8d4e31b9bdb1f0" />
+    <None Include=".git\objects\1f\ced998a9a8a31e2db043cdd6bc2188d0584340" />
+    <None Include=".git\objects\1f\f0c423042b46cb1d617b81efb715defbe8054d" />
+    <None Include=".git\objects\22\868baa7983ecd63e2d6ad6f89c97058b004b15" />
+    <None Include=".git\objects\23\327ce71ce988df66ebaf0c67814761ecc30d18" />
+    <None Include=".git\objects\29\4a3cee8d88dd23b2b5694d79c3bc116322a71e" />
+    <None Include=".git\objects\2d\4010d63cf8db84d038083ae72d52b62ae69e0a" />
+    <None Include=".git\objects\2f\7a71ce582e71e47e9826f2089544239b85378e" />
+    <None Include=".git\objects\30\c2e04f585be2a6041c71fb845580d3e48b259b" />
+    <None Include=".git\objects\31\6035986a8ed31dbfd867f2be6ceade21dc8703" />
+    <None Include=".git\objects\33\f5c3b2633f4c2ea0380cf718da3b9b9ffdf435" />
+    <None Include=".git\objects\35\eb0694480ba4ec267dfc7da0357fe9aaf7be9b" />
+    <None Include=".git\objects\38\944893ab93313605b35a0ddc9921a71939dc66" />
+    <None Include=".git\objects\3c\339b5fb84ec31312036d3b19e07e1b423bfd2f" />
+    <None Include=".git\objects\3e\22c88517d729953a3f4c24cb942827de0ebaf1" />
+    <None Include=".git\objects\3e\38b9cb6721b592c4bb8ae1a3e6913256b62e82" />
+    <None Include=".git\objects\3e\965212a4ec8b0b7bd87c7e9593fb6c72bfc4b2" />
+    <None Include=".git\objects\43\0a001fbb667ee439f1af51b86ec5ad2398e3c0" />
+    <None Include=".git\objects\43\9f203887e5185808b23cd110b88cf920d9986e" />
+    <None Include=".git\objects\44\2a41317af971c9b043248f763ec1bd6cd73855" />
+    <None Include=".git\objects\44\73349ae8b02c36549e331d58e023f6cceac523" />
+    <None Include=".git\objects\46\d387f437da18b91e9a5f37e77fe17fda535570" />
+    <None Include=".git\objects\4c\62c0eda80d4960f97905c8be6e08c1fb0dfcca" />
+    <None Include=".git\objects\4e\226bc403db81150fd1291c7c08543ef386f6c0" />
+    <None Include=".git\objects\4e\61d8c92a72b7f54cb66856ea354935b0cee445" />
+    <None Include=".git\objects\4e\88a3346330acc3833576ecfa5fd6637e6bdfce" />
+    <None Include=".git\objects\4f\235374e29fd6562e03b8d270fca4782f39a9af" />
+    <None Include=".git\objects\4f\745dedae03f675dc6f6d21147f4f47732cb84d" />
+    <None Include=".git\objects\51\0446ccd9a23fd4a0f38d23c2c0446588b0a56d" />
+    <None Include=".git\objects\51\b6c1a2a1a61020a562ec36b3a70420fb1bab51" />
+    <None Include=".git\objects\52\fc4e2caa5bda23a5f07f7abc0a1823a612aa7e" />
+    <None Include=".git\objects\53\5d5169e7f3954f38abaf85334092eaa1cbe02b" />
+    <None Include=".git\objects\59\9bdf2c721396853b5afae210081dc776985f65" />
+    <None Include=".git\objects\5a\16d80a9aa78592ddc961b1d48b549024a3dbbf" />
+    <None Include=".git\objects\63\1f1ec3f92a6d944aca47e7ad526cbb641e3525" />
+    <None Include=".git\objects\63\951e8a1389bbff63829bafbc14ab234730f47a" />
+    <None Include=".git\objects\63\e859b476eff5055e0e557aaa151ca8223fbeef" />
+    <None Include=".git\objects\65\06b70f33126642ae98c014628a1149984f2082" />
+    <None Include=".git\objects\65\18cc8670f93729f817615b21b59b5a1cac7b51" />
+    <None Include=".git\objects\68\401faf0f09977e537dbd370d80014155834131" />
+    <None Include=".git\objects\68\ad8a6b07669007a27e42f027180a18ee5ad0eb" />
+    <None Include=".git\objects\69\cea4c4250193f081cdbac81ffb05a64d7bf328" />
+    <None Include=".git\objects\6b\89c0fc318311ee54b54dba50748abcba63688d" />
+    <None Include=".git\objects\6d\3a9022567b4d7c7248ad0f6f844ae8c9bc245b" />
+    <None Include=".git\objects\6e\53f2395927cdfb9079fa6fc67c9c52c4e8bcce" />
+    <None Include=".git\objects\6f\4313ba6e45bf744d0e8880cb4595dd9967e7d8" />
+    <None Include=".git\objects\71\bf167b41a2ca72cfb6765517a65b594f2abb48" />
+    <None Include=".git\objects\72\9e577b0004f8e16de1cef6e513f4c4a3a81ca7" />
+    <None Include=".git\objects\72\dda234edaa4d2b0e9e2c5420d8685e920ec3e5" />
+    <None Include=".git\objects\73\a632da5b76b0b9341cacb315a12cc01f827b62" />
+    <None Include=".git\objects\75\0da4e19b9a8713ad898b0b015d9ada7db62348" />
+    <None Include=".git\objects\75\d817a3d3b5d447fbe9cc53f24a34398c7df0aa" />
+    <None Include=".git\objects\77\7af62ba279222cced9628ec3ea998f67a12eb0" />
+    <None Include=".git\objects\78\32ef5ea46c39f8fc15bb0f4921d1fdf0eee002" />
+    <None Include=".git\objects\79\a0b3c9c5a0b3ae9abf39f7e20c9c993143391b" />
+    <None Include=".git\objects\7b\563709902921cdf12abc8f751eaf290a052a3b" />
+    <None Include=".git\objects\7d\86eb1694970141b88b52f5b26e6b019f16b590" />
+    <None Include=".git\objects\80\63b62477a870fcdf2f408a818e467c306f2f31" />
+    <None Include=".git\objects\80\f14b58c2e1a8ff2e2e79260953476be8795fcc" />
+    <None Include=".git\objects\86\7e1c08b44645ace786eff2a19049be5db649c1" />
+    <None Include=".git\objects\86\d302aa91468c4216bb5fa2b614db2a779820b8" />
+    <None Include=".git\objects\88\5e95343b9863e5898dd4eb072bd83831fea350" />
+    <None Include=".git\objects\89\7dc5766ed337a55df177268e8a5431b951b171" />
+    <None Include=".git\objects\8b\5cb0de1f1af8bcada6bd298a13127d658e8354" />
+    <None Include=".git\objects\8d\1977fb21745b27e49e2825eb9651903ad1c99d" />
+    <None Include=".git\objects\90\53c341364b451f102f9a30f10a79c0c53ef26c" />
+    <None Include=".git\objects\93\8bafd11e12f5811a44c6a5b8fa68c200b7bbd7" />
+    <None Include=".git\objects\93\f3026bb75d07c65a31abfb11d16b13e80780d8" />
+    <None Include=".git\objects\94\91a2fda28342ab358eaf234e1afe0c07a53d62" />
+    <None Include=".git\objects\95\1a4a826c0755509d4980c16cdb0e03de77c67f" />
+    <None Include=".git\objects\95\7ee1176a0cb73336776dc9b619368a1e0cab75" />
+    <None Include=".git\objects\96\07af1cc3a93368c51c62b3c68f1860757aa2b1" />
+    <None Include=".git\objects\96\9ecb04bd84255dfc366604c23ba5540bf72048" />
+    <None Include=".git\objects\98\4713a49622a96da110443c15477613bc12656b" />
+    <None Include=".git\objects\9a\151694c333bc564324963ef1677467ce5a1b36" />
+    <None Include=".git\objects\9e\4cb7303f21f149820b2051733aad777bcd4cca" />
+    <None Include=".git\objects\9f\369c6d29227c9f7fb11cff105dd24b082dc449" />
+    <None Include=".git\objects\9f\768292f08c56264972983e20c30bbe1b50bb35" />
+    <None Include=".git\objects\a0\776b92e247c381e729da6ee628146ebb5a24bf" />
+    <None Include=".git\objects\a1\e04783c67a0edd13abb2745ca97f3a0bc6bc93" />
+    <None Include=".git\objects\a2\850a4b41fa0e02b3eb29e28ce333bd4d1e1c1b" />
+    <None Include=".git\objects\a4\f6e9acb02f33a8dd8a308f3a68f757f0b48497" />
+    <None Include=".git\objects\a5\55792c304b1933d9381761b5a83d5a50875c66" />
+    <None Include=".git\objects\a5\9a60b893059f9b05b70d89519a3102f5be9bd9" />
+    <None Include=".git\objects\a5\f10045db97461e9565c3273fdb9252687aa4f1" />
+    <None Include=".git\objects\a6\1bf30c47b22aa3665393833e61e00351eac7bb" />
+    <None Include=".git\objects\a7\55505cf9616d9d0c4b20b5d7f19030b9c04967" />
+    <None Include=".git\objects\a8\4b0d1b6c3c3ea9ba30b51afffaa5e7dd4d0141" />
+    <None Include=".git\objects\ab\1666b04ff2d57f7ee682f78b6c3d5ce921ca17" />
+    <None Include=".git\objects\ad\e3b98a096cf8fab2de25a9d7c42f7338400116" />
+    <None Include=".git\objects\af\4fb195a3c9183e1a1944162e20f06c8eccce89" />
+    <None Include=".git\objects\af\64194d70ad814521fb319cefe00d5aa4a31b95" />
+    <None Include=".git\objects\af\cd9e33e9eae3876cdc0dfaafa5a80e012b1631" />
+    <None Include=".git\objects\af\fc9afd5546f0991e592d9a601730a93638cc0d" />
+    <None Include=".git\objects\b0\07bf41feb7dfd9fe11a109ea455effc9e052ce" />
+    <None Include=".git\objects\b0\81e6097152865ddc14da8f3848eca002ca6fb7" />
+    <None Include=".git\objects\b1\2d6ab1da5ed2cc408167fd184edeba99d507af" />
+    <None Include=".git\objects\b6\5b161a5332cca8cdea77ed3320bcc99380f304" />
+    <None Include=".git\objects\b8\1ffb5773199bdf77fd4fbfdf4b615ed3f6138e" />
+    <None Include=".git\objects\b8\c43ec915a3e0c7c7cd91c2250835e49007b1d3" />
+    <None Include=".git\objects\b9\ab9867b46209de1f334f845964fd3abcd22711" />
+    <None Include=".git\objects\ba\34b645fd5a3ed282b03e3e2ef0a3091c6c6fd8" />
+    <None Include=".git\objects\bb\08979ad1438ffe40f7460e414462f0006977fb" />
+    <None Include=".git\objects\bc\fd79a52d9aa19fbc687ce3eb5023a66084412e" />
+    <None Include=".git\objects\bd\b903aebcb8c7a4bb878f49b7adcae4e593e1cd" />
+    <None Include=".git\objects\be\4be053f372c61218efec0dd430a2dc07fe6930" />
+    <None Include=".git\objects\be\8bfa129715afd80cdb1b9b192cb390c8fa6bc1" />
+    <None Include=".git\objects\bf\22371e8a700eb5a433724127d3032e6bf89ca8" />
+    <None Include=".git\objects\bf\cfce15880c37a0b72afb16a66e2d5fbe9e501e" />
+    <None Include=".git\objects\c0\06d39bc083903f825511a385f657ef77021f28" />
+    <None Include=".git\objects\c0\6c13a042b74b99bc69a0f71552e34db61a71f4" />
+    <None Include=".git\objects\c1\7b3e570b888cb61a0a764e16e7755fa1a41d0c" />
+    <None Include=".git\objects\c1\87c02e050873568d42a01ececaac425560851b" />
+    <None Include=".git\objects\c1\bcf3b0402775977c983ce890be2bfb5ae72741" />
+    <None Include=".git\objects\c4\c6022f2982e8dae64cebd6b9a2b59f2547faad" />
+    <None Include=".git\objects\c6\a7229185ab52a4fa89941727b0078d805b6fc0" />
+    <None Include=".git\objects\c7\ec8210428b72f1966dbffb2c5d4f7235ffc4fe" />
+    <None Include=".git\objects\c8\525a9b27ee40695468da4cd22cb48e2923974f" />
+    <None Include=".git\objects\ca\37afc02cf0bc247b14221e4fdbe373aedecc93" />
+    <None Include=".git\objects\cc\6683a96237f5e176dab5dc1c405b4db084a341" />
+    <None Include=".git\objects\cd\0442eb98af76d18c0f59dd480a5334e71a2b81" />
+    <None Include=".git\objects\ce\3ed6c105c37604f2e6e5cab1e9c1ea8dc55468" />
+    <None Include=".git\objects\ce\ba887b8961b4ca8540a210380ab633533de815" />
+    <None Include=".git\objects\d2\4f028497db00a63932b940ba5f5e00ce9f5794" />
+    <None Include=".git\objects\d3\dfc1b670ccfe6c08c117927259e1f525ea930a" />
+    <None Include=".git\objects\d8\d803c65e634d47d44b59d113b78f5bc12d29ff" />
+    <None Include=".git\objects\d9\68db23052b8d285a115ba9bada5ec05b584917" />
+    <None Include=".git\objects\dc\377cc031064ba146e9af3cb64155522ade5cfa" />
+    <None Include=".git\objects\dd\34e746e5621c7538fcce71cf6b97d4f62675ae" />
+    <None Include=".git\objects\df\f3dc468893f07e4f912461f9e7aa4c361e9b1b" />
+    <None Include=".git\objects\e2\8f025732584b84ae0b88db8fbc12cfacfed0a7" />
+    <None Include=".git\objects\e4\b7fef813936cd8559f8e35492774448df031fb" />
+    <None Include=".git\objects\e5\0d39132aa04e53e8328954c002d2e6f2e08215" />
+    <None Include=".git\objects\e9\4737e06357ba0f238770c731ad832b8c8ccfe2" />
+    <None Include=".git\objects\ea\c0d8b5ad9f9d7a1f8dddd0223f53db55a1226d" />
+    <None Include=".git\objects\eb\d1f8e6936dd885a6d02646de1499dff703a700" />
+    <None Include=".git\objects\eb\db3d83de53626bc8ea630c82677cf963dcaefa" />
+    <None Include=".git\objects\ec\03121647824e52c4f2414d02e8d6da7f880bbf" />
+    <None Include=".git\objects\ec\b49cfcf688289cbdb430a585514c587395a65e" />
+    <None Include=".git\objects\ed\efdb1b84adb6e9afba0541e99915d707ca9722" />
+    <None Include=".git\objects\ee\a828a6c0ef7e1f2dca4b0f1c76468368e299ae" />
+    <None Include=".git\objects\ef\1ed0a3282d8d77649d911d996ee9e856657771" />
+    <None Include=".git\objects\f0\d3a70ceaa69fb70811f58254dc738e0f939eac" />
+    <None Include=".git\objects\f8\d98fcb771c217091024c272f87defa13ebbf34" />
+    <None Include=".git\objects\f9\b7da7ea0d945954dbc72b542712aad2388d2c5" />
+    <None Include=".git\objects\fa\977ebab6312a94369c39b58f113c4ec58d8e83" />
+    <None Include=".git\objects\fb\04d44e8499d00576cedcc02fb3239d68cd51c7" />
+    <None Include=".git\objects\fb\4a376d08adad88f615bbd167596eb24e54dcaa" />
+    <None Include=".git\objects\fc\6c299b73e792ef288e785c22393a5df9dded4b" />
+    <None Include=".git\ORIG_HEAD" />
+    <None Include=".git\refs\heads\master" />
+    <None Include=".git\refs\heads\MIPL" />
+    <None Include=".git\refs\heads\My-Projects" />
+    <None Include=".git\refs\remotes\origin\MIPL" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\config\applicationhost.config" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\DesignTimeBuild\.dtbcache.v2" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\3d7ca080-2a13-4189-bafd-bbcc60e297ca.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\563e72c2-e4c1-42b8-a880-04451eebe4b2.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\6940d130-fbdb-44f8-92eb-e6e2eb955e04.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\83cca9d2-61ac-429a-b83d-b8e6aa816c3a.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\c1e77f22-6991-4d02-9681-8812939e97d4.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\v17\.futdcache.v2" />
+    <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.metadata.v9.bin" />
+    <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.projects.v9.bin" />
+    <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.strings.v9.bin" />
+    <None Include="PhotocopyRevaluationAppMVC.sln" />
+    <None Include="Views\Photocopies\.vs\Photocopies\FileContentIndex\c05b9cfa-c234-41b1-ba98-81e8eccb3a99.vsidx" />
+    <None Include="Views\Photocopies\.vs\slnx.sqlite" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.6.0" />
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="EPPlus" Version="7.4.0" />
+    <PackageReference Include="FluentEmail.Core" Version="3.0.2" />
+    <PackageReference Include="FluentEmail.SendGrid" Version="3.0.2" />
+    <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
+    <PackageReference Include="libwkhtmltox-64" Version="1.0.0" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.22.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.8" />
+    <PackageReference Include="Microsoft.FeatureManagement" Version="3.5.0" />
+    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="3.5.0" />
+    <PackageReference Include="Microsoft.ML" Version="3.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
+    <PackageReference Include="NLog" Version="5.3.4" />
+    <PackageReference Include="PayPal" Version="1.9.1" />
+    <PackageReference Include="PayPalCheckoutSdk" Version="1.0.4" />
+    <PackageReference Include="Razorpay" Version="3.1.3" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+    <PackageReference Include="Serilog" Version="4.0.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
+    <PackageReference Include="Serilog.Enrichers.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+    <PackageReference Include="Serilog.Expressions" Version="5.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.2" />
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Email" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="7.0.1" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="Twilio" Version="7.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure or Extensions\" />
+    <Folder Include="Payments\" />
+    <Folder Include="Views\Chat\" />
+  </ItemGroup>
+
+	<PropertyGroup>
+		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+	</PropertyGroup>
+
+</Project>

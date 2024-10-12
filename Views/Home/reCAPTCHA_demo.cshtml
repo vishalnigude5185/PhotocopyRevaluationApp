@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<form id="myForm" action="/submit" method="POST">
+
+    @* FOR reCAPTCHA v2 *@
+    <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+
+    @* For reCAPTCHA v3 *@
+    <!-- Your form fields here -->
+    <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+    <button type="submit">Submit</button>
+</form>
+
+
+@section Scripts {
+    //from google recaptcha site
+    @* For reCAPTCHA v2 *@
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    @* For reCAPTCHA v3 *@
+    <script type="text/javascript">
+        var onloadCallback = function() {
+            alert("grecaptcha is ready!");
+            grecaptcha.render('html_element', {
+                'sitekey': '6LdkXb0pAAAAAPgmTF_7n7macBCl0rBX5FRRTtdV'
+            });
+        };
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
+    </script>
+
+    //From chatgpt
+        //FOR reCAPTCHA v2
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+        //For reCAPTCHA v3:
+        <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY"></script>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting immediately
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute('YOUR_SITE_KEY', { action: 'submit' }).then(function(token) {
+                    document.getElementById('recaptchaResponse').value = token; // Set the token in a hidden field
+                    document.getElementById('myForm').submit(); // Now submit the form
+                });
+            });
+        });
+    </script>
+
+}

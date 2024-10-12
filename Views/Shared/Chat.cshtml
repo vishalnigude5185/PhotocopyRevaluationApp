@@ -1,0 +1,59 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@* <div class="chatbox">
+    <div class="chatbox-header">Chatbot</div>
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type a message..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+ *@
+<div id="webchat" style="height: 500px; width: 100%; border: 1px solid #ccc;"></div>
+
+@section Scripts {
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+
+    <script>
+        (async function () {
+            const res = await fetch('/api/token'); // Call your API to fetch the Direct Line token.
+            const { token } = await res.json();
+
+            window.WebChat.renderWebChat(
+                {
+                    directLine: window.WebChat.createDirectLine({ token }),
+                    styleOptions: {
+                        botAvatarInitials: 'Bot',
+                        userAvatarInitials: 'You',
+                        backgroundColor: '#F0F0F0',
+                        bubbleBackground: '#FFF',
+                        bubbleFromUserBackground: '#DCF8C6',
+                    }
+                },
+                document.getElementById('webchat')
+            );
+        })();
+    </script>
+
+    <script>
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const messages = document.getElementById('messages');
+            const userMessage = userInput.value;
+
+            // Display user message
+            messages.innerHTML += `<div>User: ${userMessage}</div>`;
+            userInput.value = '';
+
+            // Simple response (replace with API call to your chatbot service)
+            setTimeout(() => {
+                messages.innerHTML += `<div>Bot: I'm a simple chatbot!</div>`;
+                messages.scrollTop = messages.scrollHeight; // Scroll to the bottom
+            }, 500);
+        }
+    </script>
+}

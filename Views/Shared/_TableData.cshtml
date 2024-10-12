@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="export-container">
+    <span>
+        <label>Write To Search:</label>
+        <input type="text" id="customSearchBox" placeholder="Type Here...">
+    </span>
+    <!-- Custom dropdown -->
+    <span class="custom-length-menu">
+        <label for="customLength">Show:</label>
+        <select id="customLength">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        <label>entries</label>
+    </span>
+    <span style="float: right">
+        <a asp-controller="Photocopies" asp-action="ExportToExcel" class="export-ancor btn btn-primary">Export to Excel</a>
+        <a asp-controller="Photocopies" asp-action="ExportDataToPdf" class="export-ancor btn btn-danger">Export to PDF</a>
+    </span>
+    <span><a href="@Url.Action("_Statastics", new { X_Axis = ViewData["X_Axis"] })" class="export-ancor btn btn-primary">See Statastics</a></span>
+</div>
+
+
+
+

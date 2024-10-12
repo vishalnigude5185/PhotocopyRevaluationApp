@@ -1,0 +1,122 @@
+﻿@model IEnumerable<PhotocopyRevaluationAppMVC.Models.Photocopy>
+@* style="position: fixed;" *@
+
+@* @{
+    await Html.RenderPartialAsync("_YourPartialView");
+}
+@{
+    Html.RenderPartial("_YourPartialView", Model.YourPartialModel);
+} *@
+
+@await Html.PartialAsync("_TableData")
+
+    <table id="myDataTable" class="display">
+        <thead>
+            <tr>
+                <th><b>Sno</b></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Scheme)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subject)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SubPostCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PinNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PgiRefNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MobileNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsPaid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BillerId)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Scheme)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Subject)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SubPostCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PinNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StudentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PgiRefNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MobileNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsPaid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BillerId)
+                        </td>
+                        @* <td>
+                <a asp-action="Edit" asp-route-id="@item.SNO">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SNO">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SNO">Delete</a>
+                </td> *@
+                    </tr>
+
+                    i++;
+                }
+            }
+        </tbody>
+    </table>

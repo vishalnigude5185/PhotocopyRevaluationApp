@@ -1,0 +1,174 @@
+﻿@model PhotocopyRevaluationAppMVC.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "ApplicationUser";
+    Layout = "_LoginLayout";  //layout for the login page
+}
+
+<h2 style="color: white;">Login</h2>
+<div id="responseMessage"></div>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@using (Html.BeginForm("Login", "Accounts", FormMethod.Post, new { @class = "form" }))
+{
+    @* : for Cross - Site Request Forgery(CSRF) protection.This helps to secure your form against CSRF attacks*@
+    @Html.AntiForgeryToken();
+
+    <div class="form-group username-group">
+        <label asp-for="UserName" class="control-label">User Name</label><span class="text-danger">*</span>
+        <input id="UserName" asp-for="UserName" class="form-control" placeholder="Enter user Id" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PasswordHash" class="control-label">Password</label><span class="text-danger">*</span>
+        <input asp-for="PasswordHash" class="form-control" placeholder="Enter password" type="password" />
+        <span asp-validation-for="PasswordHash" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="checkbox" asp-for="RememberMe" class="form-check-input" />
+        <label asp-for="RememberMe" class="control-label">Remember me</label>
+    </div>
+    <div class="form-group button">
+        <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+}
+
+<form id="forgotPasswordForm" method="post" action="@Url.Action("ForgotPasswordOnGet", "Accounts")">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="userName" id="hiddenUserName" />
+    <button type="button" id="forgotPasswordButton">Forgot Password?</button>
+</form>
+
+@* <div class="form-group">
+    <a href="@Url.Action("ForgotPassword", "Accounts", new { userName = Model.UserName })" class="control-label">Forgot password?</a>
+</div> *@
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#forgotPasswordButton').click(function () {
+                var userNameValue = $('#UserName').val();  // Get the username from the input
+                $('#hiddenUserName').val(userNameValue);   // Set it to the hidden field
+                $('#forgotPasswordForm').submit();          // Submit the form
+            });
+        });
+    </script>
+
+    <script>
+        // $(document).ready(function () {
+
+        //     $('#UserName').on('blur', function () {
+        //         var userNameValue = $('#UserName').val();  // Get the value of the input field
+        //         var token = $('input[name="__RequestVerificationToken"]').val();  // Get the anti-forgery token
+
+        //         $.ajax({
+        //             url: '@Url.Action("GetUserNameFromLoginPageAsync", "Accounts")',  // Action and Controller to handle the request
+        //             type: 'POST',  // POST request to controller
+        //             data: {
+        //                 userName: userNameValue,
+        //                 __RequestVerificationToken: token
+        //             },  // Send the data
+        //             success: function (response) {
+        //                 $('#responseMessage').text(response.message);  // Handle the server response
+        //             },
+        //             error: function (xhr, status, error) {
+        //                 $('#responseMessage').text('Error: ' + error);
+        //             }
+        //         });
+        //     });
+        // });
+    </script>
+}
+
+@* @section scripts {
+
+   @*  <script>
+        function checkInput() {
+            const userInput = document.getElementById('userInput').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (emailRegex.test(userInput)) {
+            alert('Input is an email address');
+            // Handle email login
+        } else {
+            alert('Input is a username');
+            // Handle username login
+        }
+    }
+</script> *@
+
+@* For combine check *@
+
+@* <script>
+    function validateInput() {
+        const userInput = document.getElementById('userInput').value;
+        const combinedRegex = /^(?:[a-zA-Z0-9\s\-']+|[^\s@]+@[^\s@]+\.[^\s@]+)$/;
+
+        if (combinedRegex.test(userInput)) {
+            document.getElementById('validationResult').textContent = 'Valid input';
+        } else {
+            document.getElementById('validationResult').textContent = 'Invalid input';
+        }
+    }
+</script> *@
+
+@*Send OTP through mail*@
+@* <script>
+    function sendOtp() {
+        var emailAddress = document.getElementById('emailAddress').value;
+
+        fetch('/api/sendOtp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ emailAddress: emailAddress })
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert('OTP sent!');
+            });
+    }
+</script> *@
+@* OR Using AJAX *@
+@* <script>
+    function sendOtp() {
+        var emailAddress = $('#emailAddress').val();
+
+        $.ajax({
+            url: '/api/sendOtp',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ emailAddress: emailAddress }),
+            success: function (response) {
+                alert('OTP sent!');
+            },
+            error: function (xhr, status, error) {
+                alert('Error sending OTP: ' + error);
+            }
+        });
+    }
+</script> *@
+
+@*Send OTP through MobileNO*@
+@* <script>
+    function sendOtp() {
+        var phoneNumber = document.getElementById('phoneNumber').value;
+
+        fetch('/api/sendOtp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ phoneNumber: phoneNumber })
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert('OTP sent!');
+            });
+    }
+</script> *@
+<!--}-->

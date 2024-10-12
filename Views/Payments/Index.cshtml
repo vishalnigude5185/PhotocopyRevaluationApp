@@ -1,0 +1,58 @@
+﻿@{
+    var successMessage = TempData["SuccessMessage"];
+}
+
+<form asp-action="CreatePayment" method="post">
+    <label for="amount">Amount:</label>
+    <input type="number" name="amount" min="1" step="any" required />
+    <button type="submit">Pay with PayPal</button>
+</form>
+
+<form id="paymentForm">
+    <input type="hidden" id="razorpay_order_id" name="razorpay_order_id" />
+    <button type="button" onclick="payNow()">Pay Now</button>
+</form>
+
+@section Scripts {
+    <!-- Include Razorpay checkout.js -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        function payNow() {
+            // Call the backend to get Razorpay Order ID
+            fetch('/Payments/CreateOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    var options = {
+                        "key": "YOUR_RAZORPAY_KEY_ID", // Replace with your Razorpay Key ID
+                        "amount": 50000, // 50000 paise = INR 500
+                        "currency": "INR",
+                        "name": "Your Company Name",
+                        "description": "Test Transaction",
+                        "order_id": data.orderId, // Pass the `order_id` from backend here
+                        "handler": function (response) {
+                            // This function handles the response after payment success
+                            alert("Payment successful. Payment ID: " + response.razorpay_payment_id);
+                        },
+                        "prefill": {
+                            "name": "Your Name",
+                            "email": "your.email@example.com",
+                            "contact": "9999999999"
+                        }
+                    };
+
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+    <script>
+
+    </script>
+}
