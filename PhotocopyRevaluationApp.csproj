@@ -427,6 +427,7 @@
     <PackageReference Include="Microsoft.FeatureManagement" Version="3.5.0" />
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="3.5.0" />
     <PackageReference Include="Microsoft.ML" Version="3.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="PayPal" Version="1.9.1" />
@@ -460,6 +461,9 @@
 
 	<PropertyGroup>
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+		<UserSecretsId>ef1f16cb-2186-4a5b-b66b-aa2d34c7315e</UserSecretsId>
+		<DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+		<DockerfileContext>.</DockerfileContext>
 	</PropertyGroup>
 
 	<ItemGroup>
