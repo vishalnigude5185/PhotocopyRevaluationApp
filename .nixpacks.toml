@@ -1,0 +1,3 @@
+﻿[phases]
+install = "dotnet restore"
+build = "dotnet publish -c Release -o out"
