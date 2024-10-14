@@ -1,0 +1,177 @@
+/* _content/PhotocopyRevaluationApp/Views/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+
+/*=============================================_Layout.cshtml CSS============================================*/
+/* General body styling */
+body[b-7wjwzhzko6] {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    overflow-x: hidden; /* Disable horizontal scroll */
+}
+
+section[b-7wjwzhzko6] {
+    --bs-section-head-height: 80px;
+    --bs-h2-font-size: 25px;
+    --bs-line-margin-top: 6px; /* Separate variable for the first value */
+    --bs-line-height: 5px;
+    --bs-h2-margin-top: calc(var(--bs-section-head-height) / 2 - (var(--bs-h2-font-size)/1.2    ));
+    --bs-section-head-logo-height: calc(var(--bs-section-head-height)-30);
+    --bs-humburg-top: calc(var(--bs-section-head-height) / 2 - (var(--bs-line-margin-top)*1.5 + var(--bs-line-height)*1.5));
+    overflow-x: hidden;
+    display: flex;
+    flex-flow: row nowrap;
+    /*width: 100%;
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-template-rows: 100px auto;*/
+}
+
+/*#item1 {
+    grid-row: 1 / span 2;
+}*/
+#flex-item2[b-7wjwzhzko6] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+main[b-7wjwzhzko6] {
+    text-align: center;
+    padding-top: 20px;
+    /*Adjust height based on record size 
+    overflow-y: auto;  Add scroll*/
+}
+
+/*Left side nav style*/
+.sidebar[b-7wjwzhzko6] {
+    /*    flex-grow: 0;
+    flex-shrink: 0;*/
+    flex-basis: 0 0 200px;
+    overflow-y: auto;
+    text-align: left;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Optional: Add some shadow for style */
+    box-sizing: border-box;
+    color: white;
+    background-color: #333;
+    /*transform: translateX(-200px);*/ /* Move the sidebar off-screen */
+    transition: transform 0.5s ease;
+}
+
+.sidebar-visible[b-7wjwzhzko6] {
+    transform: translateX(-200px); /* Slide the sidebar back in */
+}
+
+.ycmou-container[b-7wjwzhzko6] {
+    width: 100%;
+    height: var(--bs-section-head-height);
+    text-align: center;
+    background-color: #575757;
+}
+
+h2[b-7wjwzhzko6] {
+    font-size: var(--bs-h2-font-size);
+    margin-top: var(--bs-h2-margin-top);
+}
+
+.sidebar a[b-7wjwzhzko6] {
+    padding: 2px 2px;
+    padding-left: 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover[b-7wjwzhzko6] {
+    background-color: #575757;
+}
+
+/* Collapsible button styles */
+.collapsible[b-7wjwzhzko6] {
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    text-align: left;
+    outline: none;
+    font-size: 18px;
+}
+
+.collapsible:hover[b-7wjwzhzko6] {
+    background-color: #555;
+}
+
+/* Style for the collapsible content (hidden by default) */
+.content[b-7wjwzhzko6] {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #333;
+}
+
+/* Triangle icon styling */
+.arrow[b-7wjwzhzko6] {
+    float: right;
+    font-size: 18px;
+    transition: transform 0.3s;
+}
+
+/* Rotate the arrow when the content is shown */
+.collapsible.active .arrow[b-7wjwzhzko6] {
+    transform: rotate(180deg); /* Rotate the arrow to point upwards */
+}
+
+/* Hamburger Menu */
+.hamburger[b-7wjwzhzko6] {
+    position: relative;
+    top: var(--bs-humburg-top);
+    left: 20px;
+    cursor: pointer;
+    z-index: 100; /* Bring the button to the front */
+}
+
+.line[b-7wjwzhzko6] {
+    width: 35px;
+    height: var(--bs-line-height);
+    background-color: gray;
+    margin-top: var(--bs-line-margin-top);
+    transition: 0.4s; /* Add a smooth transition effect */
+}
+
+.logout-arrow[b-7wjwzhzko6] {
+    float: right;
+    transition: float 0.3s ease;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.section-head-container[b-7wjwzhzko6] {
+    width: 100%;
+    text-align: center;
+    height: var(--bs-section-head-height);
+    background-color: lightseagreen;
+    border-bottom: 1px solid black;
+    box-shadow: 10px, black;
+    box-sizing: border-box;
+    margin-top: -6px;
+}
+
+.img[b-7wjwzhzko6] {
+    position: relative;
+    bottom: 20px;
+}
+
+.bi[b-7wjwzhzko6] {
+    float: right;
+}
+
+
+/*=======================================_LoginLayout.cshtm==============================================*/
