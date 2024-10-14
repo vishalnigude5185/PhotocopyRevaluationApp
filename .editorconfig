@@ -1,0 +1,86 @@
+
+# All files
+[*]
+indent_style = space
+
+# Xml files
+[*.xml]
+indent_size = 2
+
+# From chatgpt
+# top-most EditorConfig file
+root = true
+
+# General settings for all file types
+[*]
+# Use 4 spaces for indentation
+indent_style = space
+indent_size = 4
+
+# End files with a newline
+insert_final_newline = true
+
+# Trim trailing whitespace
+trim_trailing_whitespace = true
+
+# Charset
+charset = utf-8-bom
+
+# .NET specific settings
+[*.{cs,vb}]
+# Require 'this.' or 'Me.' for member access
+dotnet_style_qualification_for_field = true:suggestion
+dotnet_style_qualification_for_property = true:suggestion
+dotnet_style_qualification_for_method = true:suggestion
+dotnet_style_qualification_for_event = true:suggestion
+
+# Prefer auto properties over fields
+dotnet_style_prefer_auto_properties = true:suggestion
+
+# Prefer object and collection initializers
+dotnet_style_prefer_object_initializer = true:suggestion
+dotnet_style_prefer_collection_initializer = true:suggestion
+
+# Prefer implicit type for local variables
+dotnet_style_prefer_var_for_built_in_types = true:suggestion
+dotnet_style_prefer_var_when_type_is_apparent = true:suggestion
+dotnet_style_prefer_var_elsewhere = false:suggestion
+
+# Require braces for single-line if/else/while/for statements
+csharp_prefer_braces = true:suggestion
+
+# File-scoped namespaces (C# 10+)
+csharp_style_namespace_declarations = file_scoped:suggestion
+
+# New line preferences
+csharp_new_line_before_open_brace = all:true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+# Naming conventions
+dotnet_naming_rule.private_members_should_be_camel_case.severity = suggestion
+dotnet_naming_rule.private_members_should_be_camel_case.symbols = private_fields
+dotnet_naming_rule.private_members_should_be_camel_case.style = camel_case_style
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers = 
+
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+
+# Prefer expression-bodied members where possible
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = when_on_single_line:suggestion
+csharp_style_expression_bodied_ctors = when_on_single_line:suggestion
+
+# Space preferences
+csharp_space_before_open_square_brackets = false
+csharp_space_after_cast = false
+csharp_space_before_semicolon_in_for_statement = false
+
+# Ordering usings
+dotnet_sort_system_directives_first = true
+
+# Enforce line length (Optional)
+max_line_length = 120
