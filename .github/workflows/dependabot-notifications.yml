@@ -1,0 +1,39 @@
+﻿name: Dependabot Notifications
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send notification to Slack
+        if: github.actor == 'dependabot[bot]'  # Ensure the actor is Dependabot
+        uses: slackapi/slack-github-action@v1.18.0
+        with:
+          payload: |
+            {
+              "text": "🚨 A new Dependabot pull request has been created or updated!",
+              "attachments": [
+                {
+                  "title": "${{ github.event.pull_request.title }}",
+                  "title_link": "${{ github.event.pull_request.html_url }}",
+                  "color": "#36a64f",
+                  "fields": [
+                    {
+                      "title": "Branch",
+                      "value": "${{ github.event.pull_request.head.ref }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Base Branch",
+                      "value": "${{ github.event.pull_request.base.ref }}",
+                      "short": true
+                    }
+                  ]
+                }
+              ]
+            }
+          slack-token: ${{ secrets.SLACK_WEBHOOK_URL }}  # Reference your Slack Webhook URL stored in GitHub Secrets

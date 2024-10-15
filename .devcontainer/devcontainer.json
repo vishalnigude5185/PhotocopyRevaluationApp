@@ -1,0 +1,17 @@
+﻿{
+    "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+    "name": "My .NET Core App",
+    "build": {
+        "dockerfile": "../Dockerfile", // This tells it to use the Dockerfile from the parent folder
+        "context": ".." // The build context is the project root folder
+    },
+    "appPort": [ 5000, 5001 ],
+    "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-vscode.vscode-typescript-tslint-plugin"
+    ],
+    "settings": {
+        "dotnet.enableHotReload": true
+    },
+    "postCreateCommand": "dotnet restore"
+}

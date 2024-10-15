@@ -1,0 +1,23 @@
+﻿version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/" # Location of package.json
+    schedule:
+      interval: "daily" # More frequent checks for security updates
+    commit-message:
+      prefix: "fix"
+
+  - package-ecosystem: "nuget"
+    directory: "/" # Location of your .csproj file
+    schedule:
+      interval: "weekly" # Schedule for NuGet updates
+    commit-message:
+      prefix: "fix" # Custom prefix for the commit messages
+    ignore:
+      - dependency-name: "some-package"
+        versions: ["<1.0.0"] # Ignore versions less than 1.0.0
+    versioning-strategy: "increase" # Only increase versions
+
+    # You cannot have multiple entries for the same package-ecosystem in one updates block.
+    # If you want to enable security updates for nuget as well, add the security-updates key here.
+    security-updates: true # Enable security updates for NuGet

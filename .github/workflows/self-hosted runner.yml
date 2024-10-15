@@ -1,0 +1,18 @@
+﻿# Use this YAML in your workflow file for each job
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted  # Specify that this job should run on a self-hosted runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run a script
+        run: echo "Hello from self-hosted runner!"

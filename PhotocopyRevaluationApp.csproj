@@ -174,6 +174,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include=".devcontainer\devcontainer.json" />
     <Content Include=".git\ms-persist.xml" />
     <Content Include=".vs\PhotocopyRevaluationAppMVC\v17\DocumentLayout.backup.json" />
     <Content Include=".vs\PhotocopyRevaluationAppMVC\v17\DocumentLayout.json" />
@@ -182,6 +183,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include=".github\dependabot.yml" />
+    <None Include=".github\workflows\Advanced CI_CD with Matrix Strategy %28Multiple OS and Versions%29.yml" />
+    <None Include=".github\workflows\CodeQL Analysis or Code Scanning for Security.yml" />
+    <None Include=".github\workflows\dependabot-notifications.yml" />
+    <None Include=".github\workflows\Docker Build and Push.yml" />
+    <None Include=".github\workflows\Manual Trigger %28Using Workflow Dispatch%29.yml" />
+    <None Include=".github\workflows\Scheduled Workflow %28Nightly Builds or Tests%29.yml" />
+    <None Include=".github\workflows\self-hosted runner.yml" />
+    <None Include=".github\workflows\Slack Notifications After Deployment.yml" />
     <None Include=".git\COMMIT_EDITMSG" />
     <None Include=".git\config" />
     <None Include=".git\description" />
