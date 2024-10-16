@@ -13,8 +13,7 @@ namespace PhotocopyRevaluationAppMVC.Logging
             _telemetryClient = telemetryClient;
         }
 
-        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
-        {
+        public Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default) {
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Log user message
@@ -26,6 +25,8 @@ namespace PhotocopyRevaluationAppMVC.Logging
 
                 // Handle bot logic here...
             }
+
+            return Task.CompletedTask;
         }
     }
 }

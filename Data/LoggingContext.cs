@@ -5,6 +5,9 @@ namespace PhotocopyRevaluationAppMVC.Data
 {
     public class LoggingContext : DbContext
     {
+        public LoggingContext() {
+        }
+
         public LoggingContext(DbContextOptions<LoggingContext> options)
             : base(options)
         {

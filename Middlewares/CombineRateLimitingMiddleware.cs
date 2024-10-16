@@ -42,12 +42,15 @@ namespace PhotocopyRevaluationAppMVC.NewFolder
             const int limit = 5; // Maximum number of requests
             const int timeWindow = 60; // Time window in seconds
 
-            if (!_cache.TryGetValue(key, out List<DateTime> timestamps))
-            {
-                timestamps = new List<DateTime>();
+            if (!_cache.TryGetValue(key, out List<DateTime>? timestamps)) {
+                timestamps = new List<DateTime>(); // This ensures timestamps is initialized if not found.
             }
 
+            // Now you can safely use timestamps, knowing it's either the cached value or a new list.
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             timestamps.RemoveAll(timestamp => timestamp < DateTime.UtcNow.AddSeconds(-timeWindow));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             if (timestamps.Count >= limit)
             {
@@ -66,15 +69,20 @@ namespace PhotocopyRevaluationAppMVC.NewFolder
         {
             var key = $"TokenBucket_{ipAddress}";
             const int maxTokens = 5;
-            const int refillTokens = 1;
+            //const int refillTokens = 1;
             const int refillIntervalInSeconds = 1;
 
-            if (!_cache.TryGetValue(key, out TokenBucket bucket))
-            {
+            if (!_cache.TryGetValue(key, out TokenBucket? bucket)) {
+                bucket = new TokenBucket(maxTokens, maxTokens, DateTime.UtcNow);
+            }
+            else if (bucket == null) {
+                // Handle the case where bucket is still null
+                // You could either throw an exception or initialize it again
                 bucket = new TokenBucket(maxTokens, maxTokens, DateTime.UtcNow);
             }
 
-            var elapsedTime = DateTime.UtcNow - bucket.LastRefillTime;
+            var elapsedTime = DateTime.UtcNow - bucket.LastRefillTime; // Now it's safe to access LastRefillTime
+
             var tokensToAdd = (int)(elapsedTime.TotalSeconds / refillIntervalInSeconds);
             bucket.CurrentTokens = Math.Min(bucket.MaxTokens, bucket.CurrentTokens + tokensToAdd);
             bucket.LastRefillTime = DateTime.UtcNow;

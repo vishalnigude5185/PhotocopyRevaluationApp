@@ -49,17 +49,25 @@ namespace PhotocopyRevaluationAppMVC.Hubs
 
         public override async Task OnConnectedAsync()
         {
+            // Check if User or Identity is null before accessing the Name
+            var userName = this.Context.User?.Identity?.Name ?? "Anonymous";
+
             // Broadcast user connected
-            await Clients.All.SendAsync("UserConnected", Context.User.Identity.Name);
+            await Clients.All.SendAsync("UserConnected", userName);
+
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             // Broadcast user disconnected
-            await Clients.All.SendAsync("UserDisconnected", Context.User.Identity.Name);
+            // Check if User or Identity is null before accessing the Name
+            var userName = this.Context.User?.Identity?.Name ?? "Anonymous";
+
+            // Broadcast user connected
+            await Clients.All.SendAsync("UserDisconnected", userName);
+
             await base.OnDisconnectedAsync(exception);
         }
     }
-
 }

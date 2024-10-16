@@ -24,16 +24,20 @@ namespace PhotocopyRevaluationAppMVC.Middlewares
 
             // Configuration parameters
             const int maxTokens = 5; // Maximum tokens in the bucket
-            const int refillTokens = 1; // Tokens added per interval
+            //const int refillTokens = 1; // Tokens added per interval
             const int refillIntervalInSeconds = 1; // Refill interval
 
-            if (!_cache.TryGetValue(key, out TokenBucket bucket))
-            {
+            if (!_cache.TryGetValue(key, out TokenBucket? bucket)) {
+                bucket = new TokenBucket(maxTokens, maxTokens, DateTime.UtcNow);
+            }
+            else if (bucket == null) {
+                // Handle the case where bucket is still null
+                // You could either throw an exception or initialize it again
                 bucket = new TokenBucket(maxTokens, maxTokens, DateTime.UtcNow);
             }
 
-            // Refill tokens based on elapsed time
-            var elapsedTime = DateTime.UtcNow - bucket.LastRefillTime;
+            var elapsedTime = DateTime.UtcNow - bucket.LastRefillTime; // Now it's safe to access LastRefillTime
+
             var tokensToAdd = (int)(elapsedTime.TotalSeconds / refillIntervalInSeconds);
             bucket.CurrentTokens = Math.Min(bucket.MaxTokens, bucket.CurrentTokens + tokensToAdd);
             bucket.LastRefillTime = DateTime.UtcNow;

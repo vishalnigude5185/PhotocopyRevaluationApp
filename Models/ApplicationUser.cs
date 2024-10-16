@@ -12,7 +12,20 @@ namespace PhotocopyRevaluationAppMVC.Models
         [Required(ErrorMessage = "ApplicationUser Name is required.")]
         [StringLength(100, ErrorMessage = "ApplicationUser Name cannot exceed 100 characters.")]
         [Display(Name = "User Name")]
-        public string UserName { get; set; }
+#nullable enable
+        public override string? UserName {
+            get => _userName;
+            set {
+                if (!string.IsNullOrWhiteSpace(value)) {
+                    // Check if the username already exists in the database
+                    var existingUser = _userManager.FindByNameAsync(value).Result;
+                    if (existingUser != null) {
+                        throw new InvalidOperationException("The username already exists.");
+                    }
+                }
+                _userName = value?.Trim(); // Example: Trimming whitespace
+            }
+        }
 
         [Required(ErrorMessage = "Password is required.")]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long.")]

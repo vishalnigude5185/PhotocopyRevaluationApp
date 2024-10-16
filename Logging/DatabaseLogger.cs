@@ -15,16 +15,18 @@ namespace PhotocopyRevaluationAppMVC.Logging
         private static readonly TimeSpan _flushInterval = TimeSpan.FromSeconds(5);  // Interval for batch flushing logs.
         private static bool _flushingInProgress = false;
 
-        public DatabaseLogger(LoggingContext context)
-        {
-            _context = context;
-        }
-        public DatabaseLogger(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
+        public DatabaseLogger(LoggingContext? context) {
+            _context = context! ?? new LoggingContext(); // or some other default initialization
         }
 
+        public DatabaseLogger(IHttpContextAccessor? httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor! ?? new HttpContextAccessor();
+        }
+
+#pragma warning disable CS8633 // Nullability in constraints for type parameter doesn't match the constraints for type parameter in implicitly implemented interface method'.
         public IDisposable BeginScope<TState>(TState state) => null;
+#pragma warning restore CS8633 // Nullability in constraints for type parameter doesn't match the constraints for type parameter in implicitly implemented interface method'.
 
         public bool IsEnabled(LogLevel logLevel)
         {
@@ -42,7 +44,7 @@ namespace PhotocopyRevaluationAppMVC.Logging
                 Timestamp = DateTime.UtcNow,
                 Level = logLevel.ToString(),
                 Message = formatter(state, exception),
-                Exception = exception?.ToString(),
+                Exception = exception.ToString() ?? new Exception().ToString(),
                 Context = GetContextDetails(),  // Include user and request details
                 CorrelationId = GetCorrelationId(),
                 IpAddress = GetIpAddress(),
@@ -86,7 +88,7 @@ namespace PhotocopyRevaluationAppMVC.Logging
         private string GetIpAddress()
         {
             // Return the user's IP address
-            return _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            return _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "0.0.0.0";
         }
 
         private async Task FlushLogsAsync()

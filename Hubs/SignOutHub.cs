@@ -73,9 +73,12 @@ namespace PhotocopyRevaluationAppMVC.Hubs
             ////Check if the user has a unique ID stored in a cookie
             //var userId = Context.UserIdentifier; // Optional: Get the user's identifier
             ////Retrieve the authenticated user ID from claims
-            string userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            string userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "Anonymous";
+
             var context = Context.GetHttpContext();
-            userId = context.Request.Cookies["userId"];
+            // Check for null value and provide a default value if the cookie is not found
+            userId = context.Request.Cookies["userId"] ?? "DefaultUserId";
+            
             //// Generate a temporary ID (e.g., a GUID) and store it in a cookie
             //userId = Guid.NewGuid().ToString();
             var connectionId = Context.ConnectionId; // Get the connection ID for the user who disconnected
