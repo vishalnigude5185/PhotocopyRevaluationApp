@@ -402,7 +402,6 @@
     <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.projects.v9.bin" />
     <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.strings.v9.bin" />
     <None Include="C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp\.editorconfig" />
-    <None Include="PhotocopyRevaluationAppMVC.sln" />
     <None Include="Views\Photocopies\.vs\Photocopies\FileContentIndex\c05b9cfa-c234-41b1-ba98-81e8eccb3a99.vsidx" />
     <None Include="Views\Photocopies\.vs\slnx.sqlite" />
   </ItemGroup>
