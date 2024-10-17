@@ -1,24 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PhotocopyRevaluationAppMVC.Services;
+using PhotocopyRevaluationApp.Services;
 
-namespace PhotocopyRevaluationAppMVC.Controllers
-{
-    public class PaymentsController : Controller
-    {
+namespace PhotocopyRevaluationApp.Controllers {
+    public class PaymentsController : Controller {
         private readonly IPayPalService _payPalService;
 
-        public PaymentsController(IPayPalService payPalService)
-        {
+        public PaymentsController(IPayPalService payPalService) {
             _payPalService = payPalService;
 
         }
-        public IActionResult Index()
-        {
+        public IActionResult Index() {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreatePayment(decimal amount)
-        {
+        public async Task<IActionResult> CreatePayment(decimal amount) {
             var approvalUrl = await _payPalService.CreateOrderAsync(amount, "USD");
 
             // Redirect user to PayPal approval URL
@@ -50,8 +45,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
         //    // return Redirect(approvalUrl);
         //    return Ok(paymentResponse); // For testing, return the response
         //}
-        public async Task<IActionResult> PaymentSuccess(string token, string PayerID)
-        {
+        public async Task<IActionResult> PaymentSuccess(string token, string PayerID) {
             // Using deconstruction to access both return values
             (bool success, string Id) = await _payPalService.CapturePaymentAsync(PayerID);
 
@@ -61,8 +55,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             return View();
         }
 
-        public IActionResult PaymentCancel()
-        {
+        public IActionResult PaymentCancel() {
             // Handle cancel
             return View();
         }

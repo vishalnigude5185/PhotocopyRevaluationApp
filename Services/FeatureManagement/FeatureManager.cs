@@ -1,9 +1,7 @@
 ﻿using Microsoft.FeatureManagement;
 
-namespace PhotocopyRevaluationAppMVC.Services.FeatureManagement
-{
-    public class FeatureManager
-    {
+namespace PhotocopyRevaluationApp.Services.FeatureManagement {
+    public class FeatureManager {
 
         public FeatureManager() { }
 

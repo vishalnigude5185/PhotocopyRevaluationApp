@@ -2,11 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhotocopyRevaluationAppMVC.Models
-{
+namespace PhotocopyRevaluationApp.Models {
     // Define a class to store session-related information
-    public class SessionData
-    {
+    public class SessionData {
         [Key]
         [Required]
         public int SessionId { get; set; } // Unique identifier for the session

@@ -1,25 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PhotocopyRevaluationAppMVC.Models;
 using System.Globalization;
-using PhotocopyRevaluationAppMVC.Services;
-using PhotocopyRevaluationAppMVC.Data;
+using PhotocopyRevaluationApp.Services;
+using PhotocopyRevaluationApp.Models;
+using PhotocopyRevaluationApp.Data;
 
-namespace PhotocopyRevaluationAppMVC.Controllers
-{
-    public class PhotocopiesController : Controller
-    {
+namespace PhotocopyRevaluationApp.Controllers {
+    public class PhotocopiesController : Controller {
         private readonly PhotocopyRevaluationAppContext _context;
         private readonly IExportDataService _exportDataService;
-        public PhotocopiesController(PhotocopyRevaluationAppContext context, IExportDataService exportDataService)
-        {
+        public PhotocopiesController(PhotocopyRevaluationAppContext context, IExportDataService exportDataService) {
             _context = context;
             _exportDataService = exportDataService;
         }
 
         // GET: Photocopies
-        public async Task<IActionResult> Index()
-        {
+        public async Task<IActionResult> Index() {
             //var photocopy = await _context.Photocopies.FromSqlRaw("SELECT * FROM PHOTOCOPY").ToListAsync();
 
             //var photocopyButtonViewModel = new PhotocopyButtonViewModel
@@ -31,19 +27,16 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> _List(string ColumnName, string Value)
-        {
+        public async Task<IActionResult> _List(string ColumnName, string Value) {
             List<Photocopy> photocopyies;
             string Procedure;
             ViewData["X-Axis"] = ColumnName;
 
-            if (ColumnName == "nodata")
-            {
+            if (ColumnName == "nodata") {
                 Procedure = "EXEC GetAllPhotocopies";
                 photocopyies = await _context.Photocopies.FromSqlRaw(Procedure).ToListAsync();
             }
-            else if (DateTime.TryParseExact(Value, "YYYY-MM-DD", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result))
-            {
+            else if (DateTime.TryParseExact(Value, "YYYY-MM-DD", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result)) {
                 // Use parameterized queries to prevent SQL Injection
                 photocopyies = await _context.Photocopies
                     .Where(i => EF.Functions.Like($"I.%{ColumnName}%", $"%{DateTime.Parse(Value).Date}%"))
@@ -51,8 +44,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
 
                 //Procedure = $"SELECT * FROM PHOTOCOPY WHERE {ColumnName} like '{DateTime.Parse(Value).Date}%'";
             }
-            else
-            {
+            else {
                 // Use parameterized queries to prevent SQL Injection
                 photocopyies = await _context.Photocopies
                     .Where(i => EF.Functions.Like($"I.%{ColumnName}%", $"%{Value}%"))
@@ -61,7 +53,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                 //Procedure = $"SELECT * FROM PHOTOCOPY WHERE {ColumnName} like '{Value}%'";
 
             }
-           
+
             //if (TempData.ContainsKey("ColumnName") && TempData.ContainsKey("Value"))
             //{
 
@@ -72,35 +64,28 @@ namespace PhotocopyRevaluationAppMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> _Statastics(string? X_Axis)
-        {
-            if (X_Axis == "Date")
-            {
+        public async Task<IActionResult> _Statastics(string? X_Axis) {
+            if (X_Axis == "Date") {
                 ViewData["Title"] = "CreatedDate";
-                var Data = await _context.Photocopies.GroupBy(r => new { r.CreatedDate }).Select(r => new
-                {
+                var Data = await _context.Photocopies.GroupBy(r => new { r.CreatedDate }).Select(r => new {
                     Column1 = r.Key.CreatedDate.Date,
                     Column2 = r.Count()
                 }).ToListAsync();
 
                 return View(Data);
             }
-            else if (X_Axis == "EventName")
-            {
+            else if (X_Axis == "EventName") {
                 ViewData["Title"] = "Event";
-                var Data = await _context.Photocopies.GroupBy(static p => new { p.EventName }).Select(d => new
-                {
+                var Data = await _context.Photocopies.GroupBy(static p => new { p.EventName }).Select(d => new {
                     Column1 = d.Key.EventName,
                     Column2 = d.Count()
                 }).ToListAsync();
 
                 return View(Data);
             }
-            else
-            {
+            else {
                 ViewData["Title"] = "Scheme";
-                var Data = await _context.Photocopies.GroupBy(p => new { p.Scheme }).Select(d => new
-                {
+                var Data = await _context.Photocopies.GroupBy(p => new { p.Scheme }).Select(d => new {
                     Column1 = d.Key.Scheme,
                     Column2 = d.Count()
                 }).ToListAsync();
@@ -111,20 +96,16 @@ namespace PhotocopyRevaluationAppMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SubjectWisePhotocopyCount()
-        {
-                var SubjectWisePhotocopyCount = await _context.Photocopies.GroupBy(static p => new { p.Subject }).Select(d => new SubjectWisePhotocopyCountDTO
-                {
-                    Subject = d.Key.Subject,
-                    Count = d.Count()
-                }).ToListAsync();
+        public async Task<IActionResult> SubjectWisePhotocopyCount() {
+            var SubjectWisePhotocopyCount = await _context.Photocopies.GroupBy(static p => new { p.Subject }).Select(d => new SubjectWisePhotocopyCountDTO {
+                Subject = d.Key.Subject,
+                Count = d.Count()
+            }).ToListAsync();
 
             return View(SubjectWisePhotocopyCount);
         }
-        public async Task<IActionResult> DateWisePhotocopyCount()
-        {
-            var DatewisePhotocopyCount = await _context.Photocopies.GroupBy(static p => new { CreatedDate = p.CreatedDate.Date }).Select(d => new DatewisePhotocopyCountViewDTO
-            {
+        public async Task<IActionResult> DateWisePhotocopyCount() {
+            var DatewisePhotocopyCount = await _context.Photocopies.GroupBy(static p => new { CreatedDate = p.CreatedDate.Date }).Select(d => new DatewisePhotocopyCountViewDTO {
                 CreatedDate = d.Key.CreatedDate.Date,
                 PhotocopyCount = d.Count()
             }).ToListAsync();
@@ -132,10 +113,8 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             return View(DatewisePhotocopyCount);
         }
         [HttpGet]
-        public async Task<IActionResult> SchemeWisePhotocopyCount()
-        {
-            var SchemePhotocopyCountDTO = await _context.Photocopies.GroupBy(p => new { p.Scheme }).Select(d => new SchemePhotocopyCountDTO
-            {
+        public async Task<IActionResult> SchemeWisePhotocopyCount() {
+            var SchemePhotocopyCountDTO = await _context.Photocopies.GroupBy(p => new { p.Scheme }).Select(d => new SchemePhotocopyCountDTO {
                 Scheme = d.Key.Scheme,
                 PhotocopyCount = d.Count()
             }).ToListAsync();
@@ -143,24 +122,21 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             return View(SchemePhotocopyCountDTO);
         }
         [HttpGet]
-        public async Task<IActionResult> EventWisePhotocopyCount()
-        {
-            var EventPhotocopyCountDTO = await _context.Photocopies.GroupBy(static p => new { p.EventName }).Select(d => new EventPhotocopyCountDTO
-            {
+        public async Task<IActionResult> EventWisePhotocopyCount() {
+            var EventPhotocopyCountDTO = await _context.Photocopies.GroupBy(static p => new { p.EventName }).Select(d => new EventPhotocopyCountDTO {
                 Event = d.Key.EventName,
                 PhotocopyCount = d.Count()
             }).ToListAsync();
 
             return View(EventPhotocopyCountDTO);
         }
-        public async Task<IActionResult> ExportToExcelAsync(string ColumnName, string Value)
-        {
+        public async Task<IActionResult> ExportToExcelAsync(string ColumnName, string Value) {
             string Procedure = "EXEC GetAllPhotocopies";
 
             // Fetch your data here, for example from a database
             IEnumerable<Photocopy> photocopyies = _context.Photocopies.FromSqlRaw(Procedure).ToList();
 
-            byte[] content = await _exportDataService.ExportToExcelAsync<Photocopy>(photocopyies);
+            byte[] content = await _exportDataService.ExportToExcelAsync(photocopyies);
 
             return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "TableData.xlsx");
         }
@@ -169,15 +145,14 @@ namespace PhotocopyRevaluationAppMVC.Controllers
         //ExportDataToPdf using DinkToPdf nugate package using server side processing 
         //[FromBody] List<Photocopy> Photocopy
         [HttpGet]
-        public async Task<IActionResult> ExportDataToPdf()
-        {
+        public async Task<IActionResult> ExportDataToPdf() {
             byte[] pdfBytes = await _exportDataService.ExportDataToPdfAsync();
 
             // Return the PDF file as a download
             return File(pdfBytes, "application/pdf", "TableData.pdf");
         }
 
-        
+
 
 
 

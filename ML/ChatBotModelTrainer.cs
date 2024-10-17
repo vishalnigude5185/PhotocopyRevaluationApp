@@ -1,35 +1,28 @@
 ﻿using Microsoft.ML;
 
-namespace PhotocopyRevaluationAppMVC.ML
-{
-    public class ChatBotModelTrainer
-    {
+namespace PhotocopyRevaluationApp.ML {
+    public class ChatBotModelTrainer {
         private readonly MLContext _mlContext;
         private ITransformer _model;
         private readonly string _modelPath;
 
-        public ChatBotModelTrainer(MLContext mlContext, ITransformer model, string modelPath)
-        {
+        public ChatBotModelTrainer(MLContext mlContext, ITransformer model, string modelPath) {
             _mlContext = mlContext;
             _model = model;
             _modelPath = modelPath;
         }
-        public ChatBotModelTrainer(string dataPath)
-        {
+        public ChatBotModelTrainer(string dataPath) {
 
         }
-        public ChatBotModelTrainer(string dataPath, string modelPath)
-        {
+        public ChatBotModelTrainer(string dataPath, string modelPath) {
             _mlContext = new MLContext();
             _modelPath = modelPath;
 
             // Load model if exists, else train
-            if (File.Exists(_modelPath))
-            {
+            if (File.Exists(_modelPath)) {
                 LoadModel();
             }
-            else
-            {
+            else {
                 TrainModel(dataPath, Get_mlContext());
                 SaveModel();
             }
@@ -63,20 +56,17 @@ namespace PhotocopyRevaluationAppMVC.ML
         //        return "fallback"; // handle unclear intent
         //    }
         //}
-      
-        public ITransformer LoadModelAsync()
-        {
+
+        public ITransformer LoadModelAsync() {
             //To load the model later:
             ITransformer loadedModel;
             loadedModel = _mlContext.Model.Load("path/to/save/model.zip", out var inputSchema);
             return loadedModel;
         }
-        private MLContext Get_mlContext()
-        {
+        private MLContext Get_mlContext() {
             return _mlContext;
         }
-        private ITransformer TrainModel(string dataPath, MLContext _mlContext)
-        {
+        private ITransformer TrainModel(string dataPath, MLContext _mlContext) {
             //// Load the training data
             //IDataView dataView = _mlContext.Data.LoadFromTextFile<ChatbotInput>(dataPath, separatorChar: ',', hasHeader: true);
 
@@ -152,20 +142,16 @@ namespace PhotocopyRevaluationAppMVC.ML
         //    }
         //}
 
-        private void SaveModel()
-        {
+        private void SaveModel() {
             Console.WriteLine("Saving model...");
-            using (var fs = new FileStream(_modelPath, FileMode.Create, FileAccess.Write, FileShare.Write))
-            {
+            using (var fs = new FileStream(_modelPath, FileMode.Create, FileAccess.Write, FileShare.Write)) {
                 _mlContext.Model.Save(_model, null, fs);
             }
         }
 
-        private void LoadModel()
-        {
+        private void LoadModel() {
             Console.WriteLine("Loading model from disk...");
-            using (var fs = new FileStream(_modelPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
+            using (var fs = new FileStream(_modelPath, FileMode.Open, FileAccess.Read, FileShare.Read)) {
                 _model = _mlContext.Model.Load(fs, out _);
             }
         }

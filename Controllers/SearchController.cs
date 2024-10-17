@@ -1,29 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using PhotocopyRevaluationAppMVC.Data;
-using PhotocopyRevaluationAppMVC.Models;
-using PhotocopyRevaluationAppMVC.Services;
+using PhotocopyRevaluationApp.Data;
 using System.Linq.Expressions;
 
-namespace PhotocopyRevaluationAppMVC.Controllers
-{
-    public class SearchController : Controller
-    {
+namespace PhotocopyRevaluationApp.Controllers {
+    public class SearchController : Controller {
         private readonly PhotocopyRevaluationAppContext _context;
-        public SearchController(PhotocopyRevaluationAppContext context)
-        {
+        public SearchController(PhotocopyRevaluationAppContext context) {
             _context = context;
         }
 
-        public IActionResult Index()
-        {
+        public IActionResult Index() {
             return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string query)
-        {
+        public async Task<IActionResult> Search(string query) {
             if (string.IsNullOrEmpty(query))
                 return Json(new List<string>());
 

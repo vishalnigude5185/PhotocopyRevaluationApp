@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PhotocopyRevaluationAppMVC.Models
-{
-    public class UserRegisterationDTO
-    {
+namespace PhotocopyRevaluationApp.Models {
+    public class UserRegisterationDTO {
         [Required]
         [EmailAddress]
         public string Email { get; set; }

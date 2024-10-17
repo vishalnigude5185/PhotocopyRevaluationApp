@@ -2,8 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhotocopyRevaluationAppMVC.Models
-{
+namespace PhotocopyRevaluationApp.Models {
     public class ApplicationUser : IdentityUser, IValidatableObject /*IEquatable<ApplicationUser>*/
     {
         [Key]
@@ -13,15 +12,16 @@ namespace PhotocopyRevaluationAppMVC.Models
         [StringLength(100, ErrorMessage = "ApplicationUser Name cannot exceed 100 characters.")]
         [Display(Name = "User Name")]
 #nullable enable
+        public string? _userName;
         public override string? UserName {
             get => _userName;
             set {
                 if (!string.IsNullOrWhiteSpace(value)) {
                     // Check if the username already exists in the database
-                    var existingUser = _userManager.FindByNameAsync(value).Result;
-                    if (existingUser != null) {
-                        throw new InvalidOperationException("The username already exists.");
-                    }
+                    //var existingUser = _userManager.FindByNameAsync(value).Result;
+                    //if (existingUser != null) {
+                    //    throw new InvalidOperationException("The username already exists.");
+                    //}
                 }
                 _userName = value?.Trim(); // Example: Trimming whitespace
             }
@@ -64,69 +64,54 @@ namespace PhotocopyRevaluationAppMVC.Models
         [NotMapped]
         public bool RememberMe { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
             // Ensure the Date of Birth is not in the future
-            if (DateOfBirth > DateTime.UtcNow)
-            {
+            if (DateOfBirth > DateTime.UtcNow) {
                 yield return new ValidationResult("Date of Birth cannot be in the future.", new[] { nameof(DateOfBirth) });
             }
 
             // Ensure PasswordHash contains at least one digit
-            if (!string.IsNullOrEmpty(PasswordHash) && !HasDigit(PasswordHash))
-            {
+            if (!string.IsNullOrEmpty(PasswordHash) && !HasDigit(PasswordHash)) {
                 yield return new ValidationResult("Password must contain at least one digit.", new[] { nameof(PasswordHash) });
             }
 
             // Ensure PasswordHash contains at least one uppercase letter
-            if (!string.IsNullOrEmpty(PasswordHash) && !HasUpperCase(PasswordHash))
-            {
+            if (!string.IsNullOrEmpty(PasswordHash) && !HasUpperCase(PasswordHash)) {
                 yield return new ValidationResult("Password must contain at least one uppercase letter.", new[] { nameof(PasswordHash) });
             }
 
             // Ensure PasswordHash contains at least one lowercase letter
-            if (!string.IsNullOrEmpty(PasswordHash) && !HasLowerCase(PasswordHash))
-            {
+            if (!string.IsNullOrEmpty(PasswordHash) && !HasLowerCase(PasswordHash)) {
                 yield return new ValidationResult("Password must contain at least one lowercase letter.", new[] { nameof(PasswordHash) });
             }
 
             // Ensure Email is unique (pseudo-code)
-            if (EmailAlreadyExists(Email))
-            {
+            if (EmailAlreadyExists(Email)) {
                 yield return new ValidationResult("Email is already in use.", new[] { nameof(Email) });
             }
         }
 
-        private bool HasDigit(string input)
-        {
-            foreach (char c in input)
-            {
-                if (char.IsDigit(c))
-                {
+        private bool HasDigit(string input) {
+            foreach (char c in input) {
+                if (char.IsDigit(c)) {
                     return true;
                 }
             }
             return false;
         }
 
-        private bool HasUpperCase(string input)
-        {
-            foreach (char c in input)
-            {
-                if (char.IsUpper(c))
-                {
+        private bool HasUpperCase(string input) {
+            foreach (char c in input) {
+                if (char.IsUpper(c)) {
                     return true;
                 }
             }
             return false;
         }
 
-        private bool HasLowerCase(string input)
-        {
-            foreach (char c in input)
-            {
-                if (char.IsLower(c))
-                {
+        private bool HasLowerCase(string input) {
+            foreach (char c in input) {
+                if (char.IsLower(c)) {
                     return true;
                 }
             }
@@ -134,8 +119,7 @@ namespace PhotocopyRevaluationAppMVC.Models
         }
 
         // Pseudo-code for checking if email exists
-        private bool EmailAlreadyExists(string email)
-        {
+        private bool EmailAlreadyExists(string email) {
             // Implement your logic to check email existence in the database
             // Query the database to check if the email is already in use
             // Example return value

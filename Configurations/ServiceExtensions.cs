@@ -5,38 +5,27 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using PhotocopyRevaluationAppMVC.ChatBoat;
-using PhotocopyRevaluationAppMVC.Data;
-using PhotocopyRevaluationAppMVC.Hubs;
-using PhotocopyRevaluationAppMVC.Logging;
-using PhotocopyRevaluationAppMVC.ML;
-using PhotocopyRevaluationAppMVC.Models;
-using PhotocopyRevaluationAppMVC.Services;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
 using Microsoft.Extensions.Options;
-using PhotocopyRevaluationAppMVC.Autherization;
-using PhotocopyRevaluationAppMVC.Global.Exceptions;
-using Microsoft.FeatureManagement.FeatureFilters;
-using Microsoft.FeatureManagement;
-using PhotocopyRevaluationAppMVC.Exceptions;
-using PhotocopyRevaluationAppMVC.Services.FeatureManagement;
+using PhotocopyRevaluationApp.Global.Exceptions;
+using PhotocopyRevaluationApp.Services;
+using PhotocopyRevaluationApp.Models;
+using PhotocopyRevaluationApp.Hubs;
+using PhotocopyRevaluationApp.Logging;
+using PhotocopyRevaluationApp.Data;
 
-namespace PhotocopyRevaluationAppMVC.Configurations
-{
-    public static class ServiceExtensions
-    {
+namespace PhotocopyRevaluationApp.Configurations {
+    public static class ServiceExtensions {
         // Combined method to register all services
-        public static IServiceCollection RegisterAllServices(this IServiceCollection services)
-        {
+        public static IServiceCollection RegisterAllServices(this IServiceCollection services) {
             services.GetScoped();
             services.GetTransient();
             services.GetSingleton();
             return services;
         }
-        public static IServiceCollection AddHostedServices(this IServiceCollection services)
-        {
+        public static IServiceCollection AddHostedServices(this IServiceCollection services) {
             //================================ [Hosted services Registeration start] =====================
             //// Configure Kestrel with options
             ////builder.WebHost.UseKestrel(options =>
@@ -55,8 +44,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
             //================================ [Hosted services Registeration end] =====================
             return services;
         }
-        public static IServiceCollection AddOtherServices(this IServiceCollection services)
-        {
+        public static IServiceCollection AddOtherServices(this IServiceCollection services) {
             //// Add feature management services
             //services.AddFeatureManagement()
             //        .AddFeatureFilter<PercentageFilter>(); // Register the custom filter
@@ -64,8 +52,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
             //services.AddFeatureManagement()
             //        .AddFeatureFilter<RoleFilter>(); // Register the custom filter
 
-            services.AddCors(options =>
-            {
+            services.AddCors(options => {
                 options.AddPolicy("AllowSpecificOrigin",
                     builder => builder.WithOrigins("https://yourwebsite.com")
                                       .AllowAnyHeader()
@@ -81,8 +68,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
             services.AddFluentEmail("your-email@example.com", "Your Name")
                 //.AddRazorRenderer()  // Optional: To use Razor templating for emails
                 .AddSendGridSender("your-sendgrid-api-key")
-                .AddSmtpSender(new SmtpClient("smtp.example.com")
-                {
+                .AddSmtpSender(new SmtpClient("smtp.example.com") {
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential("your-email@example.com", "your-password"),
                     EnableSsl = true,
@@ -99,8 +85,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
 
             return services;
         }
-        public static IServiceCollection AddInMemoryCollectionServices(this IServiceCollection services)
-        {
+        public static IServiceCollection AddInMemoryCollectionServices(this IServiceCollection services) {
             // Add MemoryCache service
             services.AddMemoryCache();
             // Add session support
@@ -117,8 +102,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
             //    options.SchemaName = "dbo";
             //    options.TableName = "SessionData";
             //});
-            services.AddSession(options =>
-            {
+            services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(4); // Session timeout
                 options.Cookie.HttpOnly = true; // Cookie settings for security
                 options.Cookie.IsEssential = true; // Required for GDPR compliance
@@ -126,8 +110,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
 
             return services;
         }
-        public static void AddChatBoatConfiguration(this IServiceCollection services)
-        {
+        public static void AddChatBoatConfiguration(this IServiceCollection services) {
             // Specify the path to your training data
             string dataPath = "path_to_your_data.csv";
 
@@ -139,8 +122,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
 
             Console.WriteLine("Welcome to the ChatBot! Type 'exit' to quit.");
 
-            while (true)
-            {
+            while (true) {
                 Console.Write("You: ");
                 string userMessage = Console.ReadLine();
                 if (userMessage.ToLower() == "exit") break;
@@ -148,10 +130,9 @@ namespace PhotocopyRevaluationAppMVC.Configurations
                 chatBotService.HandleUserMessage(userMessage);
             }
         }
-       
+
         // Extension method to configure Entity Framework
-        public static IServiceCollection AddDbContextConfiguration(this IServiceCollection services, IConfiguration configuration, IConfigurationBuilder configBuilder, IHostEnvironment env)
-        {
+        public static IServiceCollection AddDbContextConfiguration(this IServiceCollection services, IConfiguration configuration, IConfigurationBuilder configBuilder, IHostEnvironment env) {
             // Register DbContext
             services.AddDbContext<PhotocopyRevaluationAppContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -172,15 +153,13 @@ namespace PhotocopyRevaluationAppMVC.Configurations
             return services;
         }
         // Extension method to configure Identity
-        public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services)
-        {
+        public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services) {
             //services.AddIdentity<IdentityUser, IdentityRole>()
             //.AddEntityFrameworkStores<PhotocopyRevaluationAppContext>()
             //.AddDefaultTokenProviders();
 
             // Add ASP.NET Core Identity and link with ApplicationUser
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-            {
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options => {
                 // Configure password settings
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
@@ -193,12 +172,10 @@ namespace PhotocopyRevaluationAppMVC.Configurations
 
             return services;
         }
-        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services)
-        {
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services) {
             // Add Authentication with Cookie-based scheme AND
             // JWT Configuration    
-            services.AddAuthentication(options =>
-            {
+            services.AddAuthentication(options => {
                 //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Set default to cookie
@@ -221,8 +198,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
             //    facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
             //    facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
             //})
-            .AddCookie(options =>
-            {
+            .AddCookie(options => {
                 options.LoginPath = "/Accounts/Login";  // Redirect to this path if not authenticated
                 options.LogoutPath = "/Accounts/Logout";
                 options.AccessDeniedPath = "/Accounts/AccessDenied";  // Redirect to this path if access is denied
@@ -231,12 +207,10 @@ namespace PhotocopyRevaluationAppMVC.Configurations
                 options.Cookie.HttpOnly = true;  // Ensures cookie is not accessible via JavaScript
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;  // Cookie is only sent over HTTPS
             })
-            .AddJwtBearer(options =>
-            {
+            .AddJwtBearer(options => {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
+                options.TokenValidationParameters = new TokenValidationParameters {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
@@ -249,12 +223,10 @@ namespace PhotocopyRevaluationAppMVC.Configurations
 
             return services;
         }
-        public static void AddCustomAuthorizationPolicies(this IServiceCollection services)
-        {
-            services.AddAuthorization(options =>
-            {
+        public static void AddCustomAuthorizationPolicies(this IServiceCollection services) {
+            services.AddAuthorization(options => {
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));  // Example of role-based policy
-               
+
                 // Add Authorization
                 options.AddPolicy("RequireAuthenticatedUser", policy =>
                     policy.RequireAuthenticatedUser());
@@ -291,7 +263,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
 
                 options.AddPolicy("RequireRoleBasedPermission", policy =>
                     policy.RequireRole("Admin").RequireClaim("Permission", "CanDelete"));
-                
+
                 //options.AddPolicy("RequireSpecificUser", policy =>
                 //    policy.Requirements.Add(new UserNameRequirement("AdminUser")));
                 //options.AddPolicy("RequireSameUser", policy =>
@@ -306,8 +278,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
         // Method to register scoped services
         //============================= Services Registeration Section start =============================
         //==========================Section for Scoped =========================
-        public static IServiceCollection GetScoped(this IServiceCollection services)
-        {
+        public static IServiceCollection GetScoped(this IServiceCollection services) {
             services.AddScoped<UserSessionService>();
             services.AddScoped<EmailService>();
             services.AddScoped<SMSService>();
@@ -325,8 +296,8 @@ namespace PhotocopyRevaluationAppMVC.Configurations
             services.AddScoped<IOtpService, OtpService>();
             services.AddScoped<IUserSessionService, UserSessionService>();
             services.AddScoped<IUserConnectionManager, UserConnectionManager>();  // Scoped or Singleton, depending on dependencies
-            services.AddScoped<PhotocopyRevaluationAppMVC.Services.INotificationService, NotificationService>();      // Scoped or Singleton, depending on dependencies
-                                                                                                                      // Register IEmailSender with your email sender implementation
+            services.AddScoped<INotificationService, NotificationService>();      // Scoped or Singleton, depending on dependencies
+                                                                                  // Register IEmailSender with your email sender implementation
             services.AddScoped<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, EmailService>();
 
             return services;
@@ -334,8 +305,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
 
         // Method to register transient services
         //=====================================Section for Transient =============================
-        public static IServiceCollection GetTransient(this IServiceCollection services)
-        {
+        public static IServiceCollection GetTransient(this IServiceCollection services) {
             // Hubs are typically registered as transient
             services.AddTransient<SignOutHub>();
             services.AddTransient<NotificationHub>();
@@ -345,12 +315,11 @@ namespace PhotocopyRevaluationAppMVC.Configurations
 
         // Method to register singleton services
         //=============================== Section for Singlton =================================
-        public static IServiceCollection GetSingleton(this IServiceCollection services)
-        {
+        public static IServiceCollection GetSingleton(this IServiceCollection services) {
             // Add other singleton services here
             ////services.AddSingleton<UserService>();
             //To export PDF
-            services.AddSingleton(typeof(DinkToPdf.Contracts.IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             // Add DinkToPdf as a service
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             // Optionally add it as a singleton

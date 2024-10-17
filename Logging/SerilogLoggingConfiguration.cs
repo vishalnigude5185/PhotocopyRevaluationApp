@@ -8,20 +8,16 @@ using System.Data;
 using System.Net;
 using System.Net.Mail;
 
-namespace PhotocopyRevaluationAppMVC.Logging
-{
-    public class SerilogLoggingConfiguration
-    {
+namespace PhotocopyRevaluationApp.Logging {
+    public class SerilogLoggingConfiguration {
         private readonly ILogger<SerilogLoggingConfiguration> _logger;
 
-        public SerilogLoggingConfiguration(ILogger<SerilogLoggingConfiguration> logger)
-        {
+        public SerilogLoggingConfiguration(ILogger<SerilogLoggingConfiguration> logger) {
             _logger = logger;
         }
 
         [Obsolete]
-        public static void ConfigureLogging(IServiceCollection services, IConfiguration configuration)
-        {
+        public static void ConfigureLogging(IServiceCollection services, IConfiguration configuration) {
             //var emailInfo = new Serilog.Sinks.Email.EmailConnectionInfo
             //{
             //    FromEmail = "vishalnigude5185@gmail.com",
@@ -88,8 +84,7 @@ namespace PhotocopyRevaluationAppMVC.Logging
             //   });
 
             // Add Serilog to the DI container
-            services.AddLogging(loggingBuilder =>
-            {
+            services.AddLogging(loggingBuilder => {
                 loggingBuilder.ClearProviders(); // Optional: Clear default providers 
                 loggingBuilder.AddSerilog(); // Add Serilog
             });
@@ -102,12 +97,10 @@ namespace PhotocopyRevaluationAppMVC.Logging
             Log.Information("User {UserId} performed action {Action} at {Time}", "123", "Login", DateTime.UtcNow);
             Log.Warning("User {UserId} performed action {Action} at {Time}", "123", "SuspiciousActivity", DateTime.UtcNow);
         }
-        
-        public static ColumnOptions GetColumnOptions()
-        {
+
+        public static ColumnOptions GetColumnOptions() {
             // Define the SQL column options if using MSSqlServer sink
-            var columnOptions = new ColumnOptions
-            {
+            var columnOptions = new ColumnOptions {
                 AdditionalColumns = new List<SqlColumn>
                 {
                      //new SqlColumn { ColumnName = "Timestamp", DataType = SqlDbType.DateTime },

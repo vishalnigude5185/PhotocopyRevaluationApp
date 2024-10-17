@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PhotocopyRevaluationAppMVC.Data;
+using PhotocopyRevaluationApp.Data;
+
 
 
 #nullable disable
 
-namespace PhotocopyRevaluationAppMVC.Migrations
-{
+namespace PhotocopyRevaluationAppMVC.Migrations {
     [DbContext(typeof(PhotocopyRevaluationAppContext))]
     partial class PhotocopyRevaluationAppContextModelSnapshot : ModelSnapshot
     {

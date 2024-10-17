@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PhotocopyRevaluationAppMVC.Models;
 
-namespace PhotocopyRevaluationAppMVC.Services
-{
-    public interface IUserService
-    {
-        
+namespace PhotocopyRevaluationApp.Services {
+    public interface IUserService {
+
     }
 
 }

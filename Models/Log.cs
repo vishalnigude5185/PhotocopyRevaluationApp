@@ -1,11 +1,9 @@
-﻿namespace PhotocopyRevaluationAppMVC.Models
-{
+﻿namespace PhotocopyRevaluationApp.Models {
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Log
-    {
+    public class Log {
         [Key]  // Primary Key
         public int Id { get; set; }
 

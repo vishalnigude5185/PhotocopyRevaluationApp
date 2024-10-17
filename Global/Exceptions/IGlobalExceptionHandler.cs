@@ -1,7 +1,5 @@
-﻿namespace PhotocopyRevaluationAppMVC.Global.Exceptions
-{
-    public interface IGlobalExceptionHandler
-    {
+﻿namespace PhotocopyRevaluationApp.Global.Exceptions {
+    public interface IGlobalExceptionHandler {
         Task HandleExceptionAsync(HttpContext context, Exception exception);
     }
 }

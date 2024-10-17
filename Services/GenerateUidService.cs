@@ -4,29 +4,25 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace PhotocopyRevaluationAppMVC.Services
-{
-    public class GenerateUidService
-    {
+namespace PhotocopyRevaluationApp.Services {
+    public class GenerateUidService {
         public GenerateUidService() { }
 
         public static string GenerateSecureKey(int size = 32) // size in bytes
         {
             var key = new byte[size];
-            using (var rng = RandomNumberGenerator.Create())
-            {
+            using (var rng = RandomNumberGenerator.Create()) {
                 rng.GetBytes(key);
             }
             return Convert.ToBase64String(key); // Return as Base64 string
         }
 
-        public async Task<string> GenerateJwtToken(string username)
-        {
+        public async Task<string> GenerateJwtToken(string username) {
             var secretKey = GenerateSecureKey(); // This will give you a secure key
-            
+
             await KeyVaultManager.StoreSecretToKeyVaultAsync("JWTTokenSecretKey", secretKey);
             var tokenHandler = new JwtSecurityTokenHandler();
-            
+
             // Define your secret key and algorithm
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey /*_mySettings.JWTSecretKey*/));
             //OR

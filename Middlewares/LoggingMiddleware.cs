@@ -1,36 +1,30 @@
 ﻿using Serilog.Context;
 using System.Security.Claims;
 
-namespace PhotocopyRevaluationAppMVC.Middlewares
-{
-    public class LoggingMiddleware
-    {
+namespace PhotocopyRevaluationApp.Middlewares {
+    public class LoggingMiddleware {
         private readonly RequestDelegate _next;
         private readonly ILogger<LoggingMiddleware> _logger;
 
-        public LoggingMiddleware(RequestDelegate next, ILogger<LoggingMiddleware> logger)
-        {
+        public LoggingMiddleware(RequestDelegate next, ILogger<LoggingMiddleware> logger) {
             _next = next;
             _logger = logger;
         }
 
-        public async Task Invoke(HttpContext context)
-        {
+        public async Task Invoke(HttpContext context) {
             string? userId = "Anonymous";
             string action = "Anonymous";
             // Capture the start time of the request
             DateTime createdAt = DateTime.UtcNow;
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
-            try
-            {
+            try {
                 // Extract values like IP address and Correlation ID from HttpContext
                 string? ipAddress = context.Connection.RemoteIpAddress?.ToString();
                 string correlationId = context.TraceIdentifier; // TraceIdentifier is used as Correlation ID in ASP.NET Core
                 // Extract user information from the context (assuming JWT or Identity is being used)
                 bool IsAuthenticated = context.User.Identity.IsAuthenticated;
-                if (IsAuthenticated)
-                {
+                if (IsAuthenticated) {
                     userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value.ToString();
                 }
                 // Example: You can extract 'Location' from request path, headers, etc.
@@ -47,8 +41,7 @@ namespace PhotocopyRevaluationAppMVC.Middlewares
                 using (LogContext.PushProperty("Context", logContext))
                 using (LogContext.PushProperty("Location", location))
                 using (LogContext.PushProperty("Action", action))
-                using (LogContext.PushProperty("CreatedAt", createdAt))
-                {
+                using (LogContext.PushProperty("CreatedAt", createdAt)) {
                     // Continue processing the request
                     await _next(context);
 
@@ -57,14 +50,12 @@ namespace PhotocopyRevaluationAppMVC.Middlewares
                     long durationMs = stopwatch.ElapsedMilliseconds;
 
                     // Push the duration into the log context
-                    using (LogContext.PushProperty("DurationMs", durationMs))
-                    {
+                    using (LogContext.PushProperty("DurationMs", durationMs)) {
                         _logger.LogInformation("Completed processing request for {UserId} with action {Action}, took {DurationMs} ms", userId, action, durationMs);
                     }
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Log errors with the same contextual information
                 stopwatch.Stop();
                 long durationMs = stopwatch.ElapsedMilliseconds;

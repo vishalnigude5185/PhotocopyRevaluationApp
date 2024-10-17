@@ -1,6 +1,4 @@
-﻿namespace PhotocopyRevaluationAppMVC.Models
-{
-    public class Routconfig
-    {
+﻿namespace PhotocopyRevaluationApp.Models {
+    public class Routconfig {
     }
 }

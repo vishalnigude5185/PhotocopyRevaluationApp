@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PhotocopyRevaluationAppMVC.ChatBoat
-{
-    public interface IChatService
-    {
+namespace PhotocopyRevaluationApp.ChatBoat {
+    public interface IChatService {
         Task SaveMessageAsync(string groupName, string userId, string message, DateTime timestamp);
         Task MarkMessageAsReadAsync(int messageId, string userId);
         Task<bool> SendMessageToGroupAsync(string groupName, string userId, string message);

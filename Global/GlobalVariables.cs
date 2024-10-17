@@ -4,12 +4,10 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.ML;
 using System.Globalization;
 using Microsoft.FeatureManagement;
-using PhotocopyRevaluationAppMVC.Global.Exceptions;
+using PhotocopyRevaluationApp.Global.Exceptions;
 
-namespace PhotocopyRevaluationAppMVC.Global
-{
-    public static class GlobalVariables
-    {
+namespace PhotocopyRevaluationApp.Global {
+    public static class GlobalVariables {
         public static ITransformer Pipeline { get; set; }
         // Error Handling
         public static IGlobalExceptionHandler GlobalExceptionHandler { get; set; }
@@ -96,21 +94,18 @@ namespace PhotocopyRevaluationAppMVC.Global
         public static Dictionary<string, string> ThirdPartyApiKeys { get; set; }
         public static Dictionary<string, string> ServiceEndpoints { get; set; }
     }
-    public class AppSettings
-    {
+    public class AppSettings {
         public string ApiKey { get; set; }
         public string BaseUrl { get; set; }
         public Dictionary<string, string> FeatureFlags { get; set; }
     }
 
-    public class UserSession
-    {
+    public class UserSession {
         public string UserId { get; set; }
         public List<string> Roles { get; set; }
         // Add other user-specific properties as needed
     }
-    public class UserPreferences
-    {
+    public class UserPreferences {
         public bool ReceiveNotifications { get; set; }
         public string DisplayLanguage { get; set; }
         // Additional user preference properties can be added here

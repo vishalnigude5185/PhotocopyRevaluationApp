@@ -7,16 +7,14 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using System.Data;
-
-using PhotocopyRevaluationAppMVC.Models;
-using PhotocopyRevaluationAppMVC.Services;
 using Microsoft.CodeAnalysis;
-using PhotocopyRevaluationAppMVC.Data;
+using Microsoft.AspNetCore.Identity;
+using PhotocopyRevaluationApp.Services;
+using PhotocopyRevaluationApp.Models;
+using PhotocopyRevaluationApp.Data;
 
-namespace PhotocopyRevaluationAppMVC.Controllers
-{
-    public class AccountsController : Controller
-    {
+namespace PhotocopyRevaluationApp.Controllers {
+    public class AccountsController : Controller {
         private readonly PhotocopyRevaluationAppContext _context;
         private readonly GenerateUidService _generateUidService;
 
@@ -31,8 +29,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
 
         //private readonly IAccountService _accountService;
 
-        public AccountsController(PhotocopyRevaluationAppContext context, IUserSessionService userSessionService,/*MySettings mySettings,*/ IConfiguration configuration, IAccountService accountService, GenerateUidService generateUidService, ILogger<AccountsController> logger, ITimerService timerService, INotificationService notificationService, IOtpService otpService)
-        {
+        public AccountsController(PhotocopyRevaluationAppContext context, IUserSessionService userSessionService,/*MySettings mySettings,*/ IConfiguration configuration, IAccountService accountService, GenerateUidService generateUidService, ILogger<AccountsController> logger, ITimerService timerService, INotificationService notificationService, IOtpService otpService) {
             _logger = logger;
             _notificationService = notificationService;
             _generateUidService = generateUidService;
@@ -61,33 +58,36 @@ namespace PhotocopyRevaluationAppMVC.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync(UserRegisterationDTO UserRegisterationDTO)
-        {
+        public async Task<IActionResult> RegisterAsync(UserRegisterationDTO UserRegisterationDTO) {
             //    foreach (var error in result.Errors)
             //    {
             //        ModelState.AddModelError(string.Empty, error.Description);
             //    }
 
             //    return View(model);
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
+                // Check if the username already exists
+                //var existingUser = await _accountService.FindByNameAsync(UserRegisterationDTO.UserName);
+                //if (existingUser != null) {
+                //    // Add a model error
+                //    ModelState.AddModelError("UserName", "The username already exists.");
+                //    return View(UserRegisterationDTO); // Return to the view with the error
+                //}
+
                 // Check if the email already exists
-                if (await _accountService.EmailAlreadyExistsAsync(UserRegisterationDTO))
-                {
+                if (await _accountService.EmailAlreadyExistsAsync(UserRegisterationDTO)) {
                     ModelState.AddModelError(nameof(UserRegisterationDTO.Email), "Email is already in use.");
                     return View(UserRegisterationDTO);
                 }
                 //    // If validation succeeds, proceed with user registration
                 var result = await _accountService.SignupAsync(UserRegisterationDTO);
-                if (result.Succeeded)
-                {
+                if (result.Succeeded) {
                     // Redirect to a page instructing the user to check their email for confirmation
                     return RedirectToAction("ConfirmEmailNotice");
                 }
                 //    // Handle registration errors
                 // Add errors to the model state
-                foreach (var error in result.Errors)
-                {
+                foreach (var error in result.Errors) {
                     ModelState.AddModelError("", error.Description);
                 }
             }
@@ -103,16 +103,13 @@ namespace PhotocopyRevaluationAppMVC.Controllers
 
         // Action to confirm email
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
-        {
-            if (userId == null || token == null)
-            {
+        public async Task<IActionResult> ConfirmEmail(string userId, string token) {
+            if (userId == null || token == null) {
                 return View("Error");
             }
 
             var result = await _accountService.ConfirmEmailAsync(userId, token);
-            if (result.Succeeded)
-            {
+            if (result.Succeeded) {
                 return View("EmailConfirmed");
             }
 
@@ -121,30 +118,26 @@ namespace PhotocopyRevaluationAppMVC.Controllers
         }
 
         // Display a notice to check email
-        public IActionResult ConfirmEmailNotice()
-        {
+        public IActionResult ConfirmEmailNotice() {
             return View();
         }
 
         [HttpGet]
-        public IActionResult Login()
-        {
+        public IActionResult Login() {
             var ApplicationUser = new ApplicationUser();
             return View(ApplicationUser);
         }
 
         // Standard login method
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
-        {
+        public async Task<IActionResult> Login(string username, string password) {
 
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost("login")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(ApplicationUser ApplicationUser)
-        {
+        public async Task<IActionResult> Login(ApplicationUser ApplicationUser) {
             TempData["UserName"] = ApplicationUser.UserName;
             TempData["PasswordHash"] = ApplicationUser.PasswordHash;
 
@@ -189,8 +182,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             //    }
             //}
 
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 // Using PasswordHasher to hash the new password before saving
                 var hashedPassword = "";
 
@@ -205,14 +197,12 @@ namespace PhotocopyRevaluationAppMVC.Controllers
 
                 var count = _context.Users
                     .Count(p => p.UserName == ApplicationUser.UserName && p.PasswordHash == ApplicationUser.PasswordHash);
-                if (count == 1)
-                {
+                if (count == 1) {
                     //var UserRecord = _context.Users
                     //    .FirstOrDefault(p => p.UserName == ApplicationUser.UserName && p.PasswordHash == ApplicationUser.PasswordHash);
                     var userRecord = _context.Users
                            .Where(p => p.UserName == ApplicationUser.UserName && p.PasswordHash == ApplicationUser.PasswordHash)
-                           .Select(p => new
-                           {
+                           .Select(p => new {
                                p.ApplicationUserId,
                                p.Email,
                                p.PhoneNumber
@@ -225,20 +215,18 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                     string UsserId = userRecord.ApplicationUserId.ToString();
                     TempData["UsserId"] = UsserId;
 
-                    if (string.IsNullOrEmpty(UsserId))
-                    {
+                    if (string.IsNullOrEmpty(UsserId)) {
                         UsserId = Guid.NewGuid().ToString();
                     }
-                   string otp =  await _otpService.GenerateOtpAsync(UsserId, TimeSpan.FromSeconds(30));
+                    string otp = await _otpService.GenerateOtpAsync(UsserId, TimeSpan.FromSeconds(30));
 
                     //if (await _otpService.SendOtpToPhoneAsync(userRecord.PhoneNumber, otp))
                     //{
-                        if (await _otpService.SendOTPtoEmailAsync(userRecord.Email, otp))
-                        {
-                            //_otpService.ClearOtpAfterDelay(userRecord.ApplicationUserId, TimeSpan.FromSeconds(30));// Asynchronously clear the OTP after 30 seconds
-                        }
-                        // Redirect to OTP view
-                        return RedirectToAction("OTPVerification", "Accounts");
+                    if (await _otpService.SendOTPtoEmailAsync(userRecord.Email, otp)) {
+                        //_otpService.ClearOtpAfterDelay(userRecord.ApplicationUserId, TimeSpan.FromSeconds(30));// Asynchronously clear the OTP after 30 seconds
+                    }
+                    // Redirect to OTP view
+                    return RedirectToAction("OTPVerification", "Accounts");
                     //}
                     //else
                     //{
@@ -247,20 +235,16 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                     //    return Redirect("Accounts/OTPSendingError");
                     //}
                 }
-                else
-                {
+                else {
                     // Invalid credentials, show error
                     ModelState.AddModelError("", "invalid credentials, incorrect user id or password.");
                     return View(ApplicationUser);
                 }
             }
-            else
-            {
+            else {
                 //Optionally, you can iterate through the ModelState to log the errors or handle them
-                foreach (var state in ModelState)
-                {
-                    foreach (var error in state.Value.Errors)
-                    {
+                foreach (var state in ModelState) {
+                    foreach (var error in state.Value.Errors) {
                         // You can log the error messages or debug them
                         Console.WriteLine(error.ErrorMessage);
                     }
@@ -271,16 +255,14 @@ namespace PhotocopyRevaluationAppMVC.Controllers
 
         //OTP Action
         [HttpGet("otppage")]
-        public IActionResult OTPVerification()
-        {
+        public IActionResult OTPVerification() {
             return View();
         }
 
         //OTP Verification Action
         [HttpPost("otpverify")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OTPVerifications([FromForm][Bind("OTP")] ApplicationUser ApplicationUser)
-        {
+        public async Task<IActionResult> OTPVerifications([FromForm][Bind("OTP")] ApplicationUser ApplicationUser) {
             // Clear the validation state for the unused fields
             //ModelState.ClearValidationState("Email");
             //ModelState.ClearValidationState("DateOfBirth");
@@ -315,8 +297,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             //    }
             //}
 
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
 
                 string UserId = (string)TempData["UsserId"];
 
@@ -327,27 +308,23 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                 //{
                 //    storedOtp = await _otpService.GetOtpAsync(UserId);
                 //}
-                
+
                 //// Verify OTP
-                if (storedOtp != null)
-                {
-                    if (ApplicationUser.OTP == storedOtp)
-                    {
+                if (storedOtp != null) {
+                    if (ApplicationUser.OTP == storedOtp) {
                         // OTP is valid, proceed with login
                         HttpContext.Session.Remove("OTP"); // Clear OTP from session
 
                         // Getting User Id
                         var userRecord = _context.Users
                           .Where(p => p.UserName == TempData["UserName"] && p.PasswordHash == TempData["PasswordHash"])
-                          .Select(p => new
-                          {
+                          .Select(p => new {
                               p.ApplicationUserId,
                               p.Role
                           })
                           .FirstOrDefault();
 
-                        if (userRecord != null && TempData["UserName"] != null)
-                        {
+                        if (userRecord != null && TempData["UserName"] != null) {
                             // Claims for the authenticated user
                             var claims = new List<Claim>
                         {
@@ -361,8 +338,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                             var principal = new ClaimsPrincipal(identity);
 
                             // Authentication properties (remember me, expiration time)
-                            var authProperties = new AuthenticationProperties
-                            {
+                            var authProperties = new AuthenticationProperties {
                                 IsPersistent = ApplicationUser.RememberMe, // Persist cookie across sessions if RememberMe is true
                                 ExpiresUtc = ApplicationUser.RememberMe ? DateTimeOffset.UtcNow.AddDays(7) : DateTimeOffset.UtcNow.AddMinutes(30)
                             };
@@ -371,10 +347,8 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
 
                             var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                            if (!string.IsNullOrEmpty(userId))
-                            {
-                                var SessionData = new SessionData
-                                {
+                            if (!string.IsNullOrEmpty(userId)) {
+                                var SessionData = new SessionData {
                                     ApplicationUserId = Convert.ToInt32(userId),
                                     ExpiryTime = DateTimeOffset.UtcNow.AddMinutes(2)
                                 };
@@ -395,11 +369,9 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                                 //await _userSessionService.CreateUserSessionAsync(userId, Guid.NewGuid().ToString());
                             }
                             var userName = principal.FindFirst(ClaimTypes.Name)?.Value; // or User.Identity.Name;  // Access Username
-                            if (!string.IsNullOrEmpty(userName))
-                            {
+                            if (!string.IsNullOrEmpty(userName)) {
                                 // Optionally add a separate cookie for other information (e.g., username)
-                                var cookieOptions = new CookieOptions
-                                {
+                                var cookieOptions = new CookieOptions {
                                     Expires = DateTime.Now.AddDays(1)
                                 };
                                 HttpContext.Response.Cookies.Append("userId", userId, cookieOptions);
@@ -409,15 +381,13 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                                 // Send the token in the Authorization header
                                 Response.Headers.Add("Authorization", "Bearer " + token);
                             }
-                            else
-                            {
+                            else {
                                 Console.WriteLine("can not create the JWT Token or userId coockie userId or userName is null");
                                 ModelState.AddModelError("", "can not create the JWT Token or userId coockie userId or userName is null");
                                 return View(ApplicationUser);
                             }
                         }
-                        else
-                        {
+                        else {
                             Console.WriteLine("can not create the JWT Token or userId coockie userId or userName is null");
                             ModelState.AddModelError("userRecord or UserName is null", "can't create the Claims");
                             return View(ApplicationUser);
@@ -425,48 +395,41 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                         return RedirectToAction("Index", "Home"); // Redirect to the home page
                                                                   // return Unauthorized(new { Message = "Invalid OTP" });
                     }
-                    else
-                    {
+                    else {
                         // Invalid OTP, show error
                         ModelState.AddModelError("", "Invalid OTP.");
                         return View("OTPVerification");
                     }
                 }
-                else
-                {
+                else {
                     // Invalid OTP, show error
                     ModelState.AddModelError("Invalid OTP", "OTP has been expired.");
                     return View("OTPVerification");
                 }
             }
-            else
-            {
+            else {
                 return View(ApplicationUser);
             }
         }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResendOtpAsync(ITempDataService _tempDataService)
-        {
+        public async Task<IActionResult> ResendOtpAsync(ITempDataService _tempDataService) {
             await _otpService.ResendOtpAsync(_tempDataService);
-            
+
             return Ok(); // Return a response that indicates success
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ForgotPasswordOnGet([FromForm] ApplicationUser ApplicationUser)
-        {
-            if (!string.IsNullOrEmpty(ApplicationUser.UserName))
-            {
+        public IActionResult ForgotPasswordOnGet([FromForm] ApplicationUser ApplicationUser) {
+            if (!string.IsNullOrEmpty(ApplicationUser.UserName)) {
                 HttpContext.Session.SetString("username", ApplicationUser.UserName);
                 TempData["UserName"] = ApplicationUser.UserName;
 
                 return View("ForgotPassword");
             }
-            else
-            {
+            else {
                 ModelState.AddModelError("required", "To forgot password user name is required");
                 return View("Login");
             }
@@ -474,8 +437,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(RegisteredUserDTO RegisteredUserDTO, [FromServices] IAccountService _accountService)
-        {
+        public async Task<IActionResult> ForgotPassword(RegisteredUserDTO RegisteredUserDTO, [FromServices] IAccountService _accountService) {
             HttpContext.Session.SetString("mobileno", RegisteredUserDTO.PhoneNumber);
             HttpContext.Session.SetString("email", RegisteredUserDTO.Email);
 
@@ -488,25 +450,19 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             ModelState.Remove("ConfirmPassword");
             ModelState.Remove("Notifications");
 
-            if (ModelState.IsValid)
-            {
-                if (await _accountService.IsValidPhoneNumberAsync(RegisteredUserDTO.PhoneNumber) || await _accountService.IsValidEmailAsync(RegisteredUserDTO.Email))
-                {
+            if (ModelState.IsValid) {
+                if (await _accountService.IsValidPhoneNumberAsync(RegisteredUserDTO.PhoneNumber) || await _accountService.IsValidEmailAsync(RegisteredUserDTO.Email)) {
                     var count = _context.Users.Count(p => p.UserName == TempData["UserName"] && p.PhoneNumber == RegisteredUserDTO.PhoneNumber && p.Email == RegisteredUserDTO.Email);
 
-                    if (count == 1)
-                    {
+                    if (count == 1) {
                         string UsserId = Guid.NewGuid().ToString();
-                        if (string.IsNullOrEmpty(UsserId))
-                        {
+                        if (string.IsNullOrEmpty(UsserId)) {
                             UsserId = Guid.NewGuid().ToString();
                         }
                         string otp = await _otpService.GenerateOtpAsync(UsserId, TimeSpan.FromSeconds(30));
                         // Save OTP to session or database for later verification
-                        if (await _otpService.SendOtpToPhoneAsync(RegisteredUserDTO.PhoneNumber, otp))
-                        {
-                            if (await _otpService.SendOTPtoEmailAsync(RegisteredUserDTO.Email, otp))
-                            {
+                        if (await _otpService.SendOtpToPhoneAsync(RegisteredUserDTO.PhoneNumber, otp)) {
+                            if (await _otpService.SendOTPtoEmailAsync(RegisteredUserDTO.Email, otp)) {
                                 return RedirectToAction("OTPVerificationsForForgotPassword", "Accounts");
                             }
                             // Redirect to OTP view
@@ -521,27 +477,22 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                         //}
                         return Redirect("Accounts/OTPSendingError");
                     }
-                    else
-                    {
+                    else {
                         // Invalid credentials, show error
                         ModelState.AddModelError("", "invalid, incorrect user name, mobile no or email.");
                         return View(RegisteredUserDTO);
                     }
                 }
-                else
-                {
+                else {
                     // Invalid credentials, show error
                     ModelState.AddModelError("", "invalid format, incorrect mobile no or email.");
                     return View(RegisteredUserDTO);
                 }
             }
-            else
-            {
+            else {
                 //Optionally, you can iterate through the ModelState to log the errors or handle them
-                foreach (var state in ModelState)
-                {
-                    foreach (var error in state.Value.Errors)
-                    {
+                foreach (var state in ModelState) {
+                    foreach (var error in state.Value.Errors) {
                         // You can log the error messages or debug them
                         Console.WriteLine(error.ErrorMessage);
                     }
@@ -551,16 +502,14 @@ namespace PhotocopyRevaluationAppMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult OTPVerificationsForForgotPassword()
-        {
+        public IActionResult OTPVerificationsForForgotPassword() {
             return View("OTPVerificationsForForgotPassword");
         }
 
         //OTP Verification Action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult OTPVerificationsForForgotPassword([Bind("OTP")] RegisteredUserDTO RegisteredUserDTO)
-        {
+        public IActionResult OTPVerificationsForForgotPassword([Bind("OTP")] RegisteredUserDTO RegisteredUserDTO) {
             //// Clear the validation state for the unused fields
             //ModelState.ClearValidationState("Email");
             //ModelState.ClearValidationState("DateOfBirth");
@@ -575,15 +524,12 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             ModelState.Remove("ConfirmPassword");
             ModelState.Remove("Notifications");
 
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 //// Verify OTP
                 // Retrieve the OTP stored in session (or database)
                 string? storedOtp = HttpContext.Session.GetString("OTP"); // Retrieve OTP from session
-                if (storedOtp != null)
-                {
-                    if (RegisteredUserDTO.OTP == storedOtp)
-                    {
+                if (storedOtp != null) {
+                    if (RegisteredUserDTO.OTP == storedOtp) {
                         // OTP is valid, proceed with login
                         HttpContext.Session.Remove("OTP"); // Clear OTP from session
 
@@ -591,27 +537,22 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                         return RedirectToAction("ChangePassword", "Accounts"); // Redirect to the home page
                                                                                // return Unauthorized(new { Message = "Invalid OTP" });
                     }
-                    else
-                    {
+                    else {
                         // Invalid OTP, show error
                         ModelState.AddModelError("", "Invalid OTP.");
                         return View(RegisteredUserDTO);
                     }
                 }
-                else
-                {
+                else {
                     // Invalid OTP, show error
                     ModelState.AddModelError("", "Unable to get OTP from Sessions collection.");
                     return View(RegisteredUserDTO);
                 }
             }
-            else
-            {
+            else {
                 // Optionally, you can iterate through the ModelState to log the errors or handle them
-                foreach (var state in ModelState)
-                {
-                    foreach (var error in state.Value.Errors)
-                    {
+                foreach (var state in ModelState) {
+                    foreach (var error in state.Value.Errors) {
                         // You can log the error messages or debug them
                         Console.WriteLine(error.ErrorMessage);
                     }
@@ -622,15 +563,13 @@ namespace PhotocopyRevaluationAppMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult ChangePassword()
-        {
+        public IActionResult ChangePassword() {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword([Bind("NewPassword,ConfirmPassword")] RegisteredUserDTO RegisteredUserDTO, [FromServices] IAccountService _accountService)
-        {
+        public async Task<IActionResult> ChangePassword([Bind("NewPassword,ConfirmPassword")] RegisteredUserDTO RegisteredUserDTO, [FromServices] IAccountService _accountService) {
             ModelState.Remove("UserName");
             ModelState.Remove("Email");
             ModelState.Remove("DateOfBirth");
@@ -638,12 +577,10 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             ModelState.Remove("OTP");
             ModelState.Remove("Notifications");
 
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 // Claims for the authenticated user
 
-                if (RegisteredUserDTO.NewPassword == RegisteredUserDTO.ConfirmPassword)
-                {
+                if (RegisteredUserDTO.NewPassword == RegisteredUserDTO.ConfirmPassword) {
                     var UserName = HttpContext.Session.GetString("username");
                     var PhoneNumber = HttpContext.Session.GetString("mobileno");
                     var Email = HttpContext.Session.GetString("email");
@@ -659,8 +596,7 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                     var PasswordHash = RegisteredUserDTO.NewPassword;
 
                     // Initialize the output parameter
-                    var rowsAffected = new SqlParameter("@RowsAffected", SqlDbType.Int)
-                    {
+                    var rowsAffected = new SqlParameter("@RowsAffected", SqlDbType.Int) {
                         Direction = ParameterDirection.Output
                     };
 
@@ -674,20 +610,17 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                     );
                     // Access the output value and cast it properly
                     // Correct way to access the output parameter's value
-                    if (Convert.ToInt32(rowsAffected.Value) > 0)
-                    {
+                    if (Convert.ToInt32(rowsAffected.Value) > 0) {
                         // Getting User Id
                         var userRecord = _context.Users
                           .Where(p => p.UserName == UserName && p.PasswordHash == PasswordHash)
-                          .Select(p => new
-                          {
+                          .Select(p => new {
                               p.ApplicationUserId,
                               p.Role
                           })
                           .FirstOrDefault();
 
-                        if (!(userRecord == null))
-                        {
+                        if (!(userRecord == null)) {
                             // Claims for the authenticated user
                             var claims = new List<Claim>
                         {
@@ -711,10 +644,8 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal /*, authProperties*/);
 
                             var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                            if (!string.IsNullOrEmpty(userId))
-                            {
-                                var SessionData = new SessionData
-                                {
+                            if (!string.IsNullOrEmpty(userId)) {
+                                var SessionData = new SessionData {
                                     ApplicationUserId = Convert.ToInt32(userId),
                                     ExpiryTime = DateTimeOffset.UtcNow.AddMinutes(4)
                                 };
@@ -735,11 +666,9 @@ namespace PhotocopyRevaluationAppMVC.Controllers
                             }
 
                             var userName = principal.FindFirst(ClaimTypes.Name)?.Value; // or User.Identity.Name;  // Access Username
-                            if (!string.IsNullOrEmpty(userName))
-                            {
+                            if (!string.IsNullOrEmpty(userName)) {
                                 // Optionally add a separate cookie for other information (e.g., username)
-                                var cookieOptions = new CookieOptions
-                                {
+                                var cookieOptions = new CookieOptions {
                                     Expires = DateTime.Now.AddDays(1)
                                 };
                                 HttpContext.Response.Cookies.Append("username", userName, cookieOptions);
@@ -752,33 +681,27 @@ namespace PhotocopyRevaluationAppMVC.Controllers
 
                             return Redirect("/Home/Index");
                         }
-                        else
-                        {
+                        else {
                             ModelState.AddModelError("error: ", "unable to update the password at database.");
                             return View(RegisteredUserDTO);
                         }
                     }
-                    else
-                    {
+                    else {
                         // Invalid credentials, show error
                         ModelState.AddModelError("can not match: ", "new password and cinfirm password.");
                         return View(RegisteredUserDTO);
                     }
                 }
-                else
-                {
+                else {
                     // Invalid credentials, show error
                     //ModelState.AddModelError("", "incorrect .");
                     return View(RegisteredUserDTO);
                 }
             }
-            else
-            {
+            else {
                 // Optionally, you can iterate through the ModelState to log the errors or handle them
-                foreach (var state in ModelState)
-                {
-                    foreach (var error in state.Value.Errors)
-                    {
+                foreach (var state in ModelState) {
+                    foreach (var error in state.Value.Errors) {
                         // You can log the error messages or debug them
                         Console.WriteLine(error.ErrorMessage);
                     }
@@ -788,13 +711,11 @@ namespace PhotocopyRevaluationAppMVC.Controllers
         }
 
         [HttpPost]
-        public string? GetCurrentUserId()
-        {
+        public string? GetCurrentUserId() {
             return HttpContext?.User?.Identity?.Name; // Returns the UserName or ApplicationUserId of the logged-in user
         }
 
-        public async Task<IActionResult> Logout()
-        {
+        public async Task<IActionResult> Logout() {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return /*RedirectToAction*/Redirect("/Accounts/Login");
         }

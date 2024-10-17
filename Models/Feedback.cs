@@ -1,7 +1,5 @@
-﻿namespace PhotocopyRevaluationAppMVC.Models
-{
-    public class Feedback
-    {
+﻿namespace PhotocopyRevaluationApp.Models {
+    public class Feedback {
         public int FeedbackId { get; set; }          // Unique identifier for the feedback
         public string UserName { get; set; }          // Name of the user providing feedback
         public string Email { get; set; }             // Email of the user (optional)

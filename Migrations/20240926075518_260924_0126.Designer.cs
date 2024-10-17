@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PhotocopyRevaluationAppMVC.Data;
+using PhotocopyRevaluationApp.Data;
+
 
 
 #nullable disable
 
-namespace PhotocopyRevaluationAppMVC.Migrations
-{
+namespace PhotocopyRevaluationAppMVC.Migrations {
     [DbContext(typeof(PhotocopyRevaluationAppContext))]
     [Migration("20240926075518_UpdatedMigrationName")]
     partial class _260924_0126

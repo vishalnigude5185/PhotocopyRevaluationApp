@@ -4,23 +4,18 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 using PayPal;
-
-using PhotocopyRevaluationAppMVC.Configurations;
 using PayPal.Api;
+using PhotocopyRevaluationApp.Configurations;
 
-namespace PhotocopyRevaluationAppMVC.Services
-{
-    public class PayPalService : IPayPalService
-    {
+namespace PhotocopyRevaluationApp.Services {
+    public class PayPalService : IPayPalService {
         private readonly HttpClient _client;
 
         private readonly PayPalHttpClient _payPalclient;
         private readonly PayPalSettings _payPalSettings;
 
-        public PayPalService(PayPalSettings payPalSettings)
-        {
-            _client = new HttpClient
-            {
+        public PayPalService(PayPalSettings payPalSettings) {
+            _client = new HttpClient {
                 BaseAddress = new Uri(payPalSettings.BaseUrl) // Sandbox environment
             };
 
@@ -28,12 +23,10 @@ namespace PhotocopyRevaluationAppMVC.Services
             _payPalclient = new PayPalHttpClient(environment);
             _payPalSettings = payPalSettings;
         }
-        async Task<string> IPayPalService.CreateOrderAsync(decimal amount, string currency)
-        {
+        async Task<string> IPayPalService.CreateOrderAsync(decimal amount, string currency) {
             var orderRequest = new OrdersCreateRequest();
             orderRequest.Prefer("return=representation");
-            orderRequest.RequestBody(new OrderRequest
-            {
+            orderRequest.RequestBody(new OrderRequest {
                 CheckoutPaymentIntent = "CAPTURE",
                 PurchaseUnits = new[]
                 {
@@ -46,15 +39,13 @@ namespace PhotocopyRevaluationAppMVC.Services
                         }
                     }
                 }.ToList(), // Convert the array to a List,
-                ApplicationContext = new ApplicationContext
-                {
+                ApplicationContext = new ApplicationContext {
                     ReturnUrl = "https://e521-115-246-255-180.ngrok-free.app/Payments/PaymentSuccess" /*"https://localhost:5001/Payments/PaymentSuccess"*/,
                     CancelUrl = "https://e521-115-246-255-180.ngrok-free.app/Payments/PaymentCancel" /*"https://localhost:5001/Home/PaymentCancel"*/
                 }
             });
 
-            try
-            {
+            try {
                 // Execute the request
                 var response = await _payPalclient.Execute(orderRequest);
                 var result = response.Result<PayPalCheckoutSdk.Orders.Order>();
@@ -65,8 +56,7 @@ namespace PhotocopyRevaluationAppMVC.Services
 
                 return approvalLink;  // Return the URL where the user will approve the payment
             }
-            catch (HttpException ex)
-            {
+            catch (HttpException ex) {
                 // Handle exception
                 Console.WriteLine($"Error: {ex.Message}");
                 throw;
@@ -82,25 +72,21 @@ namespace PhotocopyRevaluationAppMVC.Services
             //// Execute the request
             //var response = await client.Execute(request);
         }
-        
-        public async Task<(bool, string)> CapturePaymentAsync(string orderId)
-        {
+
+        public async Task<(bool, string)> CapturePaymentAsync(string orderId) {
             var request = new OrdersCaptureRequest(orderId);
             request.RequestBody(new OrderActionRequest());
 
-            try
-            {
+            try {
                 var response = await _payPalclient.Execute(request);
                 var result = response.Result<PayPalCheckoutSdk.Orders.Order>();
 
                 // Check if the capture was successful
-                if (result.Status == "COMPLETED")
-                {
+                if (result.Status == "COMPLETED") {
                     return (true, result.Id);  // Payment captured successfully
                 }
             }
-            catch (HttpException ex)
-            {
+            catch (HttpException ex) {
                 // Handle exception
                 Console.WriteLine($"Error: {ex.Message}");
                 throw;
@@ -109,46 +95,40 @@ namespace PhotocopyRevaluationAppMVC.Services
             return (false, null);
         }
 
-        public async Task<string> CreatePaymentAsync(decimal amount)
-        {
-                // Create payment request object
-                var paymentRequest = new
+        public async Task<string> CreatePaymentAsync(decimal amount) {
+            // Create payment request object
+            var paymentRequest = new {
+                intent = "sale",
+                payer = new { payment_method = "paypal" },
+                transactions = new[]
                 {
-                    intent = "sale",
-                    payer = new { payment_method = "paypal" },
-                    transactions = new[]
-                    {
                     new
                     {
                         amount = new { total = amount.ToString("0.00"), currency = "USD" },
                         description = "Payment description"
                     }
                 },
-                    redirect_urls = new
-                    {
-                        ReturnUrl = "https://localhost:7237/Home/PaymentSuccess" /*"https://localhost:5001/Home/PaymentSuccess"*/,
-                        CancelUrl = "https://localhost:7237/Home/PaymentCancel" /*"https://localhost:5001/Home/PaymentCancel"*/
-                    }
-                };
+                redirect_urls = new {
+                    ReturnUrl = "https://localhost:7237/Home/PaymentSuccess" /*"https://localhost:5001/Home/PaymentSuccess"*/,
+                    CancelUrl = "https://localhost:7237/Home/PaymentCancel" /*"https://localhost:5001/Home/PaymentCancel"*/
+                }
+            };
 
-                var json = JsonConvert.SerializeObject(paymentRequest);
-                var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
-                string endpoint = "/v1/payments/payment";
-                // Send POST request to create payment
-                var response = await PostAsync(endpoint, requestBody);
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    return responseBody; // Handle successful payment response
-                }
-                else
-                {
-                    var errorResponse = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Payment creation failed: {errorResponse}");
-                }
+            var json = JsonConvert.SerializeObject(paymentRequest);
+            var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
+            string endpoint = "/v1/payments/payment";
+            // Send POST request to create payment
+            var response = await PostAsync(endpoint, requestBody);
+            if (response.IsSuccessStatusCode) {
+                var responseBody = await response.Content.ReadAsStringAsync();
+                return responseBody; // Handle successful payment response
+            }
+            else {
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Payment creation failed: {errorResponse}");
+            }
         }
-        private async Task<string> GetAccessTokenAsync()
-        {
+        private async Task<string> GetAccessTokenAsync() {
             var authToken = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_payPalSettings.ClientId}:{_payPalSettings.ClientSecret}"));
 
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
@@ -158,8 +138,7 @@ namespace PhotocopyRevaluationAppMVC.Services
             // Send the request to PayPal OAuth2 token endpoint
             var tokenResponse = await _client.PostAsync("/v1/oauth2/token", requestBody);
 
-            if (!tokenResponse.IsSuccessStatusCode)
-            {
+            if (!tokenResponse.IsSuccessStatusCode) {
                 throw new Exception("Failed to retrieve PayPal access token");
             }
 
@@ -171,8 +150,7 @@ namespace PhotocopyRevaluationAppMVC.Services
         }
 
         // Helper class to deserialize the token response
-        private class PayPalAccessTokenResponse
-        {
+        private class PayPalAccessTokenResponse {
             [JsonProperty("access_token")]
             public string AccessToken { get; set; }
 
@@ -180,8 +158,7 @@ namespace PhotocopyRevaluationAppMVC.Services
             public int ExpiresIn { get; set; }
         }
 
-        public async Task SetupPayPalClientAsync()
-        {
+        public async Task SetupPayPalClientAsync() {
             // Get access token
             string accessToken = await GetAccessTokenAsync();
 
@@ -189,8 +166,7 @@ namespace PhotocopyRevaluationAppMVC.Services
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         }
 
-        public async Task<HttpResponseMessage> GetAsync(string endpoint)
-        {
+        public async Task<HttpResponseMessage> GetAsync(string endpoint) {
             // Call SetupPayPalClientAsync to configure the client before making a request
             await SetupPayPalClientAsync();
 
@@ -200,8 +176,7 @@ namespace PhotocopyRevaluationAppMVC.Services
             return response;
         }
 
-        public async Task<HttpResponseMessage> PostAsync(string endpoint, StringContent requestBody)
-        {
+        public async Task<HttpResponseMessage> PostAsync(string endpoint, StringContent requestBody) {
             // Call SetupPayPalClientAsync to configure the client before making a request
             await SetupPayPalClientAsync();
 

@@ -1,18 +1,14 @@
-﻿using PhotocopyRevaluationAppMVC.ML;
+﻿using PhotocopyRevaluationApp.ML;
 
-namespace PhotocopyRevaluationAppMVC.ChatBoat
-{
-    public class ChatBotService
-    {
+namespace PhotocopyRevaluationApp.ChatBoat {
+    public class ChatBotService {
         private readonly ChatBotModelTrainer _modelTrainer; // Assuming this is where you load your model
 
-        public ChatBotService(ChatBotModelTrainer modelTrainer)
-        {
+        public ChatBotService(ChatBotModelTrainer modelTrainer) {
             _modelTrainer = modelTrainer;
         }
-       
-        public void HandleUserMessage(string userMessage)
-        {
+
+        public void HandleUserMessage(string userMessage) {
             // Predict the intent using the retrained model
             string predictedIntent = PredictIntent(userMessage);
 
@@ -21,11 +17,9 @@ namespace PhotocopyRevaluationAppMVC.ChatBoat
             Console.WriteLine($"Bot: {botResponse}");
         }
 
-        private string GetResponseForIntent(string intent)
-        {
+        private string GetResponseForIntent(string intent) {
             // Logic to get the bot's response based on the predicted intent
-            switch (intent)
-            {
+            switch (intent) {
                 case "greeting":
                     return "Hello! How can I assist you today?";
                 case "farewell":
@@ -38,8 +32,7 @@ namespace PhotocopyRevaluationAppMVC.ChatBoat
             }
         }
 
-        private string PredictIntent(string userMessage)
-        {
+        private string PredictIntent(string userMessage) {
             // Logic to predict intent using the trained model
             // This might involve loading the model and running predictions
             // For example:

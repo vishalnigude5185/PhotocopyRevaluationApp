@@ -1,10 +1,8 @@
 ﻿
 using System.Collections.Concurrent;
 
-namespace PhotocopyRevaluationAppMVC.Services
-{
-    public interface IOtpService
-    {
+namespace PhotocopyRevaluationApp.Services {
+    public interface IOtpService {
         void SetOtpAsync(string key, string otp, TimeSpan ttl);
         Task<string> GetOtpAsync(string key_userid);
         void RemoveOtpAsync(string key_userid);

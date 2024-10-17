@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace PhotocopyRevaluationAppMVC.Models
-{
-    public class ApplicationRole: IdentityRole
-    {
+namespace PhotocopyRevaluationApp.Models {
+    public class ApplicationRole : IdentityRole {
     }
 }

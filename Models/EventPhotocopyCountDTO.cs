@@ -1,11 +1,8 @@
-﻿using PhotocopyRevaluationAppMVC.Models;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhotocopyRevaluationAppMVC.Models
-{
+namespace PhotocopyRevaluationApp.Models {
     [NotMapped]
-    public class EventPhotocopyCountDTO
-    {
+    public class EventPhotocopyCountDTO {
         public string Event { get; set; }
         public int PhotocopyCount { get; set; }
     }

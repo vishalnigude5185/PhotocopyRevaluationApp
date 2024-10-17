@@ -1,14 +1,11 @@
 ﻿using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 
-namespace PhotocopyRevaluationAppMVC.Services
-{
-    public static class KeyVaultManager
-    {
+namespace PhotocopyRevaluationApp.Services {
+    public static class KeyVaultManager {
         private static readonly SecretClient _secretClient;
 
-        static KeyVaultManager()
-        {
+        static KeyVaultManager() {
             // Replace with your Key Vault URI
             string keyVaultUrl = "https://<your-keyvault-name>.vault.azure.net/";
 
@@ -16,13 +13,11 @@ namespace PhotocopyRevaluationAppMVC.Services
             _secretClient = new SecretClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
         }
 
-        public static async Task<string> GetKeyVaultSecretKey(string Key) 
-        {
+        public static async Task<string> GetKeyVaultSecretKey(string Key) {
             KeyVaultSecret secret = _secretClient.GetSecret(Key);
             return secret.Value;
         }
-        public static async Task StoreSecretToKeyVaultAsync(string secretName, string secretValue)
-        {
+        public static async Task StoreSecretToKeyVaultAsync(string secretName, string secretValue) {
             // Store the secret in Key Vault
             KeyVaultSecret secret = new KeyVaultSecret(secretName, secretValue);
 

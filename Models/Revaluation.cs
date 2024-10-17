@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace PhotocopyRevaluationAppMVC.Models;
+namespace PhotocopyRevaluationApp.Models;
 
-public partial class Revaluation
-{
+public partial class Revaluation {
     [Key]
     public int SNO { get; set; }
 

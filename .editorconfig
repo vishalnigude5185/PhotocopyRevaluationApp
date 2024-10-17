@@ -84,3 +84,6 @@ dotnet_sort_system_directives_first = true
 
 # Enforce line length (Optional)
 max_line_length = 120
+
+# CS0436: Type conflicts with imported type
+dotnet_diagnostic.CS0436.severity = silent

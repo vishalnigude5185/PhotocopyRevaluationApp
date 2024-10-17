@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using PhotocopyRevaluationAppMVC.Middlewares;
+using PhotocopyRevaluationApp.Middlewares;
 
-namespace PhotocopyRevaluationAppMVC.Configurations
-{
-    public static class AppExtensions   
-    {
-        public static void UseCustomMiddlewares(this IApplicationBuilder app)
-        {
+namespace PhotocopyRevaluationApp.Configurations {
+    public static class AppExtensions {
+        public static void UseCustomMiddlewares(this IApplicationBuilder app) {
             // Register your custom middleware components here
 
             // Uncomment the ones you want to use
@@ -22,76 +19,62 @@ namespace PhotocopyRevaluationAppMVC.Configurations
         // Map endpoints and apply the respective policies
         // Autherize user throw polycies
         // Require authenticated user
-        public static void UseCustomPolicyEndpoints(this WebApplication app)
-        {
-            app.MapGet("/authenticated", [Authorize(Policy = "RequireAuthenticatedUser")] (HttpContext context) =>
-            {
+        public static void UseCustomPolicyEndpoints(this WebApplication app) {
+            app.MapGet("/authenticated", [Authorize(Policy = "RequireAuthenticatedUser")] (HttpContext context) => {
                 return "Authenticated user accessed!";
             });
 
             // Admin only
-            app.MapGet("/admin", [Authorize(Policy = "AdminOnly")] (HttpContext context) =>
-            {
+            app.MapGet("/admin", [Authorize(Policy = "AdminOnly")] (HttpContext context) => {
                 return "Admin only access!";
             });
 
             // Administrator only
-            app.MapGet("/administrator", [Authorize(Policy = "AdminastratorOnly")] (HttpContext context) =>
-            {
+            app.MapGet("/administrator", [Authorize(Policy = "AdminastratorOnly")] (HttpContext context) => {
                 return "Administrator only access!";
             });
 
             // User only
-            app.MapGet("/user", [Authorize(Policy = "UserOnly")] (HttpContext context) =>
-            {
+            app.MapGet("/user", [Authorize(Policy = "UserOnly")] (HttpContext context) => {
                 return "User role only access!";
             });
 
             // Require permission claim
-            app.MapGet("/edit-posts", [Authorize(Policy = "RequirePermission")] (HttpContext context) =>
-            {
+            app.MapGet("/edit-posts", [Authorize(Policy = "RequirePermission")] (HttpContext context) => {
                 return "User with 'CanEditPosts' permission accessed!";
             });
 
             // Require email confirmed
-            app.MapGet("/email-confirmed", [Authorize(Policy = "RequireEmailConfirmed")] (HttpContext context) =>
-            {
+            app.MapGet("/email-confirmed", [Authorize(Policy = "RequireEmailConfirmed")] (HttpContext context) => {
                 return "User with email confirmed accessed!";
             });
 
             // Custom roles
-            app.MapGet("/custom-roles", [Authorize(Policy = "RequireCustomRole")] (HttpContext context) =>
-            {
+            app.MapGet("/custom-roles", [Authorize(Policy = "RequireCustomRole")] (HttpContext context) => {
                 return "User with CustomRole1 or CustomRole2 accessed!";
             });
             // Custom assertion policy
-            app.MapGet("/custom-assertion", [Authorize(Policy = "CustomPolicy")] (HttpContext context) =>
-            {
+            app.MapGet("/custom-assertion", [Authorize(Policy = "CustomPolicy")] (HttpContext context) => {
                 return "Custom policy access based on assertion!";
             });
             // Require minimum age
-            app.MapGet("/minimum-age", [Authorize(Policy = "RequireMinimumAge")] (HttpContext context) =>
-            {
+            app.MapGet("/minimum-age", [Authorize(Policy = "RequireMinimumAge")] (HttpContext context) => {
                 return "User meets minimum age requirement!";
             });
             // Require specific user
-            app.MapGet("/specific-user", [Authorize(Policy = "RequireSpecificUser")] (HttpContext context) =>
-            {
+            app.MapGet("/specific-user", [Authorize(Policy = "RequireSpecificUser")] (HttpContext context) => {
                 return "Specific user 'AdminUser' accessed!";
             });
             // Require same user
-            app.MapGet("/same-user/{userId}", [Authorize(Policy = "RequireSameUser")] (HttpContext context, string userId) =>
-            {
+            app.MapGet("/same-user/{userId}", [Authorize(Policy = "RequireSameUser")] (HttpContext context, string userId) => {
                 return $"Same user with ID {userId} accessed!";
             });
             // Require role-based permission
-            app.MapGet("/role-permission", [Authorize(Policy = "RequireRoleBasedPermission")] (HttpContext context) =>
-            {
+            app.MapGet("/role-permission", [Authorize(Policy = "RequireRoleBasedPermission")] (HttpContext context) => {
                 return "User with Admin role and CanDelete permission accessed!";
             });
         }
-        public static void UseCustomControllerRoute(this WebApplication app)
-        {
+        public static void UseCustomControllerRoute(this WebApplication app) {
             //================================== [default code] =================================
             app.MapControllerRoute(
                 name: "default",
@@ -105,26 +88,22 @@ namespace PhotocopyRevaluationAppMVC.Configurations
             //    endpoints.MapHub<NotificationHub>("/notificationHub");
             //});
         }
-        public static void UseCustomEnvironments(this WebApplication app)
-        {
-            if (!app.Environment.IsDevelopment())
-            {
+        public static void UseCustomEnvironments(this WebApplication app) {
+            if (!app.Environment.IsDevelopment()) {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
+            if (app.Environment.IsDevelopment()) {
                 // Show detailed error information to the developer
                 app.UseDeveloperExceptionPage();
                 app.UseCors(builder => builder
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
-                app.Use(async (context, next) =>
-                {
+                app.Use(async (context, next) => {
                     await next();
                     context.Response.Headers.Add("X-Developer", "Development Mode");  // Custom response header
                 });
@@ -134,8 +113,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            else if (app.Environment.IsEnvironment("Testing"))
-            {
+            else if (app.Environment.IsEnvironment("Testing")) {
                 // Use a simple exception handler that shows detailed error messages for debugging
                 app.UseExceptionHandler("/Error/Testing"); // Testing error page with more details
 
@@ -144,8 +122,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
 
                 // Enable custom security headers
                 // Add relaxed security headers or disable certain headers for testing
-                app.Use(async (context, next) =>
-                {
+                app.Use(async (context, next) => {
                     context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                     context.Response.Headers.Add("X-Frame-Options", "DENY");
                     context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
@@ -156,8 +133,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
                 });
 
                 // Enable logging of detailed request and response information for testing
-                app.Use(async (context, next) =>
-                {
+                app.Use(async (context, next) => {
                     // Log detailed information for debugging purposes
                     // Include things like headers, body, query strings, etc.
                     Console.WriteLine($"Request URL: {context.Request.Path}");
@@ -166,10 +142,8 @@ namespace PhotocopyRevaluationAppMVC.Configurations
                 });
 
                 // Skip static file caching to allow changes to be reflected immediately in tests
-                app.UseStaticFiles(new StaticFileOptions
-                {
-                    OnPrepareResponse = ctx =>
-                    {
+                app.UseStaticFiles(new StaticFileOptions {
+                    OnPrepareResponse = ctx => {
                         // Cache static files for 30 days
                         ctx.Context.Response.Headers.Append("Cache-Control", "public, max-age=2592000");
                     }
@@ -178,8 +152,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
                 // Enable response compression to simulate production performance
                 app.UseResponseCompression();
             }
-            else
-            {   //
+            else {   //
                 //$env:ASPNETCORE_ENVIRONMENT="Production"
 
                 // Use exception handler middleware in production to handle errors gracefully
@@ -199,8 +172,7 @@ namespace PhotocopyRevaluationAppMVC.Configurations
                 );
 
                 // Add advanced security headers
-                app.Use(async (context, next) =>
-                {
+                app.Use(async (context, next) => {
                     context.Response.Headers.Add("X-Content-Type-Options", "nosniff"); // Prevent MIME type sniffing
                     context.Response.Headers.Add("X-Frame-Options", "DENY"); // Prevent clickjacking
                     context.Response.Headers.Add("X-XSS-Protection", "1; mode=block"); // XSS protection
@@ -211,18 +183,15 @@ namespace PhotocopyRevaluationAppMVC.Configurations
                 });
 
                 // Enable response caching for static files (e.g., images, CSS, JS) for better performance
-                app.UseStaticFiles(new StaticFileOptions
-                {
-                    OnPrepareResponse = ctx =>
-                    {
+                app.UseStaticFiles(new StaticFileOptions {
+                    OnPrepareResponse = ctx => {
                         // Cache static files for 30 days (in seconds: 2592000)
                         ctx.Context.Response.Headers.Append("Cache-Control", "public, max-age=2592000");
                     }
                 });
 
                 // Enable logging and monitoring
-                app.Use(async (context, next) =>
-                {
+                app.Use(async (context, next) => {
                     // Log request details for production diagnostics (use structured logging)
                     // Add Application Insights or other logging middleware if needed
                     await next();

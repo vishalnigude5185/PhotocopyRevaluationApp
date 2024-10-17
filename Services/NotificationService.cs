@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using PhotocopyRevaluationAppMVC.Data;
-using PhotocopyRevaluationAppMVC.Enums;
-using PhotocopyRevaluationAppMVC.Hubs;
-using PhotocopyRevaluationAppMVC.Models;
+using PhotocopyRevaluationApp.Data;
+using PhotocopyRevaluationApp.Enums;
+using PhotocopyRevaluationApp.Hubs;
+using PhotocopyRevaluationApp.Models;
 using System.Timers;
 
-namespace PhotocopyRevaluationAppMVC.Services
-{
-    public class NotificationService : INotificationService
-    {
+namespace PhotocopyRevaluationApp.Services {
+    public class NotificationService : INotificationService {
         private readonly PhotocopyRevaluationAppContext _context; // Assuming you have an EF Core context
 
         private readonly IUserConnectionManager _connectionManager;
@@ -19,8 +17,7 @@ namespace PhotocopyRevaluationAppMVC.Services
         private bool isTimerRunning = false; // Class-level variable to track the timer state
         private System.Timers.Timer sessionCheckTimer;
 
-        public NotificationService(PhotocopyRevaluationAppContext context, IHubContext<SignOutHub> signOutHubContext, IUserConnectionManager connectionManager, IUserSessionService userSessionService)
-        {
+        public NotificationService(PhotocopyRevaluationAppContext context, IHubContext<SignOutHub> signOutHubContext, IUserConnectionManager connectionManager, IUserSessionService userSessionService) {
             _context = context;
             _signOutHubContext = signOutHubContext;
             _connectionManager = connectionManager;
@@ -30,15 +27,13 @@ namespace PhotocopyRevaluationAppMVC.Services
         //========================== Current Required Code Start ================================
 
         // This method will be called when the timer elapses (every minute)
-        public async Task CheackAndSendSignOutNotificationByUserIdThreeMinutesBeforeAsync()
-        {
+        public async Task CheackAndSendSignOutNotificationByUserIdThreeMinutesBeforeAsync() {
             string message = "Please note: Your session is going to expire within five minuits.";
             // check session expirations
             // Check for session expirations immediately when called
             foreach (var sessionData in _userSessionService.GetAllUsersSessionDataAsync().Values) // Use ToList to avoid modifying collection during iteration
             {
-                if (sessionData.ExpiryTime <= DateTime.Now.AddMinutes(1))
-                {
+                if (sessionData.ExpiryTime <= DateTime.Now.AddMinutes(1)) {
                     string userId = sessionData.ApplicationUserId.ToString();
                     // Broadcast sign-out to specific user for connected with all connections
                     // This method can be invoked from the client-side to sign out users
@@ -47,15 +42,13 @@ namespace PhotocopyRevaluationAppMVC.Services
             }
         }
         // This method will be called when the timer elapses (every minute)
-        public async Task CheckAndSendSignOutNotificationByUserIdThreeSecondsBeforeAsync()
-        {
+        public async Task CheckAndSendSignOutNotificationByUserIdThreeSecondsBeforeAsync() {
             string message = "Your session will expire soon.";
             // Add logic to check session expirations
             // Check for session expirations immediately when called
             foreach (var sessionData in _userSessionService.GetAllUsersSessionDataAsync().Values) // Use ToList to avoid modifying collection during iteration
             {
-                if (sessionData.ExpiryTime <= DateTime.Now)
-                {
+                if (sessionData.ExpiryTime <= DateTime.Now) {
                     string userId = sessionData.ApplicationUserId.ToString();
                     // Broadcast sign-out to specific user or all connected users
                     // This method can be invoked from the client-side to sign out users
@@ -65,8 +58,7 @@ namespace PhotocopyRevaluationAppMVC.Services
             }
         }
         //================================================ Current Required Code End =============================================
-        public async Task<List<Notification>> GetSignOutNotificationsForUserAsync(string userId)
-        {
+        public async Task<List<Notification>> GetSignOutNotificationsForUserAsync(string userId) {
             // Fetch notifications where ApplicationUserId matches and IsRead is false (meaning ReadAt is null)
             var notifications = await _context.Notifications
                 .Where(n => n.ApplicationUserId == Convert.ToInt32(userId) && n.ReadAt == null) // ReadAt == null means it's unread
@@ -75,10 +67,8 @@ namespace PhotocopyRevaluationAppMVC.Services
 
             return notifications;
         }
-        public async Task CreateNotificationAsync(string userId, string message, NotificationType type, NotificationPriority priority, string actionUrl = null)
-        {
-            var notification = new Notification
-            {
+        public async Task CreateNotificationAsync(string userId, string message, NotificationType type, NotificationPriority priority, string actionUrl = null) {
+            var notification = new Notification {
                 ApplicationUserId = Convert.ToInt32(userId),
                 Message = message,
                 Type = type,
@@ -91,22 +81,18 @@ namespace PhotocopyRevaluationAppMVC.Services
             _context.Notifications.Add(notification);
             await _context.SaveChangesAsync();
         }
-        public async Task SendSignOutNotificationToUserByConnectionIdAsync(string userId)
-        {
+        public async Task SendSignOutNotificationToUserByConnectionIdAsync(string userId) {
             // Get all connection IDs for the user
             var connectionIds = await _connectionManager.GetConnectionIdsAsync(userId);
 
-            foreach (var connectionId in connectionIds)
-            {
+            foreach (var connectionId in connectionIds) {
                 // Notify each connection to sign out
                 await _signOutHubContext.Clients.Client(connectionId).SendAsync("SignOut");
             }
         }
-        public async Task MarkAsRead(int notificationId)
-        {
+        public async Task MarkAsRead(int notificationId) {
             var notification = await _context.Notifications.FindAsync(notificationId);
-            if (notification != null)
-            {
+            if (notification != null) {
                 notification.ReadAt = DateTime.UtcNow; // Marking the notification as read
                                                        //notification.IsRead = true;
                 await _context.SaveChangesAsync();

@@ -1,29 +1,23 @@
 ﻿using Serilog;
 using Serilog.Context;
 
-namespace PhotocopyRevaluationAppMVC.Logging
-{
-    public class LoggingHelper
-    {
+namespace PhotocopyRevaluationApp.Logging {
+    public class LoggingHelper {
         private readonly ILogger<LoggingHelper> _logger;
 
-        public LoggingHelper(ILogger<LoggingHelper> logger)
-        {
+        public LoggingHelper(ILogger<LoggingHelper> logger) {
             _logger = logger;
         }
 
         //Logging demo example
-        public void LogActionDemo()
-        {
+        public void LogActionDemo() {
             DateTime actionStartTime = DateTime.UtcNow;  // Capture when the action started
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();  // Start a stopwatch to measure duration
 
-            try
-            {
+            try {
                 // Simulate some operation
             }
-            finally
-            {
+            finally {
                 stopwatch.Stop();  // Stop the stopwatch to get the elapsed time
                 Log.Information($"Operation {actionStartTime} completed {stopwatch} successfully.");
             }
@@ -39,8 +33,7 @@ namespace PhotocopyRevaluationAppMVC.Logging
             string action = null,  // Optional parameter with default value
             DateTime actionTime = default,  // Default value for DateTime (it defaults to 0001-01-01T00:00:00)
             TimeSpan milliseconds = default  // Default value for TimeSpan
-            )
-        {
+            ) {
             // Example of using defaults
             actionTime = actionTime == default ? DateTime.UtcNow : actionTime;  // Set current time if not provided
 
@@ -53,8 +46,7 @@ namespace PhotocopyRevaluationAppMVC.Logging
             using (LogContext.PushProperty("CustomData", customData ?? "No Custom Data"))
             using (LogContext.PushProperty("Action", action ?? "No Action"))
             using (LogContext.PushProperty("CreatedAt", actionTime))
-            using (LogContext.PushProperty("DurationMs", milliseconds.TotalMilliseconds))
-            {
+            using (LogContext.PushProperty("DurationMs", milliseconds.TotalMilliseconds)) {
                 // Log the activity
                 Log.Information("User activity logged. UserId: {UserId}, Action: {Action}, IP: {IpAddress}, Duration: {DurationMs} ms", userId, action, ipAddress, milliseconds.TotalMilliseconds);
             }

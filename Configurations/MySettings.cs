@@ -1,6 +1,4 @@
-﻿namespace PhotocopyRevaluationAppMVC.Configurations
-{
-    public class MySettings
-    {
+﻿namespace PhotocopyRevaluationApp.Configurations {
+    public class MySettings {
     }
 }

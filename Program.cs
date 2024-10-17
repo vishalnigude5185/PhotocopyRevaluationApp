@@ -1,5 +1,5 @@
-using PhotocopyRevaluationAppMVC.Hubs;
-using PhotocopyRevaluationAppMVC.Configurations;
+using PhotocopyRevaluationApp.Configurations;
+using PhotocopyRevaluationApp.Hubs;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

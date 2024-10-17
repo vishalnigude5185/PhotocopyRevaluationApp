@@ -1,11 +1,9 @@
-﻿using PhotocopyRevaluationAppMVC.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using PhotocopyRevaluationApp.Enums;
 
-namespace PhotocopyRevaluationAppMVC.Models
-{
-    public class Notification
-    {
+namespace PhotocopyRevaluationApp.Models {
+    public class Notification {
         [Key]
         public int NotificationId { get; set; }  // Primary Key
 

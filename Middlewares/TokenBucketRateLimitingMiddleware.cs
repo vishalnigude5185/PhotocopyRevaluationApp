@@ -4,21 +4,17 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Threading.Tasks;
 
-namespace PhotocopyRevaluationAppMVC.Middlewares
-{
-    public class TokenBucketRateLimitingMiddleware
-    {
+namespace PhotocopyRevaluationApp.Middlewares {
+    public class TokenBucketRateLimitingMiddleware {
         private readonly RequestDelegate _next;
         private readonly IMemoryCache _cache;
 
-        public TokenBucketRateLimitingMiddleware(RequestDelegate next, IMemoryCache cache)
-        {
+        public TokenBucketRateLimitingMiddleware(RequestDelegate next, IMemoryCache cache) {
             _next = next;
             _cache = cache;
         }
 
-        public async Task Invoke(HttpContext context)
-        {
+        public async Task Invoke(HttpContext context) {
             var ipAddress = context.Connection.RemoteIpAddress?.ToString();
             var key = $"TokenBucket_{ipAddress}";
 
@@ -42,28 +38,24 @@ namespace PhotocopyRevaluationAppMVC.Middlewares
             bucket.CurrentTokens = Math.Min(bucket.MaxTokens, bucket.CurrentTokens + tokensToAdd);
             bucket.LastRefillTime = DateTime.UtcNow;
 
-            if (bucket.CurrentTokens > 0)
-            {
+            if (bucket.CurrentTokens > 0) {
                 // Consume a token
                 bucket.CurrentTokens--;
                 _cache.Set(key, bucket, TimeSpan.FromMinutes(1)); // Set expiration to 1 minute
                 await _next(context);
             }
-            else
-            {
+            else {
                 context.Response.StatusCode = StatusCodes.Status429TooManyRequests; // Too Many Requests
                 await context.Response.WriteAsync("Rate limit exceeded. Please try again later.");
             }
         }
 
-        private class TokenBucket
-        {
+        private class TokenBucket {
             public int CurrentTokens { get; set; }
             public int MaxTokens { get; set; }
             public DateTime LastRefillTime { get; set; }
 
-            public TokenBucket(int currentTokens, int maxTokens, DateTime lastRefillTime)
-            {
+            public TokenBucket(int currentTokens, int maxTokens, DateTime lastRefillTime) {
                 CurrentTokens = currentTokens;
                 MaxTokens = maxTokens;
                 LastRefillTime = lastRefillTime;

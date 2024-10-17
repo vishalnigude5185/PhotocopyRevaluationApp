@@ -1,20 +1,16 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using PhotocopyRevaluationAppMVC.Services;
+using PhotocopyRevaluationApp.Services;
 using System.Security.Claims;
 
-namespace PhotocopyRevaluationAppMVC.Hubs
-{
-    public class SignOutHub : Hub
-    {
+namespace PhotocopyRevaluationApp.Hubs {
+    public class SignOutHub : Hub {
         private readonly IUserConnectionManager _connectionManager;
-        public SignOutHub(IUserConnectionManager connectionManager)
-        {
+        public SignOutHub(IUserConnectionManager connectionManager) {
             _connectionManager = connectionManager;
         }
 
         //1) Aproach
-        public override async Task OnConnectedAsync()
-        {
+        public override async Task OnConnectedAsync() {
             ////Check if the user has a unique ID stored in a cookie
             //var userId = Context.UserIdentifier; // Optional: Get the user's identifier
             ////Retrieve the authenticated user ID from claims
@@ -26,16 +22,14 @@ namespace PhotocopyRevaluationAppMVC.Hubs
             //context.Response.Cookies.Append("UserTempId", userId);
             var connectionId = Context.ConnectionId; // Accessing ConnectionId from SignalR's Hub Context
 
-            if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(connectionId))
-            {
+            if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(connectionId)) {
                 // Log the connection (for debugging or tracking purposes)
                 Console.WriteLine($"User {userId} connected with connection ID: {connectionId}");
                 // Optionally, store the connection ID for later use
                 await _connectionManager.AddConnectionAsync(userId, connectionId);
                 Console.WriteLine($"{_connectionManager.GetConnectionIdsAsync(userId)}");
             }
-            else
-            {
+            else {
                 throw new ArgumentNullException(nameof(connectionId), "Connection ID or UserId cannot be null or empty.");
             }
             await base.OnConnectedAsync();
@@ -68,8 +62,7 @@ namespace PhotocopyRevaluationAppMVC.Hubs
 
         //    await base.OnConnectedAsync();
         //}
-        public override async Task OnDisconnectedAsync(Exception exception)
-        { 
+        public override async Task OnDisconnectedAsync(Exception exception) {
             ////Check if the user has a unique ID stored in a cookie
             //var userId = Context.UserIdentifier; // Optional: Get the user's identifier
             ////Retrieve the authenticated user ID from claims
@@ -78,7 +71,7 @@ namespace PhotocopyRevaluationAppMVC.Hubs
             var context = Context.GetHttpContext();
             // Check for null value and provide a default value if the cookie is not found
             userId = context.Request.Cookies["userId"] ?? "DefaultUserId";
-            
+
             //// Generate a temporary ID (e.g., a GUID) and store it in a cookie
             //userId = Guid.NewGuid().ToString();
             var connectionId = Context.ConnectionId; // Get the connection ID for the user who disconnected

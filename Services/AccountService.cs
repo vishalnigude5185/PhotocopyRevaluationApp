@@ -1,13 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using PhotocopyRevaluationAppMVC.Models;
+using PhotocopyRevaluationApp.Models;
 
-
-namespace PhotocopyRevaluationAppMVC.Services
-{
-    public class AccountService : IAccountService
-    {
+namespace PhotocopyRevaluationApp.Services {
+    public class AccountService : IAccountService {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -18,8 +15,7 @@ namespace PhotocopyRevaluationAppMVC.Services
 
         public AccountService(IHttpContextAccessor httpContextAccessor, IEmailSender emailSender, UserManager<ApplicationUser> userManager,
                        SignInManager<ApplicationUser> signInManager,
-                       ILogger<AccountService> logger)
-        {
+                       ILogger<AccountService> logger) {
             _emailSender = emailSender;
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
@@ -28,10 +24,8 @@ namespace PhotocopyRevaluationAppMVC.Services
         }
 
         // SignupAsync method with enhanced validation and email confirmation
-        public async Task<IdentityResult> SignupAsync(UserRegisterationDTO UserRegisterationDTO)
-        {
-            var user = new ApplicationUser
-            {
+        public async Task<IdentityResult> SignupAsync(UserRegisterationDTO UserRegisterationDTO) {
+            var user = new ApplicationUser {
                 UserName = UserRegisterationDTO.UserName,
                 Email = UserRegisterationDTO.Email,
                 PhoneNumber = UserRegisterationDTO.PhoneNumber // Optional, if needed
@@ -40,8 +34,7 @@ namespace PhotocopyRevaluationAppMVC.Services
             // Create the user
             var result = await _userManager.CreateAsync(user, UserRegisterationDTO.Password);
 
-            if (result.Succeeded)
-            {
+            if (result.Succeeded) {
                 // Log successful signup
                 _logger.LogInformation($"User {UserRegisterationDTO.UserName} successfully created.");
 
@@ -54,8 +47,7 @@ namespace PhotocopyRevaluationAppMVC.Services
 
                 _logger.LogInformation($"Sent email confirmation link to {UserRegisterationDTO.Email}.");
             }
-            else
-            {
+            else {
                 // Log signup errors
                 _logger.LogWarning($"Failed to create user {UserRegisterationDTO.UserName}. Errors: {string.Join(", ", result.Errors.Select(e => e.Description))}");
             }
@@ -64,12 +56,10 @@ namespace PhotocopyRevaluationAppMVC.Services
         }
 
         // Find user by email
-        public async Task<ApplicationUser> FindByEmailAsync(string email)
-        {
+        public async Task<ApplicationUser> FindByEmailAsync(string email) {
             return await _userManager.FindByEmailAsync(email);
         }
-        public async Task<bool> EmailAlreadyExistsAsync(UserRegisterationDTO UserRegisterationDTO)
-        {
+        public async Task<bool> EmailAlreadyExistsAsync(UserRegisterationDTO UserRegisterationDTO) {
             // Normalize the email to match the same format as stored in the database
             var normalizedEmail = _userManager.NormalizeEmail(UserRegisterationDTO.Email);
 
@@ -80,11 +70,9 @@ namespace PhotocopyRevaluationAppMVC.Services
             return user != null;
         }
         // Confirm email
-        public async Task<IdentityResult> ConfirmEmailAsync(string userId, string token)
-        {
+        public async Task<IdentityResult> ConfirmEmailAsync(string userId, string token) {
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
+            if (user == null) {
                 throw new InvalidOperationException("User not found.");
             }
 
@@ -93,12 +81,10 @@ namespace PhotocopyRevaluationAppMVC.Services
         }
 
         // Sign in user after successful signup or email confirmation
-        public async Task<Microsoft.AspNetCore.Identity.SignInResult> SignInAsync(string email, string password, bool rememberMe)
-        {
+        public async Task<SignInResult> SignInAsync(string email, string password, bool rememberMe) {
             var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
-            {
-                return Microsoft.AspNetCore.Identity.SignInResult.Failed;
+            if (user == null) {
+                return SignInResult.Failed;
             }
 
             // Sign in the user
@@ -106,11 +92,9 @@ namespace PhotocopyRevaluationAppMVC.Services
         }
 
         // Reset password logic
-        public async Task<IdentityResult> ResetPasswordAsync(string userId, string token, string newPassword)
-        {
+        public async Task<IdentityResult> ResetPasswordAsync(string userId, string token, string newPassword) {
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
+            if (user == null) {
                 throw new InvalidOperationException("User not found.");
             }
 
@@ -118,20 +102,17 @@ namespace PhotocopyRevaluationAppMVC.Services
         }
 
         // Check if email is confirmed
-        public async Task<bool> IsEmailConfirmedAsync(ApplicationUser user)
-        {
+        public async Task<bool> IsEmailConfirmedAsync(ApplicationUser user) {
             return await _userManager.IsEmailConfirmedAsync(user);
         }
 
         // Helper method to log errors
-        private void LogErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
+        private void LogErrors(IdentityResult result) {
+            foreach (var error in result.Errors) {
                 _logger.LogError($"Error: {error.Description}");
             }
         }
-     //=============================================== Validation Related Logic ============================================
+        //=============================================== Validation Related Logic ============================================
 
         ////To check mo no or email combine
         //public bool IsValidMonoOrEmail(string input)
@@ -139,14 +120,12 @@ namespace PhotocopyRevaluationAppMVC.Services
         //    var combinedRegex = new Regex(@"^(?:[a-zA-Z0-9\s\-']+|[^\s@]+@[^\s@]+\.[^\s@]+)$");
         //    return combinedRegex.IsMatch(input);
         //}
-        public async Task<bool> IsValidPhoneNumberAsync(string input)
-        {
+        public async Task<bool> IsValidPhoneNumberAsync(string input) {
             var phoneRegex = new Regex(@"^\+?[1-9]\d{1,14}$");
             return phoneRegex.IsMatch(input);
         }
 
-        public async Task<bool> IsValidEmailAsync(string email)
-        {
+        public async Task<bool> IsValidEmailAsync(string email) {
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
             return emailRegex.IsMatch(email);
         }

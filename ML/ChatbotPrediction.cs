@@ -1,9 +1,7 @@
 ﻿using Microsoft.ML.Data;
 
-namespace PhotocopyRevaluationAppMVC.ML
-{
-    public class ChatbotPrediction
-    {
+namespace PhotocopyRevaluationApp.ML {
+    public class ChatbotPrediction {
         [ColumnName("PredictedLabel")]
         public string PredictedIntent;
 

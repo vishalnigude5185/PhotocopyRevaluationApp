@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PhotocopyRevaluationAppMVC.Models
-{
-    public class RegisteredUserDTO
-    {
+namespace PhotocopyRevaluationApp.Models {
+    public class RegisteredUserDTO {
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
         [MaxLength(255)] // Typically, 255 characters for email

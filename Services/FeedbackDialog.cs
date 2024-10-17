@@ -1,12 +1,9 @@
 ﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace PhotocopyRevaluationAppMVC.Services
-{
-    public class FeedbackDialog : ComponentDialog
-    {
-        public FeedbackDialog() : base(nameof(FeedbackDialog))
-        {
+namespace PhotocopyRevaluationApp.Services {
+    public class FeedbackDialog : ComponentDialog {
+        public FeedbackDialog() : base(nameof(FeedbackDialog)) {
             var waterfallSteps = new WaterfallStep[]
             {
                AskForFeedbackStepAsync,
@@ -18,28 +15,23 @@ namespace PhotocopyRevaluationAppMVC.Services
             AddDialog(new TextPrompt("CommentsPrompt"));
         }
 
-        private async Task<DialogTurnResult> AskForFeedbackStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            return await stepContext.PromptAsync("RatingPrompt", new PromptOptions
-            {
+        private async Task<DialogTurnResult> AskForFeedbackStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken) {
+            return await stepContext.PromptAsync("RatingPrompt", new PromptOptions {
                 Prompt = MessageFactory.Text("Please rate your experience from 1 to 5:")
             }, cancellationToken);
         }
 
-        private async Task<DialogTurnResult> ProcessFeedbackStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
+        private async Task<DialogTurnResult> ProcessFeedbackStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken) {
             int rating = (int)stepContext.Result;
             stepContext.Values["rating"] = rating;
 
             await stepContext.Context.SendActivityAsync("Thank you! Could you please provide additional comments?");
-            return await stepContext.PromptAsync("CommentsPrompt", new PromptOptions
-            {
+            return await stepContext.PromptAsync("CommentsPrompt", new PromptOptions {
                 Prompt = MessageFactory.Text("Any additional feedback?")
             }, cancellationToken);
         }
 
-        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
+        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken) {
             string comments = (string)stepContext.Result;
 
             // Log feedback (rating and comments) into a database or analytics platform
@@ -49,14 +41,12 @@ namespace PhotocopyRevaluationAppMVC.Services
             return await stepContext.EndDialogAsync(null, cancellationToken);
         }
 
-        private Task LogFeedback(string userId, int rating, string comments)
-        {
+        private Task LogFeedback(string userId, int rating, string comments) {
             // Store feedback in a database or analytics platform like Application Insights, Azure Cosmos DB, etc.
             // Implementation would go here
             return Task.CompletedTask;
         }
-        public async Task<DialogTurnResult> ProcessIntentStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
+        public async Task<DialogTurnResult> ProcessIntentStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken) {
             // Assuming user's input is captured from stepContext
             var userInput = stepContext.Context.Activity.Text;
 
@@ -66,8 +56,7 @@ namespace PhotocopyRevaluationAppMVC.Services
             // Logging the recognized intent
             await stepContext.Context.SendActivityAsync($"Recognized Intent: {recognizedResult.Intent}");
 
-            switch (recognizedResult.Intent)
-            {
+            switch (recognizedResult.Intent) {
                 case "EndConversation":
                     // Begin FeedbackDialog if the user wants to end the conversation
                     return await stepContext.BeginDialogAsync(nameof(FeedbackDialog), null, cancellationToken);
@@ -92,8 +81,7 @@ namespace PhotocopyRevaluationAppMVC.Services
         }
 
         // Simulated method to recognize intent (can integrate LUIS or any NLP service)
-        private async Task<RecognizedResult> RecognizeIntentAsync(string input)
-        {
+        private async Task<RecognizedResult> RecognizeIntentAsync(string input) {
             // Simulate a call to an NLP service or LUIS
             // Example: Process the user's input with an external service
             // This is where you would call LUIS or another NLP service to detect intent
@@ -101,14 +89,12 @@ namespace PhotocopyRevaluationAppMVC.Services
             // For now, we're mocking an intent recognition result
             await Task.Delay(100);  // Simulate async call delay
 
-            return new RecognizedResult
-            {
+            return new RecognizedResult {
                 Intent = input.Contains("end") ? "EndConversation" : "UnknownIntent"
             };
         }
 
-        private class RecognizedResult
-        {
+        private class RecognizedResult {
             public string Intent { get; set; }
         }
 

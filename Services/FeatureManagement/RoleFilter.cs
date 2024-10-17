@@ -1,11 +1,10 @@
-﻿    // File: YourProject/FeatureFilters/RoleFilter.cs
-    using Microsoft.FeatureManagement;
-    using Microsoft.Extensions.Logging;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    
-namespace PhotocopyRevaluationAppMVC.Services.FeatureManagement
-{
+﻿// File: YourProject/FeatureFilters/RoleFilter.cs
+using Microsoft.FeatureManagement;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace PhotocopyRevaluationApp.Services.FeatureManagement {
     //public class RoleFilter : IFeatureFilter
     //{
     //    private readonly ILogger<RoleFilter> _logger;

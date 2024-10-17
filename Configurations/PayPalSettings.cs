@@ -1,7 +1,5 @@
-﻿namespace PhotocopyRevaluationAppMVC.Configurations
-{
-    public class PayPalSettings
-    {
+﻿namespace PhotocopyRevaluationApp.Configurations {
+    public class PayPalSettings {
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
         public string Environment { get; set; }

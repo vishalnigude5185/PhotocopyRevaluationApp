@@ -1,12 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using PhotocopyRevaluationAppMVC.Data;
-using PhotocopyRevaluationAppMVC.Models;
-using PhotocopyRevaluationAppMVC.Services;
+using PhotocopyRevaluationApp.Data;
 using System.Diagnostics;
 
-namespace PhotocopyRevaluationAppMVC.Controllers
-{
+namespace PhotocopyRevaluationApp.Controllers {
     ////Using Cookie Authentication
     //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 
@@ -19,30 +16,26 @@ namespace PhotocopyRevaluationAppMVC.Controllers
     //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme + "," + JwtBearerDefaults.AuthenticationScheme)]
 
     //[Authorize]
-    public class HomeController : Controller
-    {
+    public class HomeController : Controller {
         private readonly PhotocopyRevaluationAppContext _context;
 
         private readonly ILogger<HomeController> _logger;
-        
+
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public HomeController(IHttpClientFactory httpClientFactory, PhotocopyRevaluationAppContext context, ILogger<HomeController> logger)
-        {
+        public HomeController(IHttpClientFactory httpClientFactory, PhotocopyRevaluationAppContext context, ILogger<HomeController> logger) {
             _httpClientFactory = httpClientFactory;
-            
+
             _context = context;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> reCAPTCHA_demo()
-        {
+        public async Task<IActionResult> reCAPTCHA_demo() {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Submit(string recaptchaResponse)
-        {
+        public async Task<IActionResult> Submit(string recaptchaResponse) {
             var client = _httpClientFactory.CreateClient();
             var secretKey = "6LdkXb0pAAAAAJnN63ngdpoFXa_x5bXwj0bIUMUP"; // Replace with your Secret Key
 
@@ -52,33 +45,28 @@ namespace PhotocopyRevaluationAppMVC.Controllers
             dynamic jsonData = JsonConvert.DeserializeObject(jsonResponse);
             var success = jsonData.success;
 
-            if (success)
-            {
+            if (success) {
                 // The reCAPTCHA was successful; process the form data.
                 return RedirectToAction("Success"); // Or do something else
             }
-            else
-            {
+            else {
                 // The reCAPTCHA verification failed.
                 ModelState.AddModelError("", "reCAPTCHA verification failed. Please try again.");
                 return View(); // Return to the form with an error
             }
         }
-        
-        public IActionResult Index()
-        {
+
+        public IActionResult Index() {
             return View();
         }
         [HttpPost]
-       
-        public IActionResult Privacy()
-        {
+
+        public IActionResult Privacy() {
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
+        public IActionResult Error() {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

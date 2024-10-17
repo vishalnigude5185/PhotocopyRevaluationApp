@@ -68,6 +68,27 @@ jobs:
     - name: Run tests
       run: dotnet test --no-restore --verbosity normal
 
+      Customizing Which Tests to Run:
+      1. Target Specific Test Projects:
+      - name: Run specific test project
+    run: dotnet test MyApp.Tests/MyApp.Tests.csproj --no-restore --configuration Release
+
+      2. Filter Tests by Category:
+      - name: Run tests with a specific trait
+    run: dotnet test --filter Category=UnitTests
+
+      Run Tests in a Specific Assembly:
+      - name: Run tests in a specific assembly
+    run: dotnet test path/to/test/assembly/MyApp.Tests.dll
+
+    4. Run Tests by Namespace or Class:
+    - name: Run specific class tests
+    run: dotnet test --filter FullyQualifiedName~MyApp.Tests.Controllers.SearchControllerTests
+
+    #5. Running Specific Tests:
+    - name: Run only unit tests
+      run: dotnet test --filter TestCategory=Unit
+
     - name: Publish
       run: dotnet publish --configuration Release --output ./publish
 
