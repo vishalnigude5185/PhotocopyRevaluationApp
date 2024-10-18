@@ -1,8 +1,5 @@
 ﻿// File: Middleware/TokenBucketRateLimitingMiddleware.cs
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Threading.Tasks;
 
 namespace PhotocopyRevaluationApp.Middlewares {
     public class TokenBucketRateLimitingMiddleware {

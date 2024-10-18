@@ -1,36 +1,26 @@
-﻿using SendGrid.Helpers.Errors.Model;
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.Net;
 
-namespace PhotocopyRevaluationAppMVC.NewFolder
-{
+namespace PhotocopyRevaluationAppMVC.NewFolder {
     // File: Middleware/ExceptionHandlingMiddleware.cs
-    namespace YourAppNamespace.Middleware
-    {
-        public class ExceptionHandlingMiddleware
-        {
+    namespace YourAppNamespace.Middleware {
+        public class ExceptionHandlingMiddleware {
             private readonly RequestDelegate _next;
             private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-            public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
-            {
+            public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger) {
                 _next = next;
                 _logger = logger;
             }
-            public async Task Invoke(HttpContext context)
-            {
-                try
-                {
+            public async Task Invoke(HttpContext context) {
+                try {
                     await _next(context);
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     await HandleExceptionAsync(context, ex);
                 }
             }
 
-            private Task HandleExceptionAsync(HttpContext context, Exception ex)
-            {
+            private Task HandleExceptionAsync(HttpContext context, Exception ex) {
                 // Log the exception details
                 _logger.LogError(ex, "An unhandled exception has occurred: {Message}", ex.Message);
 
@@ -39,8 +29,7 @@ namespace PhotocopyRevaluationAppMVC.NewFolder
                 context.Response.ContentType = "application/json";
 
                 // Create a response object
-                var result = new
-                {
+                var result = new {
                     message = "An unexpected error occurred. Please try again later.",
                     statusCode = context.Response.StatusCode
                 };
@@ -77,8 +66,7 @@ namespace PhotocopyRevaluationAppMVC.NewFolder
                 //return context.Response.WriteAsJsonAsync(response);
             }
 
-            private class ErrorResponse
-            {
+            private class ErrorResponse {
                 public string Message { get; set; }
                 public HttpStatusCode StatusCode { get; set; }
             }

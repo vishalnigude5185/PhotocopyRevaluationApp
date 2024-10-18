@@ -1,10 +1,9 @@
-﻿using PayPalCheckoutSdk.Orders;
-using PayPalCheckoutSdk.Core;
-using Newtonsoft.Json;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
+using Newtonsoft.Json;
 using PayPal;
-using PayPal.Api;
+using PayPalCheckoutSdk.Core;
+using PayPalCheckoutSdk.Orders;
 using PhotocopyRevaluationApp.Configurations;
 
 namespace PhotocopyRevaluationApp.Services {

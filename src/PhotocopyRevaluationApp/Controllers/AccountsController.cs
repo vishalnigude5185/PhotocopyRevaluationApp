@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using System.Data;
 using System.Security.Claims;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
-using System.Data;
+using System.Text;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
-using Microsoft.AspNetCore.Identity;
-using PhotocopyRevaluationApp.Services;
-using PhotocopyRevaluationApp.Models;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using PhotocopyRevaluationApp.Data;
+using PhotocopyRevaluationApp.Models;
+using PhotocopyRevaluationApp.Services;
 
 namespace PhotocopyRevaluationApp.Controllers {
     public class AccountsController : Controller {

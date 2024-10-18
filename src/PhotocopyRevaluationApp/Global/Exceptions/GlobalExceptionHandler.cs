@@ -1,11 +1,11 @@
 ﻿namespace PhotocopyRevaluationApp.Global.Exceptions {
-    // File: YourProject/Exceptions/GlobalExceptionHandler.cs
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.Logging;
     using System;
     using System.Net;
     using System.Text.Json;
     using System.Threading.Tasks;
+    // File: YourProject/Exceptions/GlobalExceptionHandler.cs
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
 
     public class GlobalExceptionHandler : IGlobalExceptionHandler {
         private readonly ILogger<GlobalExceptionHandler> _logger;

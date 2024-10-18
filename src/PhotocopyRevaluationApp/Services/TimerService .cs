@@ -1,6 +1,4 @@
-﻿using System.Timers;
-
-namespace PhotocopyRevaluationApp.Services {
+﻿namespace PhotocopyRevaluationApp.Services {
     // File: Services/TimerService.cs
     public class TimerService : ITimerService, IHostedService {
         private readonly ILogger<TimerService> _logger;

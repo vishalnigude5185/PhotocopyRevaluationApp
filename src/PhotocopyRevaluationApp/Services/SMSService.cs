@@ -1,7 +1,6 @@
-﻿using Twilio.Types;
-using Twilio;
+﻿using Twilio;
 using Twilio.Rest.Api.V2010.Account;
-using static System.Net.WebRequestMethods;
+using Twilio.Types;
 
 namespace PhotocopyRevaluationApp.Services {
     public class SMSService {

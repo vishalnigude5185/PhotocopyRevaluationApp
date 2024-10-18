@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-
-namespace PhotocopyRevaluationApp.DependencyInjection {
+﻿namespace PhotocopyRevaluationApp.DependencyInjection {
     public class DynamicServiceResolver {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<DynamicServiceResolver> _logger;

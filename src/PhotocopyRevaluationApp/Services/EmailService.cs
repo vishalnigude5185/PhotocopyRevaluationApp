@@ -1,12 +1,10 @@
-﻿using SendGrid.Helpers.Mail;
-using SendGrid;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Net;
-using FluentEmail.Smtp;
 using FluentEmail.Core;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using FluentEmail.Smtp;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace PhotocopyRevaluationApp.Services {
     public class EmailService : IEmailSender, IEmailService {

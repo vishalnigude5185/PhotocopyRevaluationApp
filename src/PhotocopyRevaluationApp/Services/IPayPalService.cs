@@ -1,6 +1,4 @@
-﻿using PayPalCheckoutSdk.Orders;
-
-namespace PhotocopyRevaluationApp.Services {
+﻿namespace PhotocopyRevaluationApp.Services {
     public interface IPayPalService {
         Task<string> CreatePaymentAsync(decimal amount);
         Task<(bool, string)> CapturePaymentAsync(string orderId);

@@ -1,9 +1,4 @@
 ﻿// File: FeatureFilters/UserAgentFilter.cs
-using Microsoft.AspNetCore.Http;
-using Microsoft.FeatureManagement;
-using Microsoft.Extensions.Logging;
-using System.Linq;
-using System.Threading.Tasks;
 namespace PhotocopyRevaluationApp.Services.FeatureManagement {
     //public class UserAgentFilter : IFeatureFilter
     //{

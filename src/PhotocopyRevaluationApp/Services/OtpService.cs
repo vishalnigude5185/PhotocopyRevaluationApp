@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using System.Text;
+using Microsoft.Extensions.Caching.Memory;
 using PhotocopyRevaluationApp.Controllers;
-using System.Text;
 
 namespace PhotocopyRevaluationApp.Services {
     public class OtpService : IOtpService {

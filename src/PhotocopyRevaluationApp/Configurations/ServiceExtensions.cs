@@ -1,20 +1,20 @@
-﻿using DinkToPdf.Contracts;
+﻿using System.Net;
+using System.Net.Mail;
+using System.Text;
 using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using PhotocopyRevaluationApp.Data;
 using PhotocopyRevaluationApp.Global.Exceptions;
-using PhotocopyRevaluationApp.Services;
-using PhotocopyRevaluationApp.Models;
 using PhotocopyRevaluationApp.Hubs;
 using PhotocopyRevaluationApp.Logging;
-using PhotocopyRevaluationApp.Data;
+using PhotocopyRevaluationApp.Models;
+using PhotocopyRevaluationApp.Services;
 
 namespace PhotocopyRevaluationApp.Configurations {
     public static class ServiceExtensions {

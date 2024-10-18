@@ -1,12 +1,6 @@
-﻿using FluentEmail.Core;
-using FluentEmail.Smtp;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Data;
 using Serilog;
-using Serilog.Context;
 using Serilog.Sinks.MSSqlServer;
-using System.Data;
-using System.Net;
-using System.Net.Mail;
 
 namespace PhotocopyRevaluationApp.Logging {
     public class SerilogLoggingConfiguration {

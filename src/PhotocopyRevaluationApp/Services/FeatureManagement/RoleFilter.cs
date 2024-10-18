@@ -1,9 +1,4 @@
 ﻿// File: YourProject/FeatureFilters/RoleFilter.cs
-using Microsoft.FeatureManagement;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace PhotocopyRevaluationApp.Services.FeatureManagement {
     //public class RoleFilter : IFeatureFilter
     //{

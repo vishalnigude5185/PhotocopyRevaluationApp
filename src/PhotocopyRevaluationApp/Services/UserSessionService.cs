@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System.Collections.Concurrent;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Memory;
 using PhotocopyRevaluationApp.Models;
-using System;
-using System.Collections.Concurrent;
 
 namespace PhotocopyRevaluationApp.Services {
     public class UserSessionService : IUserSessionService {

@@ -1,20 +1,15 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PhotocopyRevaluationAppMVC.Migrations
-{
+namespace PhotocopyRevaluationAppMVC.Migrations {
     /// <inheritdoc />
-    public partial class _260924_0126 : Migration
-    {
+    public partial class _260924_0126 : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
                 name: "ApplicationUsers",
-                columns: table => new
-                {
+                columns: table => new {
                     ApplicationUserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -37,15 +32,13 @@ namespace PhotocopyRevaluationAppMVC.Migrations
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ApplicationUsers", x => x.ApplicationUserId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "photocopy",
-                columns: table => new
-                {
+                columns: table => new {
                     SNO = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EventName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -63,15 +56,13 @@ namespace PhotocopyRevaluationAppMVC.Migrations
                     IsPaid = table.Column<int>(type: "int", nullable: true),
                     BillerId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_photocopy", x => x.SNO);
                 });
 
             migrationBuilder.CreateTable(
                 name: "reValuation",
-                columns: table => new
-                {
+                columns: table => new {
                     SNO = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EventName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -89,15 +80,13 @@ namespace PhotocopyRevaluationAppMVC.Migrations
                     BillerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsPaid = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_reValuation", x => x.SNO);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Notifications",
-                columns: table => new
-                {
+                columns: table => new {
                     NotificationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationUserId = table.Column<int>(type: "int", nullable: false),
@@ -109,8 +98,7 @@ namespace PhotocopyRevaluationAppMVC.Migrations
                     ActionUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Notifications", x => x.NotificationId);
                     table.ForeignKey(
                         name: "FK_Notifications_ApplicationUsers_ApplicationUserId",
@@ -122,8 +110,7 @@ namespace PhotocopyRevaluationAppMVC.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SessionData",
-                columns: table => new
-                {
+                columns: table => new {
                     SessionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationUserId = table.Column<int>(type: "int", nullable: false),
@@ -138,8 +125,7 @@ namespace PhotocopyRevaluationAppMVC.Migrations
                     IsPersistent = table.Column<bool>(type: "bit", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_SessionData", x => x.SessionId);
                     table.ForeignKey(
                         name: "FK_SessionData_ApplicationUsers_ApplicationUserId",
@@ -161,8 +147,7 @@ namespace PhotocopyRevaluationAppMVC.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "Notifications");
 

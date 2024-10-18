@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhotocopyRevaluationApp.Data;
 using PhotocopyRevaluationApp.Models;
 using PhotocopyRevaluationApp.Services;
-using System.Globalization;
 
 namespace PhotocopyRevaluationApp.Controllers {
     //[Authorize]

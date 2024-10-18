@@ -1,9 +1,4 @@
 ﻿// File: FeatureFilters/TimeWindowFilter.cs
-using Microsoft.FeatureManagement;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
-
 namespace PhotocopyRevaluationApp.Services.FeatureManagement {
     //public class TimeWindowFilter : IFeatureFilter
     //{

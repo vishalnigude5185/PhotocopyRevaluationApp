@@ -1,8 +1,8 @@
 ﻿namespace PhotocopyRevaluationApp.Autherization {
-    // File: Authorization/SameUserAuthorization.cs
-    using Microsoft.AspNetCore.Authorization;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    // File: Authorization/SameUserAuthorization.cs
+    using Microsoft.AspNetCore.Authorization;
 
     public class SameUserRequirement : IAuthorizationRequirement {
     }

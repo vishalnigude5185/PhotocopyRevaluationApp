@@ -4,7 +4,6 @@ using PhotocopyRevaluationApp.Data;
 using PhotocopyRevaluationApp.Enums;
 using PhotocopyRevaluationApp.Hubs;
 using PhotocopyRevaluationApp.Models;
-using System.Timers;
 
 namespace PhotocopyRevaluationApp.Services {
     public class NotificationService : INotificationService {

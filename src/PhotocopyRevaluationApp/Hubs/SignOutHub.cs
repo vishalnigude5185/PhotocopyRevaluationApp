@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.SignalR;
 using PhotocopyRevaluationApp.Services;
-using System.Security.Claims;
 
 namespace PhotocopyRevaluationApp.Hubs {
     public class SignOutHub : Hub {

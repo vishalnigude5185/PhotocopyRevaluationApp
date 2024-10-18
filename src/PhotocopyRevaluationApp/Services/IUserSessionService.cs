@@ -1,5 +1,5 @@
-﻿using PhotocopyRevaluationApp.Models;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
+using PhotocopyRevaluationApp.Models;
 
 namespace PhotocopyRevaluationApp.Services {
     public interface IUserSessionService {

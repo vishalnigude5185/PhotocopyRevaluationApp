@@ -1,5 +1,5 @@
-﻿using Serilog.Context;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using Serilog.Context;
 
 namespace PhotocopyRevaluationApp.Middlewares {
     public class LoggingMiddleware {

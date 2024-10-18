@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PhotocopyRevaluationApp.Data;
-using System.Linq.Expressions;
 
 namespace PhotocopyRevaluationApp.Controllers {
     public class SearchController : Controller {

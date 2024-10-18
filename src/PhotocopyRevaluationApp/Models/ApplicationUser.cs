@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace PhotocopyRevaluationApp.Models {
     public class ApplicationUser : IdentityUser, IValidatableObject /*IEquatable<ApplicationUser>*/

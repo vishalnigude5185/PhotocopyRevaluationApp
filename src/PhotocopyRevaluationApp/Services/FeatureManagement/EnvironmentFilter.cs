@@ -1,8 +1,4 @@
 ﻿// File: FeatureFilters/EnvironmentFilter.cs
-using Microsoft.FeatureManagement;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-
 namespace PhotocopyRevaluationApp.Services.FeatureManagement {
     //public class EnvironmentFilter : IFeatureFilter
     //{

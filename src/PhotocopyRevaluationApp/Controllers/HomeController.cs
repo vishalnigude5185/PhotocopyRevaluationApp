@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PhotocopyRevaluationApp.Data;
-using System.Diagnostics;
 
 namespace PhotocopyRevaluationApp.Controllers {
     ////Using Cookie Authentication

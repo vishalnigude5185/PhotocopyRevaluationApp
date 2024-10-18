@@ -1,6 +1,4 @@
-﻿using Microsoft.FeatureManagement;
-
-namespace PhotocopyRevaluationApp.Services.FeatureManagement {
+﻿namespace PhotocopyRevaluationApp.Services.FeatureManagement {
     public class FeatureManager {
 
         public FeatureManager() { }

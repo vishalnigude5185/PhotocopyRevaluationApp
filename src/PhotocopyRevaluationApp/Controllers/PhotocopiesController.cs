@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using PhotocopyRevaluationApp.Services;
-using PhotocopyRevaluationApp.Models;
 using PhotocopyRevaluationApp.Data;
+using PhotocopyRevaluationApp.Models;
+using PhotocopyRevaluationApp.Services;
 
 namespace PhotocopyRevaluationApp.Controllers {
     public class PhotocopiesController : Controller {

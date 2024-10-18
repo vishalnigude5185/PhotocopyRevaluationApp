@@ -1,7 +1,4 @@
-﻿
-using System.Collections.Concurrent;
-
-namespace PhotocopyRevaluationApp.Services {
+﻿namespace PhotocopyRevaluationApp.Services {
     public interface IOtpService {
         void SetOtpAsync(string key, string otp, TimeSpan ttl);
         Task<string> GetOtpAsync(string key_userid);

@@ -1,6 +1,4 @@
-﻿using FluentEmail.Smtp;
-
-namespace PhotocopyRevaluationApp.Services.HostedTasks {
+﻿namespace PhotocopyRevaluationApp.Services.HostedTasks {
     public class EmailHostedService : IHostedService {
         public Task StartAsync(CancellationToken cancellationToken) {
             throw new NotImplementedException();

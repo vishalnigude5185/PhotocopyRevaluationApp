@@ -1,9 +1,4 @@
 ﻿// File: YourProject/FeatureFilters/PercentageFilter.cs
-using Microsoft.FeatureManagement;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
-
 namespace PhotocopyRevaluationApp.Services.FeatureManagement {
     //public class PercentageFilter : IFeatureFilter
     //{

@@ -1,10 +1,8 @@
 ﻿using DinkToPdf;
 using DinkToPdf.Contracts;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using PhotocopyRevaluationApp.Data;
-using System.Collections.Generic;
 
 namespace PhotocopyRevaluationApp.Services {
     public class ExportDataService : IExportDataService {

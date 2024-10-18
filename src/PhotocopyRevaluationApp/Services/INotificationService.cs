@@ -1,6 +1,5 @@
 ﻿using PhotocopyRevaluationApp.Enums;
 using PhotocopyRevaluationApp.Models;
-using System.Timers;
 
 namespace PhotocopyRevaluationApp.Services {
     public interface INotificationService {
