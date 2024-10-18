@@ -1,22 +1,127 @@
-# Ignore Visual Studio temporary files
-.vs/
-
-# Ignore build output
-bin/
-obj/
+# Ignore Visual Studio temporary files, build results, and project-specific files
 
 # User-specific files
+.vscode/
+.vs/
 *.user
 *.suo
+*.userosscache
 *.sln.docstates
 
-# Ignore packages
-**/packages/*
+# Auto-generated files
+/bin/
+/obj/
+/debug/
+/release/
+/build/
+/out/
 
-# Ignore logs
-logs/
+# Rider IDE files
+.idea/
+
+# ASP.NET Core-specific files
+appsettings*.json   # Ignore all appsettings.json files
+secrets.json        # User secrets should not be committed
+*.runtimeconfig.json
+launchSettings.json # Local environment settings for debugging
+
+# ASP.NET Core build-related files
+*.dll
+*.exe
+*.pdb
+*.cache
+*.xml
+*.db
+
+# Logs and reports
 *.log
+*.tlog
+*.coverage
+*.coveragexml
+*.codecoverage
+*.trx
+/coverage/
+coverage.xml
+/Reports/
 
-# Ignore app settings
-appsettings.Development.json
- 
+# Ignore bin and obj folders for main and test projects
+# Main project artifacts in src folder
+/src/PhotocopyRevaluationApp/bin/
+/src/PhotocopyRevaluationApp/obj/
+/src/PhotocopyRevaluationApp/*.csproj.user
+
+# Test project artifacts in tests folder
+/tests/PhotocopyRevaluationApp.Tests/bin/
+/tests/PhotocopyRevaluationApp.Tests/obj/
+/tests/PhotocopyRevaluationApp.Tests/*.csproj.user
+
+# Ignore test results
+/tests/TestResults/
+*.trx
+*.coverage
+
+# Package directories and dependencies
+/packages/
+/node_modules/
+/wwwroot/lib/
+/wwwroot/node_modules/
+/wwwroot/bundle/
+
+# Dependency-related files
+project.lock.json
+project.fragment.lock.json
+global.json
+
+# NuGet package files
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+.nuget/
+
+# Ignore .NET tools directories
+.dotnet/
+.tools/
+
+# Ignore GitHub Actions runner files (if using self-hosted runners)
+/action-runners/
+
+# Ignore GitHub-specific directories
+.github/
+.gitattributes
+.gitignore
+
+# Ignore MacOS-specific files
+.DS_Store
+
+# Ignore Windows-specific files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore deployment files
+docker-compose.yml
+Dockerfile
+docker-compose.override.yml
+
+# Ignore files created by popular code analysis tools
+.sonar/
+.sonarlint/
+.stylecop/
+
+# Ignore build artifacts from testing and performance tools
+*.profraw
+*.profdata
+
+# Ignore NCrunch generated files (if using NCrunch testing tool)
+/_NCrunch_/
+*.ncrunchproject
+*.ncrunchsolution
+*.ncrunch
+
+# Ignore ReSharper folders (if using JetBrains ReSharper)
+/resharper/
+_ReSharper.*
+
+# Ignore Azure deployment files
+.publishprofiles/

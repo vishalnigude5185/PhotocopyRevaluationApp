@@ -1,0 +1,288 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<ItemGroup>
+  <None Update="runtimes\win-x64\native\libwkhtmltox.dll">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+  <None Update="runtimes\win-x86\native\libwkhtmltox.dll">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+	<ItemGroup>
+		<None Update="runtimes\win-x64\native\libwkhtmltox.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="runtimes\win-x86\native\libwkhtmltox.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<EnablePreviewFeatures>true</EnablePreviewFeatures>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+		<!-- or 7.0, 7.1, 8.0, etc. -->
+	</PropertyGroup>
+
+	<PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <Content Remove=".github\**" />
+    <Content Remove=".git\**" />
+    <Content Remove="Controllers\AIModified\**" />
+    <Content Remove="Data - Copy\**" />
+    <Content Remove="Migrations\**" />
+    <Content Remove="NewFolder1\**" />
+    <Content Remove="NewFolder2\**" />
+    <Content Remove="Views\PhotocopiesRevaluations\**" />
+    <EmbeddedResource Remove=".github\**" />
+    <EmbeddedResource Remove=".git\**" />
+    <EmbeddedResource Remove="Controllers\AIModified\**" />
+    <EmbeddedResource Remove="Data - Copy\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="NewFolder1\**" />
+    <EmbeddedResource Remove="NewFolder2\**" />
+    <EmbeddedResource Remove="Views\PhotocopiesRevaluations\**" />
+    <None Remove=".github\**" />
+    <None Remove=".git\**" />
+    <None Remove="Controllers\AIModified\**" />
+    <None Remove="Data - Copy\**" />
+    <None Remove="Migrations\**" />
+    <None Remove="NewFolder1\**" />
+    <None Remove="NewFolder2\**" />
+    <None Remove="Views\PhotocopiesRevaluations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="global.json" />
+    <Content Remove="Views\Photocopies\Create.cshtml" />
+    <Content Remove="Views\Photocopies\Delete.cshtml" />
+    <Content Remove="Views\Photocopies\Details.cshtml" />
+    <Content Remove="Views\Photocopies\Edit.cshtml" />
+    <Content Remove="Views\Revaluations\Create.cshtml" />
+    <Content Remove="Views\Revaluations\Delete.cshtml" />
+    <Content Remove="Views\Revaluations\Details.cshtml" />
+    <Content Remove="Views\Revaluations\Edit.cshtml" />
+    <Content Remove="wwwroot\css\ReValuations.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Autherization\MinimumAgeRequirement.cs" />
+    <Compile Include="Autherization\UserNameRequirement.cs" />
+    <Compile Include="Autherization\RoleBasedPermissionRequirement.cs" />
+    <Compile Include="Autherization\SameUserRequirement.cs" />
+    <Compile Include="Services\BackgroundTasks\EmailBackgroundService.cs" />
+    <Compile Include="Configurations\AppExtensions.cs" />
+    <Compile Include="Configurations\ServiceExtensions.cs" />
+    <Compile Include="DependencyInjection\DynamicServiceResolver.cs" />
+    <Compile Include="Global\Exceptions\GlobalExceptionHandler.cs" />
+    <Compile Include="Global\Exceptions\IGlobalExceptionHandler.cs" />
+    <Compile Include="Global\GlobalVariables.cs" />
+    <Compile Include="ML\ChatBotModelTrainer.cs" />
+    <Compile Include="ChatBoat\ChatBotService.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Services\FeatureManagement\EnvironmentFilter.cs" />
+    <Compile Include="Services\FeatureManagement\FeatureManager.cs" />
+    <Compile Include="Services\FeatureManagement\RoleFilter.cs" />
+    <Compile Include="Services\FeatureManagement\TimeWindowFilter.cs" />
+    <Compile Include="Services\FeatureManagement\UserAgentFilter.cs" />
+    <Compile Include="Services\HostedTasks\EmailHostedService.cs" />
+    <Compile Include="Logging\CustomEmailSink.cs" />
+    <Compile Include="Logging\LoggingHelper.cs" />
+    <Compile Include="Logging\SerilogLoggingConfiguration.cs" />
+    <Compile Include="Configurations\MySettings.cs" />
+    <Compile Include="Configurations\PayPalSettings.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
+    <Compile Include="Controllers\PhotocopiesController.cs" />
+    <Compile Include="Controllers\RevaluationsController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Data\LoggingContext.cs" />
+    <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Hubs\NotificationHub.cs" />
+    <Compile Include="Hubs\SignOutHub.cs" />
+    <Compile Include="Logging\DatabaseLoggerProvider.cs" />
+    <Compile Include="Logging\TelemetryBot.cs" />
+    <Compile Include="Middlewares\FixedWindowRateLimitingMiddleware.cs" />
+    <Compile Include="Middlewares\LoggingMiddleware.cs" />
+    <Compile Include="Middlewares\SlidingWindowRateLimitingMiddleware.cs" />
+    <Compile Include="Middlewares\TokenBucketRateLimitingMiddleware.cs" />
+    <Compile Include="Middlewares\TrackingMiddleware.cs" />
+    <Compile Include="Migrations\20240926075518_260924_0126.cs" />
+    <Compile Include="Migrations\20240926075518_260924_0126.Designer.cs" />
+    <Compile Include="Migrations\PhotocopyRevaluationAppContextModelSnapshot.cs" />
+    <Compile Include="ML\ChatData.cs" />
+    <Compile Include="ML\ChatbotInput.cs" />
+    <Compile Include="ML\ChatbotPrediction.cs" />
+    <Compile Include="Models\ApplicationRole.cs" />
+    <Compile Include="Models\DatewisePhotocopyCountViewDTO.cs" />
+    <Compile Include="Models\DatewiseRevaluationCountDTO.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\EventPhotocopyCountDTO.cs" />
+    <Compile Include="Models\EventRevaluationCountDTO.cs" />
+    <Compile Include="Models\Feedback.cs" />
+    <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\RegisteredUserDTO.cs" />
+    <Compile Include="Models\SubjectWisePhotocopyCountDTO.cs" />
+    <Compile Include="Models\SubjectWiseRevaluationCountDTO.cs" />
+    <Compile Include="Models\UserRegisterationDTO.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Photocopy.cs" />
+    <Compile Include="Data\PhotocopyRevaluationAppContext.cs" />
+    <Compile Include="Models\Revaluation.cs" />
+    <Compile Include="Models\SchemePhotocopyCountDTO.cs" />
+    <Compile Include="Models\SchemeRevaluationCountDTO.cs" />
+    <Compile Include="Models\SessionData.cs" />
+    <Compile Include="Middlewares\ExceptionHandlingMiddleware.cs" />
+    <Compile Include="Middlewares\CombineRateLimitingMiddleware.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Models\Routconfig.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Program.template.cs" />
+    <Compile Include="Services\AccountService.cs" />
+    <Compile Include="ChatBoat\ChatService.cs" />
+    <Compile Include="Logging\DatabaseLogger.cs" />
+    <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\ExportDataService.cs" />
+    <Compile Include="Services\FeatureManagement\PercentageFilter.cs" />
+    <Compile Include="Services\FeedbackDialog.cs" />
+    <Compile Include="Services\GenerateUidService.cs" />
+    <Compile Include="Services\IAccountService.cs" />
+    <Compile Include="ChatBoat\IChatService.cs" />
+    <Compile Include="Services\IEmailService.cs" />
+    <Compile Include="Services\IExportDataService.cs" />
+    <Compile Include="Services\INotificationService.cs" />
+    <Compile Include="Services\IOtpService.cs" />
+    <Compile Include="Services\IPayPalService.cs" />
+    <Compile Include="Services\ITempDataService.cs" />
+    <Compile Include="Services\ITimerService.cs" />
+    <Compile Include="Services\IUserConnectionManager.cs" />
+    <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\IUserSessionService.cs" />
+    <Compile Include="Services\KeyVaultManager.cs" />
+    <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\OtherApiService.cs" />
+    <Compile Include="Services\OtpService.cs" />
+    <Compile Include="Services\PayPalService.cs" />
+    <Compile Include="Services\SMSService.cs" />
+    <Compile Include="Services\TempDataService.cs" />
+    <Compile Include="Services\TimerService .cs" />
+    <Compile Include="Services\UserConnectionManager.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\UserSessionService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".devcontainer\devcontainer.json" />
+    <Content Include=".vs\PhotocopyRevaluationAppMVC\v17\DocumentLayout.backup.json" />
+    <Content Include=".vs\PhotocopyRevaluationAppMVC\v17\DocumentLayout.json" />
+    <Content Include="Views\Photocopies\.vs\Photocopies\v17\DocumentLayout.json" />
+    <Content Include="Views\Photocopies\.vs\VSWorkspaceState.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".vs\PhotocopyRevaluationAppMVC\config\applicationhost.config" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\DesignTimeBuild\.dtbcache.v2" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\3d7ca080-2a13-4189-bafd-bbcc60e297ca.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\563e72c2-e4c1-42b8-a880-04451eebe4b2.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\6940d130-fbdb-44f8-92eb-e6e2eb955e04.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\83cca9d2-61ac-429a-b83d-b8e6aa816c3a.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\FileContentIndex\c1e77f22-6991-4d02-9681-8812939e97d4.vsidx" />
+    <None Include=".vs\PhotocopyRevaluationAppMVC\v17\.futdcache.v2" />
+    <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.metadata.v9.bin" />
+    <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.projects.v9.bin" />
+    <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.strings.v9.bin" />
+    <None Include="C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp\.editorconfig" />
+    <None Include="Views\Photocopies\.vs\Photocopies\FileContentIndex\c05b9cfa-c234-41b1-ba98-81e8eccb3a99.vsidx" />
+    <None Include="Views\Photocopies\.vs\slnx.sqlite" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.6.0" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="EPPlus" Version="7.4.0" />
+    <PackageReference Include="FluentEmail.Core" Version="3.0.2" />
+    <PackageReference Include="FluentEmail.SendGrid" Version="3.0.2" />
+    <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
+    <PackageReference Include="libwkhtmltox-64" Version="1.0.0" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.22.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.8" />
+    <PackageReference Include="Microsoft.FeatureManagement" Version="3.5.0" />
+    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="3.5.0" />
+    <PackageReference Include="Microsoft.ML" Version="3.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
+    <PackageReference Include="NLog" Version="5.3.4" />
+    <PackageReference Include="PayPal" Version="1.9.1" />
+    <PackageReference Include="PayPalCheckoutSdk" Version="1.0.4" />
+    <PackageReference Include="Razorpay" Version="3.1.3" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+    <PackageReference Include="Serilog" Version="4.0.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
+    <PackageReference Include="Serilog.Enrichers.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+    <PackageReference Include="Serilog.Expressions" Version="5.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.2" />
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Email" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="7.0.1" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="Twilio" Version="7.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure or Extensions\" />
+    <Folder Include="Payments\" />
+    <Folder Include="Views\Chat\" />
+  </ItemGroup>
+
+	<PropertyGroup>
+		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+		<UserSecretsId>ef1f16cb-2186-4a5b-b66b-aa2d34c7315e</UserSecretsId>
+		<DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+		<DockerfileContext>.</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <EditorConfigFiles Remove="C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp\.editorconfig" />
+	</ItemGroup>
+
+</Project>
