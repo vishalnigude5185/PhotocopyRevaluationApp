@@ -1,4 +1,4 @@
-using PhotocopyRevaluationApp.Configurations;
+﻿using PhotocopyRevaluationApp.Configurations;
 using PhotocopyRevaluationApp.Hubs;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -14,7 +14,6 @@ builder.Services.AddOtherServices();
 builder.Services.AddInMemoryCollectionServices();
 
 //================================ [Add Other Configuration Code] ==============================
-builder.Services.AddChatBoatConfiguration();
 
 //================================ [Add Authentication Services] ==============================
 builder.Services.AddIdentityConfiguration();
