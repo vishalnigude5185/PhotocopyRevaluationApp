@@ -33,6 +33,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <Compile Include="Models\RegisteredUserDTO.cs" />
+
     <Compile Remove="Migrations\**" />
     <Content Remove=".github\**" />
     <Content Remove=".git\**" />
@@ -42,6 +45,7 @@
     <Content Remove="NewFolder1\**" />
     <Content Remove="NewFolder2\**" />
     <Content Remove="Views\PhotocopiesRevaluations\**" />
+    <Content Remove="Views\Photocopies\.vs\**" />
     <EmbeddedResource Remove=".github\**" />
     <EmbeddedResource Remove=".git\**" />
     <EmbeddedResource Remove="Controllers\AIModified\**" />
@@ -50,6 +54,7 @@
     <EmbeddedResource Remove="NewFolder1\**" />
     <EmbeddedResource Remove="NewFolder2\**" />
     <EmbeddedResource Remove="Views\PhotocopiesRevaluations\**" />
+    <EmbeddedResource Remove="Views\Photocopies\.vs\**" />
     <None Remove=".github\**" />
     <None Remove=".git\**" />
     <None Remove="Controllers\AIModified\**" />
@@ -58,6 +63,7 @@
     <None Remove="NewFolder1\**" />
     <None Remove="NewFolder2\**" />
     <None Remove="Views\PhotocopiesRevaluations\**" />
+    <None Remove="Views\Photocopies\.vs\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -85,9 +91,6 @@
     <Compile Include="Global\Exceptions\GlobalExceptionHandler.cs" />
     <Compile Include="Global\Exceptions\IGlobalExceptionHandler.cs" />
     <Compile Include="Global\GlobalVariables.cs" />
-    <Compile Include="ML\ChatBotModelTrainer.cs" />
-    <Compile Include="ChatBoat\ChatBotService.cs" />
-    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Services\FeatureManagement\EnvironmentFilter.cs" />
     <Compile Include="Services\FeatureManagement\FeatureManager.cs" />
     <Compile Include="Services\FeatureManagement\RoleFilter.cs" />
@@ -107,7 +110,6 @@
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Data\LoggingContext.cs" />
     <Compile Include="Enums\NotificationType.cs" />
-    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Hubs\SignOutHub.cs" />
     <Compile Include="Logging\DatabaseLoggerProvider.cs" />
@@ -120,9 +122,6 @@
     <Compile Include="Migrations\20240926075518_260924_0126.cs" />
     <Compile Include="Migrations\20240926075518_260924_0126.Designer.cs" />
     <Compile Include="Migrations\PhotocopyRevaluationAppContextModelSnapshot.cs" />
-    <Compile Include="ML\ChatData.cs" />
-    <Compile Include="ML\ChatbotInput.cs" />
-    <Compile Include="ML\ChatbotPrediction.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
     <Compile Include="Models\DatewisePhotocopyCountViewDTO.cs" />
     <Compile Include="Models\DatewiseRevaluationCountDTO.cs" />
@@ -150,7 +149,6 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Program.template.cs" />
     <Compile Include="Services\AccountService.cs" />
-    <Compile Include="ChatBoat\ChatService.cs" />
     <Compile Include="Logging\DatabaseLogger.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ExportDataService.cs" />
@@ -158,7 +156,6 @@
     <Compile Include="Services\FeedbackDialog.cs" />
     <Compile Include="Services\GenerateUidService.cs" />
     <Compile Include="Services\IAccountService.cs" />
-    <Compile Include="ChatBoat\IChatService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IExportDataService.cs" />
     <Compile Include="Services\INotificationService.cs" />
@@ -186,8 +183,6 @@
     <Content Include=".devcontainer\devcontainer.json" />
     <Content Include=".vs\PhotocopyRevaluationAppMVC\v17\DocumentLayout.backup.json" />
     <Content Include=".vs\PhotocopyRevaluationAppMVC\v17\DocumentLayout.json" />
-    <Content Include="Views\Photocopies\.vs\Photocopies\v17\DocumentLayout.json" />
-    <Content Include="Views\Photocopies\.vs\VSWorkspaceState.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -203,8 +198,6 @@
     <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.projects.v9.bin" />
     <None Include=".vs\ProjectEvaluation\photocopyrevaluationappmvc.strings.v9.bin" />
     <None Include="C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp\.editorconfig" />
-    <None Include="Views\Photocopies\.vs\Photocopies\FileContentIndex\c05b9cfa-c234-41b1-ba98-81e8eccb3a99.vsidx" />
-    <None Include="Views\Photocopies\.vs\slnx.sqlite" />
   </ItemGroup>
 
   <ItemGroup>

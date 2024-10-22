@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PhotocopyRevaluationApp.Data;
+using PhotocopyRevaluationApp.Models;
 
 namespace PhotocopyRevaluationApp.Controllers {
     ////Using Cookie Authentication

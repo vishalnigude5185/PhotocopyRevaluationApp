@@ -1,7 +1,0 @@
-C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp.Tests\bin\Debug\net8.0\.msCoverageSourceRootsMapping_PhotocopyRevaluationApp.Tests
-C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_PhotocopyRevaluationApp.Tests
-C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp.Tests\obj\Debug\net8.0\PhotocopyRevaluationApp.Tests.csproj.AssemblyReference.cache
-C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp.Tests\obj\Debug\net8.0\PhotocopyRevaluationApp.Tests.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp.Tests\obj\Debug\net8.0\PhotocopyRevaluationApp.Tests.AssemblyInfoInputs.cache
-C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp.Tests\obj\Debug\net8.0\PhotocopyRevaluationApp.Tests.AssemblyInfo.cs
-C:\Users\ADMIN\Source\Repos\vishalnigude5185\PhotocopyRevaluationApp.Tests\obj\Debug\net8.0\PhotocopyRevaluationApp.Tests.csproj.CoreCompileInputs.cache

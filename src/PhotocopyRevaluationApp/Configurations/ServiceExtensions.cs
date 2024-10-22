@@ -110,26 +110,6 @@ namespace PhotocopyRevaluationApp.Configurations {
 
             return services;
         }
-        public static void AddChatBoatConfiguration(this IServiceCollection services) {
-            // Specify the path to your training data
-            string dataPath = "path_to_your_data.csv";
-
-            // Initialize the model trainer
-            var modelTrainer = new ChatBotModelTrainer(dataPath);
-
-            // Initialize the chat bot service
-            var chatBotService = new ChatBotService(modelTrainer);
-
-            Console.WriteLine("Welcome to the ChatBot! Type 'exit' to quit.");
-
-            while (true) {
-                Console.Write("You: ");
-                string userMessage = Console.ReadLine();
-                if (userMessage.ToLower() == "exit") break;
-
-                chatBotService.HandleUserMessage(userMessage);
-            }
-        }
 
         // Extension method to configure Entity Framework
         public static IServiceCollection AddDbContextConfiguration(this IServiceCollection services, IConfiguration configuration, IConfigurationBuilder configBuilder, IHostEnvironment env) {
